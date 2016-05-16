@@ -12,7 +12,7 @@ build:
     - script:
         name: set up environment variables
         code: |
-          export AVATICA_HOST=http://$PHOENIX-HBASE-ALL-IN-ONE_PORT_8765_TCP_ADDR:8765
+          export AVATICA_HOST=http://$PHOENIX_HBASE_ALL_IN_ONE_PORT_8765_TCP_ADDR:8765
 
     # Gets the dependencies
     - script:
