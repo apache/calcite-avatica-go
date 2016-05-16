@@ -1,0 +1,33 @@
+box: golang
+
+services:
+  - boostport/phoenix-hbase-all-in-one
+
+build:
+  steps:
+
+    - setup-go-workspace
+
+    # Set up enviroment variable
+    - script:
+        name: set up environment variables
+        code: |
+          export AVATICA_HOST=PHOENIX-HBASE-ALL-IN-ONE_PORT_8765_TCP_ADDR
+
+    # Gets the dependencies
+    - script:
+        name: go get
+        code: |
+          go get
+
+    # Build the project
+    - script:
+        name: go build
+        code: |
+          go build ./...
+
+    # Test the project
+    - script:
+        name: go test
+        code: |
+          go test $(go list ./... | grep -v /vendor/)
