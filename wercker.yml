@@ -13,12 +13,16 @@ build:
         name: set up environment variables
         code: |
           export AVATICA_HOST=http://$PHOENIX_HBASE_ALL_IN_ONE_PORT_8765_TCP_ADDR:8765
+    - script:
+        code: |
+          env
 
     # Gets the dependencies
     - script:
-        name: go get
-        code: |
-          go get
+      name: go vendor
+      code: |
+        go get -u github.com/kardianos/govendor
+        govendor sync
 
     # Build the project
     - script:
