@@ -1,4 +1,6 @@
-box: golang:alpine
+box:
+  id: golang:alpine
+  cmd: /bin/sh
 
 no-response-timeout: 20
 
