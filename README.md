@@ -1,4 +1,7 @@
 # Avatica SQL Driver
+[![GoDoc](https://godoc.org/github.com/Boostport/avatica?status.png)](https://godoc.org/github.com/Boostport/Avatica)
+[![wercker status](https://app.wercker.com/status/1abd1c7014e780ba7754decadb212451/s/master "wercker status")](https://app.wercker.com/project/bykey/1abd1c7014e780ba7754decadb212451)
+
 An Apache Phoenix/Avatica driver for Go's [database/sql](http://golang.org/pkg/database/sql) package
 
 ## Getting started
@@ -77,3 +80,6 @@ the version included by Phoenix and then run the appropriate script for your pla
 #### About the moby.yml file
 The moby.yml file is used by our internal tool to automatically reload and test the code during development.
 We hope to have this tool open-sourced soon.
+
+## License
+The driver is licensed under the Apache 2 license.
