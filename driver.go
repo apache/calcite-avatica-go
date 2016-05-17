@@ -1,5 +1,5 @@
 /*
-Package avatica provides an Avatica/Phoenix Query Server driver for Go's database/sql package.
+Package avatica provides an Apache Phoenix Query Server/Avatica driver for Go's database/sql package.
 
 Quickstart
 
