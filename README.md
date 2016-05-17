@@ -70,6 +70,10 @@ go test $(go list ./... | grep -v /vendor/)
 
 The driver is not feature-complete yet, so contributions are very appreciated.
 
+#### Updating protocol buffer definitions
+To update the procotol buffer definitions, update `CALCITE_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
+the version included by Phoenix and then run the appropriate script for your platform.
+
 #### About the moby.yml file
 The moby.yml file is used by our internal tool to automatically reload and test the code during development.
 We hope to have this tool open-sourced soon.
