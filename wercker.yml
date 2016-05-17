@@ -3,7 +3,7 @@ box: golang
 no-response-timeout: 20
 
 services:
-  - boostport/phoenix-hbase-all-in-one
+  - boostport/hbase-phoenix-all-in-one:1.1.5-4.7.0
 
 build:
   steps:
