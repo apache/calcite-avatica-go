@@ -1,4 +1,4 @@
-box: golang
+box: golang:alpine
 
 no-response-timeout: 20
 
