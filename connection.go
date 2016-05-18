@@ -127,7 +127,7 @@ func (c *conn) Exec(query string, args []driver.Value) (driver.Result, error) {
 }
 
 // Query prepares and executes a query and returns the result directly.
-// Query's optmizations are currently disabled due to CALCITE-1181.
+// Query's optimizations are currently disabled due to CALCITE-1181.
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 
 	if c.connectionId == "" {

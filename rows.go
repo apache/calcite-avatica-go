@@ -50,43 +50,43 @@ func (r *rows) Next(dest []driver.Value) error {
 		if r.done {
 			// Finished iterating through all results
 			return io.EOF
-		} else {
-			// Fetch more results from the server
-			res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
-				ConnectionId:     r.conn.connectionId,
-				StatementId:      r.statementID,
-				Offset:           r.offset,
-				FetchMaxRowCount: r.conn.config.fetchMaxRowCount,
-			})
-
-			if err != nil {
-				return err
-			}
-
-			frame := res.(*message.FetchResponse).Frame
-
-			data := [][]*message.TypedValue{}
-
-			// In some cases the server does not return done as true
-			// until it returns a result with no rows
-			if len(frame.Rows) == 0 {
-				return io.EOF
-			}
-
-			for _, row := range frame.Rows {
-				rowData := []*message.TypedValue{}
-
-				for _, col := range row.Value {
-					rowData = append(rowData, col.ScalarValue)
-				}
-
-				data = append(data, rowData)
-			}
-
-			r.done = frame.Done
-			r.data = data
-			r.currentRow = 0
 		}
+
+		// Fetch more results from the server
+		res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
+			ConnectionId:     r.conn.connectionId,
+			StatementId:      r.statementID,
+			Offset:           r.offset,
+			FetchMaxRowCount: r.conn.config.fetchMaxRowCount,
+		})
+
+		if err != nil {
+			return err
+		}
+
+		frame := res.(*message.FetchResponse).Frame
+
+		data := [][]*message.TypedValue{}
+
+		// In some cases the server does not return done as true
+		// until it returns a result with no rows
+		if len(frame.Rows) == 0 {
+			return io.EOF
+		}
+
+		for _, row := range frame.Rows {
+			rowData := []*message.TypedValue{}
+
+			for _, col := range row.Value {
+				rowData = append(rowData, col.ScalarValue)
+			}
+
+			data = append(data, rowData)
+		}
+
+		r.done = frame.Done
+		r.data = data
+		r.currentRow = 0
 
 	}
 
