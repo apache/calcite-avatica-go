@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// Error severity codes
 const (
 	Eunknown int8 = iota
 	Efatal
@@ -46,6 +47,7 @@ func (r ResponseError) Error() string {
 	return msg
 }
 
+// Name returns the name of the error encountered by the server.
 func (r ResponseError) Name() string {
 	return errorCodeNames[r.ErrorCode]
 }
