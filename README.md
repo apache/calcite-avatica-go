@@ -1,6 +1,7 @@
 # Apache Phoenix/Avatica SQL Driver
 [![GoDoc](https://godoc.org/github.com/Boostport/avatica?status.png)](https://godoc.org/github.com/Boostport/Avatica)
 [![wercker status](https://app.wercker.com/status/1abd1c7014e780ba7754decadb212451/s/master "wercker status")](https://app.wercker.com/project/bykey/1abd1c7014e780ba7754decadb212451)
+[![Coverage Status](https://coveralls.io/repos/github/Boostport/avatica/badge.svg?branch=coverage)](https://coveralls.io/github/Boostport/avatica?branch=coverage)
 
 An Apache Phoenix/Avatica driver for Go's [database/sql](http://golang.org/pkg/database/sql) package
 
