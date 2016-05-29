@@ -19,4 +19,4 @@ dev:
       name: Run tests
       cwd: $GOPATH/src/github.com/Boostport/avatica
       options:
-        command: go test $(go list ./... | grep -v /vendor/)
+        command: go test -cover -v $(go list ./... | grep -v /vendor/)
