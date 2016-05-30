@@ -810,3 +810,30 @@ func TestOptimisticConcurrency(t *testing.T) {
 		}
 	})
 }
+
+func TestLastInsertIDShouldReturnError(t *testing.T) {
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE test (
+				id INTEGER PRIMARY KEY,
+				msg VARCHAR,
+				version INTEGER
+			    ) TRANSACTIONAL=true`)
+
+		dbt.mustExec(`CREATE SEQUENCE test.test_sequence`)
+
+		res, err := dbt.db.Exec(`UPSERT INTO test VALUES(NEXT VALUE FOR test.test_sequence, 'abc', 1)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		_, err = res.LastInsertId()
+
+		if err == nil {
+			dbt.Fatal("Expected an error as Avatica does not support LastInsertId(), but there was no error.")
+		}
+	})
+}
