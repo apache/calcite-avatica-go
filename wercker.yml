@@ -48,5 +48,5 @@ build:
         code: |
           go get -u github.com/go-playground/overalls
           go get -u github.com/mattn/goveralls
-          overalls -project="$WERCKER_GIT_DOMAIN/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY" -covermode=count -ignore=.git,vendor -debug
+          overalls -project="$WERCKER_GIT_DOMAIN/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY" -covermode=set -ignore=.git,vendor -debug
           GIT_BRANCH=$WERCKER_GIT_BRANCH goveralls -coverprofile=overalls.coverprofile -service=wercker.com -repotoken $COVERALLS_TOKEN
