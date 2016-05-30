@@ -5,9 +5,11 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -29,9 +31,14 @@ func init() {
 	dsn = env("AVATICA_HOST", "http://phoenix-server:8765")
 }
 
+func generateTableName() string {
+	return "test" + strings.Replace(uuid.NewV4().String(), "-", "", -1)
+}
+
 type DBTest struct {
 	*testing.T
-	db *sql.DB
+	db        *sql.DB
+	tableName string
 }
 
 func (dbt *DBTest) fail(method, query string, err error) {
@@ -73,13 +80,15 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 
 	defer db.Close()
 
-	db.Exec("DROP TABLE IF EXISTS test")
+	table := generateTableName()
 
-	dbt := &DBTest{t, db}
+	db.Exec("DROP TABLE IF EXISTS " + table)
+
+	dbt := &DBTest{t, db, table}
 
 	for _, test := range tests {
 		test(dbt)
-		dbt.db.Exec("DROP TABLE IF EXISTS test")
+		dbt.db.Exec("DROP TABLE IF EXISTS " + table)
 	}
 }
 
@@ -88,13 +97,13 @@ func TestConnectionMustBeOpenedWithAutoCommitTrue(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec("CREATE TABLE test (id BIGINT PRIMARY KEY, val VARCHAR) TRANSACTIONAL=false")
+		dbt.mustExec("CREATE TABLE " + dbt.tableName + " (id BIGINT PRIMARY KEY, val VARCHAR) TRANSACTIONAL=false")
 
-		dbt.mustExec("UPSERT INTO test VALUES (1,'A')")
+		dbt.mustExec("UPSERT INTO " + dbt.tableName + " VALUES (1,'A')")
 
-		dbt.mustExec("UPSERT INTO test VALUES (2,'B')")
+		dbt.mustExec("UPSERT INTO " + dbt.tableName + " VALUES (2,'B')")
 
-		rows := dbt.mustQuery("SELECT COUNT(*) FROM test")
+		rows := dbt.mustQuery("SELECT COUNT(*) FROM " + dbt.tableName)
 		defer rows.Close()
 
 		for rows.Next() {
@@ -120,11 +129,11 @@ func TestZeroValues(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec("CREATE TABLE test (int INTEGER PRIMARY KEY, flt FLOAT, bool BOOLEAN, str VARCHAR) TRANSACTIONAL=false")
+		dbt.mustExec("CREATE TABLE " + dbt.tableName + " (int INTEGER PRIMARY KEY, flt FLOAT, bool BOOLEAN, str VARCHAR) TRANSACTIONAL=false")
 
-		dbt.mustExec("UPSERT INTO test VALUES (0, 0.0, false, '')")
+		dbt.mustExec("UPSERT INTO " + dbt.tableName + " VALUES (0, 0.0, false, '')")
 
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM " + dbt.tableName)
 		defer rows.Close()
 
 		for rows.Next() {
@@ -165,7 +174,7 @@ func TestDataTypes(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY,
 				uint UNSIGNED_INT,
 				bint BIGINT,
@@ -213,7 +222,7 @@ func TestDataTypes(t *testing.T) {
 
 		copy(binValue[:], "test")
 
-		dbt.mustExec(`UPSERT INTO test VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			integerValue,
 			uintegerValue,
 			bintValue,
@@ -236,7 +245,7 @@ func TestDataTypes(t *testing.T) {
 			varbinValue,
 		)
 
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM " + dbt.tableName)
 		defer rows.Close()
 
 		var (
@@ -326,7 +335,7 @@ func TestLocations(t *testing.T) {
 	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				tm TIME PRIMARY KEY,
 				dt DATE,
 				tmstmp TIMESTAMP
@@ -344,13 +353,13 @@ func TestLocations(t *testing.T) {
 			tmstmpValue time.Time = time.Date(2100, 2, 1, 21, 21, 21, 222000000, loc)
 		)
 
-		dbt.mustExec(`UPSERT INTO test VALUES (?, ?, ?)`,
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?)`,
 			tmValue,
 			dtValue,
 			tmstmpValue,
 		)
 
-		rows := dbt.mustQuery("SELECT * FROM test")
+		rows := dbt.mustQuery("SELECT * FROM " + dbt.tableName)
 		defer rows.Close()
 
 		var (
@@ -391,7 +400,7 @@ func TestDateAndTimestampsBefore1970(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY,
 				dt DATE,
 				tmstmp TIMESTAMP
@@ -403,13 +412,13 @@ func TestDateAndTimestampsBefore1970(t *testing.T) {
 			tmstmpValue  time.Time = time.Date(1911, 5, 20, 21, 21, 21, 222000000, time.UTC)
 		)
 
-		dbt.mustExec(`UPSERT INTO test VALUES (?, ?, ?)`,
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?)`,
 			integerValue,
 			dtValue,
 			tmstmpValue,
 		)
 
-		rows := dbt.mustQuery("SELECT dt, tmstmp FROM test")
+		rows := dbt.mustQuery("SELECT dt, tmstmp FROM " + dbt.tableName)
 		defer rows.Close()
 
 		var (
@@ -446,7 +455,7 @@ func TestStoreAndRetrieveBinaryData(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY,
 				bin VARBINARY
 			    ) TRANSACTIONAL=false`)
@@ -461,12 +470,12 @@ func TestStoreAndRetrieveBinaryData(t *testing.T) {
 
 		hash := sha256.Sum256(file)
 
-		dbt.mustExec(`UPSERT INTO test VALUES (?, ?)`,
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?)`,
 			1,
 			file,
 		)
 
-		rows := dbt.mustQuery("SELECT bin FROM test")
+		rows := dbt.mustQuery("SELECT bin FROM " + dbt.tableName)
 		defer rows.Close()
 
 		var receivedFile []byte
@@ -495,7 +504,7 @@ func TestCommittingTransactions(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
 			    ) TRANSACTIONAL=true`)
 
@@ -505,7 +514,7 @@ func TestCommittingTransactions(t *testing.T) {
 			t.Fatalf("Unable to create transaction: %s", err)
 		}
 
-		stmt, err := tx.Prepare(`UPSERT INTO test VALUES(?)`)
+		stmt, err := tx.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
 
 		if err != nil {
 			t.Fatalf("Could not prepare statement: %s", err)
@@ -521,7 +530,7 @@ func TestCommittingTransactions(t *testing.T) {
 			}
 		}
 
-		r := tx.QueryRow("SELECT COUNT(*) FROM test")
+		r := tx.QueryRow("SELECT COUNT(*) FROM " + dbt.tableName)
 
 		var count int
 
@@ -538,7 +547,7 @@ func TestCommittingTransactions(t *testing.T) {
 		// Commit the transaction
 		tx.Commit()
 
-		rows := dbt.mustQuery("SELECT COUNT(*) FROM test")
+		rows := dbt.mustQuery("SELECT COUNT(*) FROM " + dbt.tableName)
 
 		var countAfterRollback int
 
@@ -561,7 +570,7 @@ func TestRollingBackTransactions(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
 			    ) TRANSACTIONAL=true`)
 
@@ -571,7 +580,7 @@ func TestRollingBackTransactions(t *testing.T) {
 			t.Fatalf("Unable to create transaction: %s", err)
 		}
 
-		stmt, err := tx.Prepare(`UPSERT INTO test VALUES(?)`)
+		stmt, err := tx.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
 
 		if err != nil {
 			t.Fatalf("Could not prepare statement: %s", err)
@@ -587,7 +596,7 @@ func TestRollingBackTransactions(t *testing.T) {
 			}
 		}
 
-		r := tx.QueryRow(`SELECT COUNT(*) FROM test`)
+		r := tx.QueryRow(`SELECT COUNT(*) FROM ` + dbt.tableName)
 
 		var count int
 
@@ -604,7 +613,7 @@ func TestRollingBackTransactions(t *testing.T) {
 		// Rollback the transaction
 		tx.Rollback()
 
-		rows := dbt.mustQuery(`SELECT COUNT(*) FROM test`)
+		rows := dbt.mustQuery(`SELECT COUNT(*) FROM ` + dbt.tableName)
 
 		var countAfterRollback int
 
@@ -629,11 +638,11 @@ func TestFetchingMoreRows(t *testing.T) {
 	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
 			    ) TRANSACTIONAL=false`)
 
-		stmt, err := dbt.db.Prepare(`UPSERT INTO test VALUES(?)`)
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -649,7 +658,7 @@ func TestFetchingMoreRows(t *testing.T) {
 			}
 		}
 
-		rows := dbt.mustQuery(`SELECT * FROM test`)
+		rows := dbt.mustQuery(`SELECT * FROM ` + dbt.tableName)
 		defer rows.Close()
 
 		count := 0
@@ -669,11 +678,11 @@ func TestExecuteShortcut(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
 			    ) TRANSACTIONAL=false`)
 
-		res, err := dbt.db.Exec(`UPSERT INTO test VALUES(1)`)
+		res, err := dbt.db.Exec(`UPSERT INTO ` + dbt.tableName + ` VALUES(1)`)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -699,11 +708,11 @@ func TestQueryShortcut(t *testing.T) {
 	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
 			    ) TRANSACTIONAL=false`)
 
-		stmt, err := dbt.db.Prepare(`UPSERT INTO test VALUES(?)`)
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -719,7 +728,7 @@ func TestQueryShortcut(t *testing.T) {
 			}
 		}
 
-		rows := dbt.mustQuery(`SELECT * FROM test`)
+		rows := dbt.mustQuery(`SELECT * FROM ` + dbt.tableName)
 		defer rows.Close()
 
 		count := 0
@@ -739,13 +748,13 @@ func TestOptimisticConcurrency(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				id INTEGER PRIMARY KEY,
 				msg VARCHAR,
 				version INTEGER
 			    ) TRANSACTIONAL=true`)
 
-		stmt, err := dbt.db.Prepare(`UPSERT INTO test VALUES(?, ?, ?)`)
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?, ?, ?)`)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -775,10 +784,10 @@ func TestOptimisticConcurrency(t *testing.T) {
 		}
 
 		// Select from first transaction
-		_ = tx1.QueryRow(`SELECT MAX(version) FROM test`)
+		_ = tx1.QueryRow(`SELECT MAX(version) FROM ` + dbt.tableName)
 
 		// Modify using second transaction
-		_, err = tx2.Exec(`UPSERT INTO test VALUES(?, ?, ?)`, 7, "message value 7", 7)
+		_, err = tx2.Exec(`UPSERT INTO `+dbt.tableName+` VALUES(?, ?, ?)`, 7, "message value 7", 7)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -791,7 +800,7 @@ func TestOptimisticConcurrency(t *testing.T) {
 		}
 
 		// Modify using tx1
-		_, err = tx1.Exec(`UPSERT INTO test VALUES(?, ?, ?)`, 7, "message value 7", 7)
+		_, err = tx1.Exec(`UPSERT INTO `+dbt.tableName+` VALUES(?, ?, ?)`, 7, "message value 7", 7)
 
 		if err != nil {
 			dbt.Fatal(err)
@@ -816,7 +825,10 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExec(`CREATE TABLE test (
+
+		dbt.mustExec(`DROP SEQUENCE IF EXISTS test.test_sequence`)
+
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				id INTEGER PRIMARY KEY,
 				msg VARCHAR,
 				version INTEGER
@@ -824,7 +836,9 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 
 		dbt.mustExec(`CREATE SEQUENCE test.test_sequence`)
 
-		res, err := dbt.db.Exec(`UPSERT INTO test VALUES(NEXT VALUE FOR test.test_sequence, 'abc', 1)`)
+		res, err := dbt.db.Exec(`UPSERT INTO ` + dbt.tableName + ` VALUES(NEXT VALUE FOR test.test_sequence, 'abc', 1)`)
+
+		dbt.mustExec(`DROP SEQUENCE test.test_sequence`)
 
 		if err != nil {
 			dbt.Fatal(err)
