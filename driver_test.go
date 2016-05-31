@@ -824,8 +824,6 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 
 	runTests(t, dsn, func(dbt *DBTest) {
 
-		// Create and seed table
-
 		dbt.mustExec(`DROP SEQUENCE IF EXISTS test.test_sequence`)
 
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
@@ -848,6 +846,21 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 
 		if err == nil {
 			dbt.Fatal("Expected an error as Avatica does not support LastInsertId(), but there was no error.")
+		}
+	})
+}
+
+func TestConnectionToInvalidServerShouldReturnError(t *testing.T) {
+
+	runTests(t, "http://invalid-server:8765", func(dbt *DBTest) {
+
+		_, err := dbt.db.Exec(`CREATE TABLE ` + dbt.tableName + ` (
+					id INTEGER PRIMARY KEY,
+					msg VARCHAR,
+			    	      ) TRANSACTIONAL=true`)
+
+		if err == nil {
+			dbt.Fatal("Expected an error due to connection to invalid server, but got nothing.")
 		}
 	})
 }
