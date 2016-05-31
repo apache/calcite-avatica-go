@@ -55,10 +55,22 @@ func (r ResponseError) Name() string {
 // errorResponseToReponseError converts an error protocol buffer response
 // to a native golang error.
 func errorResponseToResponseError(message *message.ErrorResponse) ResponseError {
-	re := regexp.MustCompile(`java.sql.SQLException: ERROR (\d+) \((\d+)\)`)
+
+	var (
+		errorCode int
+		sqlState  string
+	)
+
+	re := regexp.MustCompile(`ERROR (\d+) \((\d+)\)`)
 	codes := re.FindStringSubmatch(message.ErrorMessage)
-	errorCode, _ := strconv.Atoi(codes[1])
-	sqlState := codes[2]
+
+	if len(codes) > 1 {
+		errorCode, _ = strconv.Atoi(codes[1])
+	}
+
+	if len(codes) > 2 {
+		sqlState = codes[2]
+	}
 
 	err := ResponseError{
 		Exceptions:   message.Exceptions,
