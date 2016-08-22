@@ -633,7 +633,7 @@ func TestRollingBackTransactions(t *testing.T) {
 
 func TestFetchingMoreRows(t *testing.T) {
 
-	query := "?maxRowCount=1"
+	query := "?maxRowsTotal=-1&frameMaxSize=1"
 
 	runTests(t, dsn+query, func(dbt *DBTest) {
 
@@ -700,10 +700,9 @@ func TestExecuteShortcut(t *testing.T) {
 	})
 }
 
-// This test needs to wait for CALCITE-1181 to be fixed
 func TestQueryShortcut(t *testing.T) {
 
-	query := "?maxRowCount=1"
+	query := "?maxRowsTotal=-1&frameMaxSize=1"
 
 	runTests(t, dsn+query, func(dbt *DBTest) {
 

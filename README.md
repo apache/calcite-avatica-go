@@ -47,11 +47,18 @@ The following parameters are supported:
 The `location` will be set as the location of unserialized `time.Time` values. It must be a valid timezone.
 If you want to use the local timezone, use `Local`. By default, this is set to `UTC`.
 
-#### maxRowCount
+#### maxRowsTotal
 
-The `maxRowCount` sets the number of rows to fetch from the avatica server. Setting a high number causes avatica
-to return a large number of rows and setting a low number will cause avatica to return a small amount of rows
-and fetch more from the server if required. By default, this is set to `100`.
+The `maxRowsTotal` parameter sets the maximum number of rows to return for a given query. By default, this is set to
+`-1`, so that there is no limit on the number of rows returned.
+
+#### frameMaxSize
+
+The `frameMaxSize` parameter sets the maximum number of rows to return in a frame. Depending on the number of rows
+returned and subject to the limits of `maxRowsTotal`, a query result set can contain rows in multiple frames. These
+additional frames are then fetched on a as-needed basis. `frameMaxSize` allows you to control the number of rows
+in each frame to suit your application's performance profile. By default this is set to `-1`, so that there is no limit
+on the number of rows in a frame.
 
 ### time.Time support
 
@@ -63,6 +70,11 @@ to the database, the timezone is ignored and vice-versa. This is why you need to
 in your DSN is set to the same value as the location of the `time.Time` values you are inserting into the database.
 
 We recommend using `UTC`, which is the default value of `location`.
+
+## Version compatibility
+| Driver Version  | Phoenix Version | Calcite/Avatica Version |
+| --------------- | -------------   | ----------------------- |
+| 1.0.0           | 4.8.0           | 1.8.0                   |
 
 ## Development
 
