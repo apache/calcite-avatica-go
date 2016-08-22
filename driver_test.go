@@ -631,6 +631,50 @@ func TestRollingBackTransactions(t *testing.T) {
 	})
 }
 
+func TestPreparedStatements(t *testing.T) {
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				int INTEGER PRIMARY KEY
+			    ) TRANSACTIONAL=true`)
+
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		totalRows := 6
+
+		for i := 1; i <= totalRows; i++ {
+			_, err := stmt.Exec(i)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		queryStmt, err := dbt.db.Prepare(`SELECT * FROM ` + dbt.tableName + ` WHERE int = ?`)
+
+		var res int
+
+		for i := 1; i <= totalRows; i++ {
+
+			err := queryStmt.QueryRow(i).Scan(&res)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+
+			if res != i {
+				dbt.Fatalf("Unexpected query result. Expected %d, got %d.", i, res)
+			}
+		}
+	})
+}
+
 func TestFetchingMoreRows(t *testing.T) {
 
 	query := "?maxRowsTotal=-1&frameMaxSize=1"
