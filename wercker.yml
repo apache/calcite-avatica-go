@@ -5,7 +5,7 @@ box:
 no-response-timeout: 20
 
 services:
-  - boostport/hbase-phoenix-all-in-one:1.1.5-4.7.0
+  - boostport/hbase-phoenix-all-in-one:1.2.2-4.8.0
 
 build:
   steps:

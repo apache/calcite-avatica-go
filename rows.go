@@ -54,10 +54,10 @@ func (r *rows) Next(dest []driver.Value) error {
 
 		// Fetch more results from the server
 		res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
-			ConnectionId:     r.conn.connectionId,
-			StatementId:      r.statementID,
-			Offset:           r.offset,
-			FetchMaxRowCount: r.conn.config.fetchMaxRowCount,
+			ConnectionId: r.conn.connectionId,
+			StatementId:  r.statementID,
+			Offset:       r.offset,
+			FrameMaxSize: r.conn.config.frameMaxSize,
 		})
 
 		if err != nil {
@@ -176,7 +176,7 @@ func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) 
 		return v.NumberValue
 
 	case message.Rep_BYTE_STRING:
-		return v.BytesValues
+		return v.BytesValue
 
 	case message.Rep_DOUBLE, message.Rep_PRIMITIVE_DOUBLE:
 		return v.DoubleValue

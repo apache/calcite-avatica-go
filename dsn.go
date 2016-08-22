@@ -9,19 +9,19 @@ import (
 
 // Config is a configuration parsed from a DSN string
 type Config struct {
-	endpoint         string
-	maxRowCount      uint64
-	fetchMaxRowCount uint32
-	location         *time.Location
+	endpoint     string
+	maxRowsTotal int64
+	frameMaxSize int32
+	location     *time.Location
 }
 
 // ParseDSN parses a DSN string to a Config
 func ParseDSN(dsn string) (*Config, error) {
 
 	conf := &Config{
-		maxRowCount:      100,
-		fetchMaxRowCount: 100,
-		location:         time.UTC,
+		maxRowsTotal: -1,
+		frameMaxSize: -1,
+		location:     time.UTC,
 	}
 
 	parsed, err := url.ParseRequestURI(dsn)
@@ -32,20 +32,26 @@ func ParseDSN(dsn string) (*Config, error) {
 
 	queries := parsed.Query()
 
-	if v := queries.Get("maxRowCount"); v != "" {
+	if v := queries.Get("maxRowsTotal"); v != "" {
 
-		maxRowCount, err := strconv.Atoi(v)
+		maxRowTotal, err := strconv.Atoi(v)
 
 		if err != nil {
-			return nil, fmt.Errorf("Invalid value for maxRowCount: %s", err)
+			return nil, fmt.Errorf("Invalid value for maxRowsTotal: %s", err)
 		}
 
-		if maxRowCount <= 0 {
-			return nil, fmt.Errorf("maxRowCount must be greater than 0")
+		conf.maxRowsTotal = int64(maxRowTotal)
+	}
+
+	if v := queries.Get("frameMaxSize"); v != "" {
+
+		maxRowTotal, err := strconv.Atoi(v)
+
+		if err != nil {
+			return nil, fmt.Errorf("Invalid value for frameMaxSize: %s", err)
 		}
 
-		conf.fetchMaxRowCount = uint32(maxRowCount)
-		conf.maxRowCount = uint64(maxRowCount)
+		conf.frameMaxSize = int32(maxRowTotal)
 	}
 
 	if v := queries.Get("location"); v != "" {

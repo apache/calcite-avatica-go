@@ -7,7 +7,7 @@ import (
 
 func TestParseDSN(t *testing.T) {
 
-	config, err := ParseDSN("http://localhost:8765?maxRowCount=1&location=Australia/Melbourne")
+	config, err := ParseDSN("http://localhost:8765?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
@@ -17,12 +17,12 @@ func TestParseDSN(t *testing.T) {
 		t.Errorf("Expected endpoint to be %s, got %s", "http://localhost:8765", config.endpoint)
 	}
 
-	if config.fetchMaxRowCount != 1 {
-		t.Errorf("Expected fetchMaxRowCount to be %d, got %d", 1, config.fetchMaxRowCount)
+	if config.frameMaxSize != 1 {
+		t.Errorf("Expected frameMaxSize to be %d, got %d", 1, config.frameMaxSize)
 	}
 
-	if config.maxRowCount != 1 {
-		t.Errorf("Expected maxRowCount to be %d, got %d", 1, config.maxRowCount)
+	if config.maxRowsTotal != 1 {
+		t.Errorf("Expected maxRowsTotal to be %d, got %d", 1, config.maxRowsTotal)
 	}
 
 	if config.location.String() != "Australia/Melbourne" {
@@ -51,12 +51,12 @@ func TestDSNDefaults(t *testing.T) {
 		t.Error("There was no timezone set.")
 	}
 
-	if config.maxRowCount == 0 {
-		t.Error("There was no maxRowCount set.")
+	if config.maxRowsTotal == 0 {
+		t.Error("There was no maxRowsTotal set.")
 	}
 
-	if config.fetchMaxRowCount == 0 {
-		t.Error("There was no fetchMaxRowCount set.")
+	if config.frameMaxSize == 0 {
+		t.Error("There was no fetchMaxSize set.")
 	}
 }
 
@@ -81,21 +81,15 @@ func TestBadInput(t *testing.T) {
 		t.Fatal("Expected error due to invalid location, but did not receive any.")
 	}
 
-	_, err = ParseDSN("http://localhost:8765?maxRowCount=abc")
+	_, err = ParseDSN("http://localhost:8765?maxRowsTotal=abc")
 
 	if err == nil {
-		t.Fatal("Expected error due to invalid maxRowCount, but did not receive any.")
+		t.Fatal("Expected error due to invalid maxRowsTotal, but did not receive any.")
 	}
 
-	_, err = ParseDSN("http://localhost:8765?maxRowCount=0")
+	_, err = ParseDSN("http://localhost:8765?frameMaxSize=abc")
 
 	if err == nil {
-		t.Fatal("Expected error due to invalid maxRowCount, but did not receive any.")
-	}
-
-	_, err = ParseDSN("http://localhost:8765?maxRowCount=-1")
-
-	if err == nil {
-		t.Fatal("Expected error due to invalid maxRowCount, but did not receive any.")
+		t.Fatal("Expected error due to invalid frameMaxSize, but did not receive any.")
 	}
 }

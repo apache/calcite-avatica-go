@@ -1,6 +1,6 @@
 services:
   - id: phoenix
-    image: boostport/hbase-phoenix-all-in-one:1.1.5-4.7.0
+    image: boostport/hbase-phoenix-all-in-one:1.2.2-4.8.0
     ports:
       - "8765"
 
@@ -19,4 +19,4 @@ dev:
       name: Run tests
       cwd: $GOPATH/src/github.com/Boostport/avatica
       options:
-        command: go test -cover -v $(go list ./... | grep -v /vendor/)
+        command: go test -v $(go list ./... | grep -v /vendor/)

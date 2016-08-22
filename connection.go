@@ -22,7 +22,7 @@ func (c *conn) Prepare(query string) (driver.Stmt, error) {
 	response, err := c.httpClient.post(context.Background(), &message.PrepareRequest{
 		ConnectionId: c.connectionId,
 		Sql:          query,
-		MaxRowCount:  c.config.maxRowCount,
+		MaxRowsTotal: c.config.maxRowsTotal,
 	})
 
 	if err != nil {
@@ -74,7 +74,7 @@ func (c *conn) Begin() (driver.Tx, error) {
 		ConnProps: &message.ConnectionProperties{
 			AutoCommit:           false,
 			HasAutoCommit:        true,
-			TransactionIsolation: 8,
+			TransactionIsolation: 4,
 		},
 	})
 
@@ -107,10 +107,11 @@ func (c *conn) Exec(query string, args []driver.Value) (driver.Result, error) {
 	}
 
 	res, err := c.httpClient.post(context.Background(), &message.PrepareAndExecuteRequest{
-		ConnectionId: c.connectionId,
-		StatementId:  st.(*message.CreateStatementResponse).StatementId,
-		Sql:          query,
-		MaxRowCount:  c.config.maxRowCount,
+		ConnectionId:      c.connectionId,
+		StatementId:       st.(*message.CreateStatementResponse).StatementId,
+		Sql:               query,
+		MaxRowsTotal:      c.config.maxRowsTotal,
+		FirstFrameMaxSize: c.config.frameMaxSize,
 	})
 
 	if err != nil {
@@ -134,11 +135,7 @@ func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 		return nil, driver.ErrBadConn
 	}
 
-	return nil, driver.ErrSkip
-
-	// Disabled due to CALCITE-1181
-
-	/*if len(args) != 0 {
+	if len(args) != 0 {
 		return nil, driver.ErrSkip
 	}
 
@@ -151,10 +148,11 @@ func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	}
 
 	res, err := c.httpClient.post(context.Background(), &message.PrepareAndExecuteRequest{
-		ConnectionId: c.connectionId,
-		StatementId:  st.(*message.CreateStatementResponse).StatementId,
-		Sql:          query,
-		MaxRowCount:  maxRowCount,
+		ConnectionId:      c.connectionId,
+		StatementId:       st.(*message.CreateStatementResponse).StatementId,
+		Sql:               query,
+		MaxRowsTotal:      c.config.maxRowsTotal,
+		FirstFrameMaxSize: c.config.frameMaxSize,
 	})
 
 	if err != nil {
@@ -164,5 +162,5 @@ func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	// Currently there is only 1 ResultSet per response
 	resultSet := res.(*message.ExecuteResponse).Results[0]
 
-	return NewRows(c, st.(*message.CreateStatementResponse).StatementId, resultSet), nil*/
+	return newRows(c, st.(*message.CreateStatementResponse).StatementId, resultSet), nil
 }

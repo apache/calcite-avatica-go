@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export CALCITE_VER=calcite-1.7.0
+export CALCITE_VER=calcite-1.8.0
 
 rm -rf message
 rm -rf calcite-tmp

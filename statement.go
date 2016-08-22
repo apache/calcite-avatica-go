@@ -2,7 +2,6 @@ package avatica
 
 import (
 	"database/sql/driver"
-	"encoding/base64"
 	"github.com/Boostport/avatica/message"
 	"golang.org/x/net/context"
 	"time"
@@ -54,7 +53,7 @@ func (s *stmt) Exec(args []driver.Value) (driver.Result, error) {
 	res, err := s.conn.httpClient.post(context.Background(), &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
-		MaxRowCount:        s.conn.config.maxRowCount,
+		FirstFrameMaxSize:  uint64(s.conn.config.frameMaxSize), //TODO: Due to CALCITE-1353, if frameMaxSize == -1, it overflows to 18446744073709551615 due to the conversion to uint64, which is basically all rows.
 		HasParameterValues: true,
 	})
 
@@ -81,7 +80,7 @@ func (s *stmt) Query(args []driver.Value) (driver.Rows, error) {
 	res, err := s.conn.httpClient.post(context.Background(), &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
-		MaxRowCount:        s.conn.config.maxRowCount,
+		FirstFrameMaxSize:  uint64(s.conn.config.frameMaxSize), //TODO: Due to CALCITE-1353, if frameMaxSize == -1, it overflows to 18446744073709551615 due to the conversion to uint64, which is basically all rows.
 		HasParameterValues: true,
 	})
 
@@ -118,10 +117,7 @@ func (s *stmt) parametersToTypedValues(vals []driver.Value) []*message.TypedValu
 				typed.BoolValue = v
 			case []byte:
 				typed.Type = message.Rep_BYTE_STRING
-
-				// This is a work around for CALCITE-1209
-				str := base64.StdEncoding.EncodeToString(v)
-				typed.StringValue = str
+				typed.BytesValue = v
 			case string:
 				typed.Type = message.Rep_STRING
 				typed.StringValue = v

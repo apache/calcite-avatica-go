@@ -1,4 +1,4 @@
-SET CALCITE_VER=calcite-1.7.0
+SET CALCITE_VER=calcite-1.8.0
 
 rmdir /Q /S message
 rmdir /Q /S calcite-tmp
