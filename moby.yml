@@ -1,11 +1,11 @@
 services:
   - id: phoenix
-    image: boostport/hbase-phoenix-all-in-one:1.2.3-4.8.0
+    image: boostport/hbase-phoenix-all-in-one:1.2.3-4.8.1-rc0
     ports:
       - "8765"
 
 dev:
-  image: golang:alpine
+  image: golang:1.7.1-alpine
   env:
     AVATICA_HOST: http://phoenix:8765
   steps:
