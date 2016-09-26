@@ -867,7 +867,7 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 
 	runTests(t, dsn, func(dbt *DBTest) {
 
-		dbt.mustExec(`DROP SEQUENCE IF EXISTS test.test_sequence`)
+		dbt.mustExec(`DROP SEQUENCE IF EXISTS test_sequence`)
 
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				id INTEGER PRIMARY KEY,
@@ -875,11 +875,11 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 				version INTEGER
 			    ) TRANSACTIONAL=true`)
 
-		dbt.mustExec(`CREATE SEQUENCE test.test_sequence`)
+		dbt.mustExec(`CREATE SEQUENCE test_sequence`)
 
-		res, err := dbt.db.Exec(`UPSERT INTO ` + dbt.tableName + ` VALUES(NEXT VALUE FOR test.test_sequence, 'abc', 1)`)
+		res, err := dbt.db.Exec(`UPSERT INTO ` + dbt.tableName + ` VALUES(NEXT VALUE FOR test_sequence, 'abc', 1)`)
 
-		dbt.mustExec(`DROP SEQUENCE test.test_sequence`)
+		dbt.mustExec(`DROP SEQUENCE test_sequence`)
 
 		if err != nil {
 			dbt.Fatal(err)
