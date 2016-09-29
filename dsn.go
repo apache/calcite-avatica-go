@@ -13,6 +13,7 @@ type Config struct {
 	maxRowsTotal int64
 	frameMaxSize int32
 	location     *time.Location
+	schema       string
 }
 
 // ParseDSN parses a DSN string to a Config
@@ -63,6 +64,10 @@ func ParseDSN(dsn string) (*Config, error) {
 		}
 
 		conf.location = loc
+	}
+
+	if v := queries.Get("schema"); v != "" {
+		conf.schema = v
 	}
 
 	parsed.RawQuery = ""
