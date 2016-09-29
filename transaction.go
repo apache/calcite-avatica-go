@@ -41,7 +41,7 @@ func (t *tx) enableAutoCommit() error {
 		ConnProps: &message.ConnectionProperties{
 			AutoCommit:           true,
 			HasAutoCommit:        true,
-			TransactionIsolation: 4,
+			TransactionIsolation: t.conn.config.transactionIsolation,
 		},
 	})
 

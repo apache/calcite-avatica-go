@@ -9,20 +9,22 @@ import (
 
 // Config is a configuration parsed from a DSN string
 type Config struct {
-	endpoint     string
-	maxRowsTotal int64
-	frameMaxSize int32
-	location     *time.Location
-	schema       string
+	endpoint             string
+	maxRowsTotal         int64
+	frameMaxSize         int32
+	location             *time.Location
+	schema               string
+	transactionIsolation uint32
 }
 
 // ParseDSN parses a DSN string to a Config
 func ParseDSN(dsn string) (*Config, error) {
 
 	conf := &Config{
-		maxRowsTotal: -1,
-		frameMaxSize: -1,
-		location:     time.UTC,
+		maxRowsTotal:         -1,
+		frameMaxSize:         -1,
+		location:             time.UTC,
+		transactionIsolation: 0,
 	}
 
 	parsed, err := url.ParseRequestURI(dsn)
@@ -68,6 +70,21 @@ func ParseDSN(dsn string) (*Config, error) {
 
 	if v := queries.Get("schema"); v != "" {
 		conf.schema = v
+	}
+
+	if v := queries.Get("transactionIsolation"); v != "" {
+
+		isolation, err := strconv.Atoi(v)
+
+		if err != nil {
+			return nil, fmt.Errorf("Invalid value for transactionIsolation: %s", err)
+		}
+
+		if isolation < 0 || isolation > 8 || isolation&(isolation-1) != 0 {
+			return nil, fmt.Errorf("transactionIsolation must be 0, 1, 2, 4 or 8, %d given", isolation)
+		}
+
+		conf.transactionIsolation = uint32(isolation)
 	}
 
 	parsed.RawQuery = ""

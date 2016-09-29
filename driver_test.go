@@ -501,7 +501,9 @@ func TestStoreAndRetrieveBinaryData(t *testing.T) {
 
 func TestCommittingTransactions(t *testing.T) {
 
-	runTests(t, dsn, func(dbt *DBTest) {
+	query := "?transactionIsolation=4"
+
+	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
@@ -567,7 +569,9 @@ func TestCommittingTransactions(t *testing.T) {
 
 func TestRollingBackTransactions(t *testing.T) {
 
-	runTests(t, dsn, func(dbt *DBTest) {
+	query := "?transactionIsolation=4"
+
+	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
@@ -638,7 +642,7 @@ func TestPreparedStatements(t *testing.T) {
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
 				int INTEGER PRIMARY KEY
-			    ) TRANSACTIONAL=true`)
+			    ) TRANSACTIONAL=false`)
 
 		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
 
@@ -788,7 +792,9 @@ func TestQueryShortcut(t *testing.T) {
 
 func TestOptimisticConcurrency(t *testing.T) {
 
-	runTests(t, dsn, func(dbt *DBTest) {
+	query := "?transactionIsolation=4"
+
+	runTests(t, dsn+query, func(dbt *DBTest) {
 
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
@@ -873,7 +879,7 @@ func TestLastInsertIDShouldReturnError(t *testing.T) {
 				id INTEGER PRIMARY KEY,
 				msg VARCHAR,
 				version INTEGER
-			    ) TRANSACTIONAL=true`)
+			    ) TRANSACTIONAL=false`)
 
 		dbt.mustExec(`CREATE SEQUENCE test_sequence`)
 
@@ -900,7 +906,7 @@ func TestConnectionToInvalidServerShouldReturnError(t *testing.T) {
 		_, err := dbt.db.Exec(`CREATE TABLE ` + dbt.tableName + ` (
 					id INTEGER PRIMARY KEY,
 					msg VARCHAR,
-			    	      ) TRANSACTIONAL=true`)
+			    	      ) TRANSACTIONAL=false`)
 
 		if err == nil {
 			dbt.Fatal("Expected an error due to connection to invalid server, but got nothing.")

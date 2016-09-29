@@ -66,6 +66,24 @@ additional frames are then fetched on a as-needed basis. `frameMaxSize` allows y
 in each frame to suit your application's performance profile. By default this is set to `-1`, so that there is no limit
 on the number of rows in a frame.
 
+#### transactionIsolation
+
+Setting `transactionIsolation` allows you to set the isolation level for transactions using the connection. The value
+should be a positive integer analogous to the transaction levels defined by the JDBC specification. The default value
+is `0`, which means transactions are not supported. This is to deal with the fact that Calcite/Avatica works with
+many types of backends, with some backends having no transaction support. If you are using Apache Phoenix 4.7 onwards,
+we recommend setting it to `4`, which is the maximum isolation level supported.
+
+The supported values for `transactionIsolation` are:
+
+| Value | JDBC Constant                  | Description                                                                      |
+| ----- | ------------------------------ | -------------------------------------------------------------------------------- |
+| 0     | none                           | Transactions are not supported                                                   |
+| 1     | `TRANSACTION_READ_UNCOMMITTED` | Dirty reads, non-repeatable reads and phantom reads may occur.                   |
+| 2     | `TRANSACTION_READ_COMMITTED`   | Dirty reads are prevented, but non-repeatable reads and phantom reads may occur. |
+| 4     | `TRANSACTION_REPEATABLE_READ`  | Dirty reads and non-repeatable reads are prevented, but phantom reads may occur. |
+| 8     | `TRANSACTION_SERIALIZABLE`     | Dirty reads, non-repeatable reads, and phantom reads are all prevented.          |
+
 ### time.Time support
 
 The following Phoenix/Avatica datatypes are automatically converted to and from `time.Time`:
