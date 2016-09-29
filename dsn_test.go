@@ -7,7 +7,7 @@ import (
 
 func TestParseDSN(t *testing.T) {
 
-	config, err := ParseDSN("http://localhost:8765?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne")
+	config, err := ParseDSN("http://localhost:8765?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&schema=myschema")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
@@ -28,6 +28,10 @@ func TestParseDSN(t *testing.T) {
 	if config.location.String() != "Australia/Melbourne" {
 		t.Errorf("Expected timezone to be %s, got %s", "Australia/Melbourne", config.location)
 	}
+
+	if config.schema != "myschema" {
+		t.Errorf("Expected schema to be %s, got %s", "myschema", config.schema)
+	}
 }
 
 func TestParseEmptyDSN(t *testing.T) {
@@ -35,7 +39,7 @@ func TestParseEmptyDSN(t *testing.T) {
 	_, err := ParseDSN("")
 
 	if err == nil {
-		t.Fatalf("Expected error due to empty DSN, but received nothing")
+		t.Fatal("Expected error due to empty DSN, but received nothing")
 	}
 }
 
@@ -57,6 +61,10 @@ func TestDSNDefaults(t *testing.T) {
 
 	if config.frameMaxSize == 0 {
 		t.Error("There was no fetchMaxSize set.")
+	}
+
+	if config.schema != "" {
+		t.Errorf("Unexpected schema set: %s", config.schema)
 	}
 }
 

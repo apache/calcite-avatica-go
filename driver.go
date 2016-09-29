@@ -41,13 +41,19 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	connectionId := uuid.NewV4().String()
 
 	// Open a connection to the server
-	_, err = httpClient.post(context.Background(), &message.OpenConnectionRequest{
+	req := &message.OpenConnectionRequest{
 		ConnectionId: connectionId,
 		Info: map[string]string{
 			"AutoCommit":  "true",
 			"Consistency": "8",
 		},
-	})
+	}
+
+	if config.schema != "" {
+		req.Info["schema"] = config.schema
+	}
+
+	_, err = httpClient.post(context.Background(), req)
 
 	if err != nil {
 		return nil, err

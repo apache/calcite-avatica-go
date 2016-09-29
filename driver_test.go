@@ -907,3 +907,96 @@ func TestConnectionToInvalidServerShouldReturnError(t *testing.T) {
 		}
 	})
 }
+
+func TestSchemaSupport(t *testing.T) {
+
+	db, err := sql.Open("avatica", dsn)
+
+	if err != nil {
+		t.Fatalf("error connecting: %s", err.Error())
+	}
+
+	defer db.Close()
+
+	db.Exec("CREATE SCHEMA IF NOT EXISTS avaticatest")
+	defer db.Exec("DROP SCHEMA IF EXISTS avaticatest")
+
+	query := "?schema=avaticatest"
+
+	runTests(t, dsn+query, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				int INTEGER PRIMARY KEY
+			    ) TRANSACTIONAL=false`)
+
+		defer dbt.mustExec(`DROP TABLE IF EXISTS ` + dbt.tableName)
+
+		_, err := dbt.db.Exec(`UPSERT INTO ` + dbt.tableName + ` VALUES(1)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		rows := dbt.mustQuery(`SELECT * FROM avaticatest.` + dbt.tableName)
+		defer rows.Close()
+
+		count := 0
+
+		for rows.Next() {
+			count++
+		}
+
+		if count != 1 {
+			dbt.Errorf("Expected 1 row, got %d rows back,", count)
+		}
+	})
+}
+
+func TestMultipleSchemaSupport(t *testing.T) {
+
+	db, err := sql.Open("avatica", dsn)
+
+	if err != nil {
+		t.Fatalf("error connecting: %s", err.Error())
+	}
+
+	defer db.Close()
+
+	db.Exec("CREATE SCHEMA IF NOT EXISTS avaticatest1")
+	defer db.Exec("DROP SCHEMA IF EXISTS avaticatest1")
+
+	db.Exec("CREATE SCHEMA IF NOT EXISTS avaticatest2")
+	defer db.Exec("DROP SCHEMA IF EXISTS avaticatest2")
+
+	query := "?schema=avaticatest1"
+
+	runTests(t, dsn+query, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE avaticatest2.` + dbt.tableName + ` (
+				int INTEGER PRIMARY KEY
+			    ) TRANSACTIONAL=false`)
+
+		defer dbt.mustExec(`DROP TABLE IF EXISTS avaticatest2.` + dbt.tableName)
+
+		_, err := dbt.db.Exec(`UPSERT INTO avaticatest2.` + dbt.tableName + ` VALUES(1)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		rows := dbt.mustQuery(`SELECT * FROM avaticatest2.` + dbt.tableName)
+		defer rows.Close()
+
+		count := 0
+
+		for rows.Next() {
+			count++
+		}
+
+		if count != 1 {
+			dbt.Errorf("Expected 1 row, got %d rows back,", count)
+		}
+	})
+}
