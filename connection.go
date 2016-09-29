@@ -74,7 +74,7 @@ func (c *conn) Begin() (driver.Tx, error) {
 		ConnProps: &message.ConnectionProperties{
 			AutoCommit:           false,
 			HasAutoCommit:        true,
-			TransactionIsolation: 4,
+			TransactionIsolation: c.config.transactionIsolation,
 		},
 	})
 
