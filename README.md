@@ -35,10 +35,16 @@ rows := db.Query("SELECT COUNT(*) FROM test")
 The DSN has the following format (optional parts are marked by square brackets):
 
 ```
-http://address:ports[?parameter1=value&...parameterN=value]
+http://address:port[/schema][?parameter1=value&...parameterN=value]
 ```
 
-In other words, the scheme (http), address and port is mandatory, but the parameters are optional.
+In other words, the scheme (http), address and port is mandatory, but the schema and parameters are optional.
+
+#### schema
+The `schema` path sets the default schema to use for this connection. For example, if you set it to `myschema`,
+then executing the query `SELECT * FROM my_table` will have the equivalence of `SELECT * FROM myschema.my_table`.
+If schema is set, you can still work on tables in other schemas by supplying a schema prefix:
+`SELECT * FROM myotherschema.my_other_table`.
 
 The following parameters are supported:
 
@@ -46,12 +52,6 @@ The following parameters are supported:
 
 The `location` will be set as the location of unserialized `time.Time` values. It must be a valid timezone.
 If you want to use the local timezone, use `Local`. By default, this is set to `UTC`.
-
-#### schema
-The `schema` parameter sets the default schema to use for this connection. For example, if you set it to `myschema`,
-then executing the query `SELECT * FROM my_table` will have the equivalence of `SELECT * FROM myschema.my_table`.
-If schema is set, you can still work on tables in other schemas by supplying a schema prefix:
-`SELECT * FROM myotherschema.my_other_table`.
 
 #### maxRowsTotal
 
