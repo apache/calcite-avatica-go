@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -68,8 +69,8 @@ func ParseDSN(dsn string) (*Config, error) {
 		conf.location = loc
 	}
 
-	if v := queries.Get("schema"); v != "" {
-		conf.schema = v
+	if parsed.Path != "" {
+		conf.schema = strings.TrimPrefix(parsed.Path, "/")
 	}
 
 	if v := queries.Get("transactionIsolation"); v != "" {

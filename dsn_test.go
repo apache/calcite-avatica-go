@@ -8,14 +8,14 @@ import (
 
 func TestParseDSN(t *testing.T) {
 
-	config, err := ParseDSN("http://localhost:8765?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&schema=myschema&transactionIsolation=8")
+	config, err := ParseDSN("http://localhost:8765/myschema?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&transactionIsolation=8")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
 	}
 
-	if config.endpoint != "http://localhost:8765" {
-		t.Errorf("Expected endpoint to be %s, got %s", "http://localhost:8765", config.endpoint)
+	if config.endpoint != "http://localhost:8765/myschema" {
+		t.Errorf("Expected endpoint to be %s, got %s", "http://localhost:8765/myschema", config.endpoint)
 	}
 
 	if config.frameMaxSize != 1 {

@@ -927,9 +927,9 @@ func TestSchemaSupport(t *testing.T) {
 	db.Exec("CREATE SCHEMA IF NOT EXISTS avaticatest")
 	defer db.Exec("DROP SCHEMA IF EXISTS avaticatest")
 
-	query := "?schema=avaticatest"
+	path := "/avaticatest"
 
-	runTests(t, dsn+query, func(dbt *DBTest) {
+	runTests(t, dsn+path, func(dbt *DBTest) {
 
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
@@ -975,9 +975,9 @@ func TestMultipleSchemaSupport(t *testing.T) {
 	db.Exec("CREATE SCHEMA IF NOT EXISTS avaticatest2")
 	defer db.Exec("DROP SCHEMA IF EXISTS avaticatest2")
 
-	query := "?schema=avaticatest1"
+	path := "/avaticatest1"
 
-	runTests(t, dsn+query, func(dbt *DBTest) {
+	runTests(t, dsn+path, func(dbt *DBTest) {
 
 		// Create and seed table
 		dbt.mustExec(`CREATE TABLE avaticatest2.` + dbt.tableName + ` (
