@@ -1006,3 +1006,30 @@ func TestMultipleSchemaSupport(t *testing.T) {
 		}
 	})
 }
+
+func TestErrorCodeParsing(t *testing.T) {
+
+	db, err := sql.Open("avatica", dsn)
+
+	if err != nil {
+		t.Fatalf("error connecting: %s", err.Error())
+	}
+
+	defer db.Close()
+
+	_, err = db.Query("SELECT * FROM table_that_does_not_exist")
+
+	if err == nil {
+		t.Error("Expected error due to selecting from non-existent table, but there was no error.")
+	}
+
+	resErr := err.(ResponseError)
+
+	if resErr.ErrorCode != 1012 {
+		t.Errorf("Expected error code to be %d, got %d.", 1012, resErr.ErrorCode)
+	}
+
+	if resErr.SqlState != "42M03" {
+		t.Errorf("Expected SQL state to be %s, got %s.", "42M03", resErr.SqlState)
+	}
+}

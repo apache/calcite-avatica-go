@@ -61,7 +61,7 @@ func errorResponseToResponseError(message *message.ErrorResponse) ResponseError 
 		sqlState  string
 	)
 
-	re := regexp.MustCompile(`ERROR (\d+) \((\d+)\)`)
+	re := regexp.MustCompile(`ERROR (\d+) \(([0-9a-zA-Z]+)\)`)
 	codes := re.FindStringSubmatch(message.ErrorMessage)
 
 	if len(codes) > 1 {
