@@ -1,11 +1,11 @@
 box:
-  id: golang:1.7.1-alpine
+  id: golang:1.7-alpine
   cmd: /bin/sh
 
 no-response-timeout: 20
 
 services:
-  - boostport/hbase-phoenix-all-in-one:1.2.3-4.8.1
+  - boostport/hbase-phoenix-all-in-one:1.2.4-4.9.0
 
 build:
   steps:
