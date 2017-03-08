@@ -5,13 +5,14 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
-	"github.com/satori/go.uuid"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/satori/go.uuid"
 )
 
 var (
@@ -187,10 +188,14 @@ func TestDataTypes(t *testing.T) {
 				uflt UNSIGNED_FLOAT,
 				dbl DOUBLE,
 				udbl UNSIGNED_DOUBLE,
+				dec DECIMAL,
 				bool BOOLEAN,
 				tm TIME,
 				dt DATE,
 				tmstmp TIMESTAMP,
+				utm UNSIGNED_TIME,
+				udt UNSIGNED_DATE,
+				utmstmp UNSIGNED_TIMESTAMP,
 				var VARCHAR,
 				ch CHAR(3),
 				bin BINARY(20),
@@ -210,10 +215,14 @@ func TestDataTypes(t *testing.T) {
 			ufltValue     float64   = 3.555
 			dblValue      float64   = -9.555
 			udblValue     float64   = 9.555
+			decValue      string    = "1.333"
 			booleanValue  bool      = true
 			tmValue       time.Time = time.Date(0, 1, 1, 21, 21, 21, 222000000, time.UTC)
 			dtValue       time.Time = time.Date(2100, 2, 1, 0, 0, 0, 0, time.UTC)
 			tmstmpValue   time.Time = time.Date(2100, 2, 1, 21, 21, 21, 222000000, time.UTC)
+			utmValue      time.Time = time.Date(0, 1, 1, 21, 21, 21, 222000000, time.UTC)
+			udtValue      time.Time = time.Date(2100, 2, 1, 0, 0, 0, 0, time.UTC)
+			utmstmpValue  time.Time = time.Date(2100, 2, 1, 21, 21, 21, 222000000, time.UTC)
 			varcharValue  string    = "test string"
 			chValue       string    = "a"
 			binValue      []byte    = make([]byte, 20, 20)
@@ -222,7 +231,7 @@ func TestDataTypes(t *testing.T) {
 
 		copy(binValue[:], "test")
 
-		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			integerValue,
 			uintegerValue,
 			bintValue,
@@ -235,10 +244,14 @@ func TestDataTypes(t *testing.T) {
 			ufltValue,
 			dblValue,
 			udblValue,
+			decValue,
 			booleanValue,
 			tmValue,
 			dtValue,
 			tmstmpValue,
+			utmValue,
+			udtValue,
+			utmstmpValue,
 			varcharValue,
 			chValue,
 			binValue,
@@ -261,10 +274,14 @@ func TestDataTypes(t *testing.T) {
 			uflt     float64
 			dbl      float64
 			udbl     float64
+			dec      string
 			boolean  bool
 			tm       time.Time
 			dt       time.Time
 			tmstmp   time.Time
+			utm      time.Time
+			udt      time.Time
+			utmstmp  time.Time
 			varchar  string
 			ch       string
 			bin      []byte
@@ -273,7 +290,7 @@ func TestDataTypes(t *testing.T) {
 
 		for rows.Next() {
 
-			err := rows.Scan(&integer, &uinteger, &bint, &ulong, &tint, &utint, &sint, &usint, &flt, &uflt, &dbl, &udbl, &boolean, &tm, &dt, &tmstmp, &varchar, &ch, &bin, &varbin)
+			err := rows.Scan(&integer, &uinteger, &bint, &ulong, &tint, &utint, &sint, &usint, &flt, &uflt, &dbl, &udbl, &dec, &boolean, &tm, &dt, &tmstmp, &utm, &udt, &utmstmp, &varchar, &ch, &bin, &varbin)
 
 			if err != nil {
 				dbt.Fatal(err)
@@ -296,10 +313,14 @@ func TestDataTypes(t *testing.T) {
 			{uflt, ufltValue},
 			{dbl, dblValue},
 			{udbl, udblValue},
+			{dec, decValue},
 			{boolean, booleanValue},
 			{tm, tmValue},
 			{dt, dtValue},
 			{tmstmp, tmstmpValue},
+			{utm, utmValue},
+			{udt, udtValue},
+			{utmstmp, utmstmpValue},
 			{varchar, varcharValue},
 			{ch, chValue},
 			{bin, binValue},
