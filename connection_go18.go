@@ -1,15 +1,14 @@
 // +build go1.8
+
 package avatica
 
 import (
-	"database/sql/driver"
-
-	"errors"
-
 	"database/sql"
+	"database/sql/driver"
+	"errors"
 	"fmt"
 
-	"golang.org/x/net/context"
+	"context"
 )
 
 func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, error) {
@@ -60,7 +59,7 @@ func (c *conn) ExecContext(ctx context.Context, query string, args []driver.Name
 
 func (c *conn) Ping(ctx context.Context) error {
 
-	_, err := c.ExecContext(ctx, "SELECT 1;", []driver.NamedValue{})
+	_, err := c.ExecContext(ctx, "SELECT 1", []driver.NamedValue{})
 
 	if err != nil {
 		return fmt.Errorf("Error pinging database: %s", err)
