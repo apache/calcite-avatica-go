@@ -134,7 +134,7 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 		return nil, err
 	}
 
-	// Currently there is only 1 ResultSet per response
+	// Currently there is only 1 ResultSet per response for exec
 	changed := int64(res.(*message.ExecuteResponse).Results[0].UpdateCount)
 
 	return &result{
@@ -178,8 +178,7 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 		return nil, err
 	}
 
-	// Currently there is only 1 ResultSet per response
-	resultSet := res.(*message.ExecuteResponse).Results[0]
+	resultSets := res.(*message.ExecuteResponse).Results
 
-	return newRows(c, st.(*message.CreateStatementResponse).StatementId, resultSet), nil
+	return newRows(c, st.(*message.CreateStatementResponse).StatementId, resultSets), nil
 }

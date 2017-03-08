@@ -2,21 +2,47 @@ package avatica
 
 import (
 	"database/sql/driver"
-	"github.com/Boostport/avatica/message"
-	"golang.org/x/net/context"
 	"io"
 	"time"
+
+	"reflect"
+
+	"math"
+
+	"fmt"
+
+	"github.com/Boostport/avatica/message"
+	"golang.org/x/net/context"
 )
 
+type precisionScale struct {
+	precision int64
+	scale     int64
+}
+
+type column struct {
+	name           string
+	typeName       string
+	rep            message.Rep
+	length         int64
+	nullable       bool
+	precisionScale *precisionScale
+	scanType       reflect.Type
+}
+
+type resultSet struct {
+	columns    []*column
+	done       bool
+	offset     uint64
+	data       [][]*message.TypedValue
+	currentRow int
+}
+
 type rows struct {
-	conn        *conn
-	statementID uint32
-	columnNames []string
-	columnTypes []message.Rep
-	done        bool
-	offset      uint64
-	data        [][]*message.TypedValue
-	currentRow  int
+	conn             *conn
+	statementID      uint32
+	resultSets       []*resultSet
+	currentResultSet int
 }
 
 // Columns returns the names of the columns. The number of
@@ -24,7 +50,14 @@ type rows struct {
 // slice.  If a particular column name isn't known, an empty
 // string should be returned for that entry.
 func (r *rows) Columns() []string {
-	return r.columnNames
+
+	cols := []string{}
+
+	for _, column := range r.resultSets[r.currentResultSet].columns {
+		cols = append(cols, column.name)
+	}
+
+	return cols
 }
 
 // Close closes the rows iterator.
@@ -45,9 +78,11 @@ func (r *rows) Close() error {
 // Next should return io.EOF when there are no more rows.
 func (r *rows) Next(dest []driver.Value) error {
 
-	if r.currentRow >= len(r.data) {
+	resultSet := r.resultSets[r.currentResultSet]
 
-		if r.done {
+	if resultSet.currentRow >= len(resultSet.data) {
+
+		if resultSet.done {
 			// Finished iterating through all results
 			return io.EOF
 		}
@@ -56,7 +91,7 @@ func (r *rows) Next(dest []driver.Value) error {
 		res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
 			ConnectionId: r.conn.connectionId,
 			StatementId:  r.statementID,
-			Offset:       r.offset,
+			Offset:       resultSet.offset,
 			FrameMaxSize: r.conn.config.frameMaxSize,
 		})
 
@@ -84,69 +119,135 @@ func (r *rows) Next(dest []driver.Value) error {
 			data = append(data, rowData)
 		}
 
-		r.done = frame.Done
-		r.data = data
-		r.currentRow = 0
+		resultSet.done = frame.Done
+		resultSet.data = data
+		resultSet.currentRow = 0
 
 	}
 
-	for i, val := range r.data[r.currentRow] {
-		dest[i] = typedValueToNative(r.columnTypes[i], val, r.conn.config)
+	for i, val := range resultSet.data[resultSet.currentRow] {
+		dest[i] = typedValueToNative(resultSet.columns[i].rep, val, r.conn.config)
 	}
 
-	r.currentRow++
+	resultSet.currentRow++
 
 	return nil
 }
 
 // newRows create a new set of rows from a result set.
-func newRows(conn *conn, statementID uint32, resultSet *message.ResultSetResponse) *rows {
+func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResponse) *rows {
 
-	columnNames := []string{}
-	columnTypes := []message.Rep{}
+	rsets := []*resultSet{}
 
-	for _, col := range resultSet.Signature.Columns {
-		columnNames = append(columnNames, col.ColumnName)
+	for _, result := range resultSets {
+		columns := []*column{}
 
-		// Special case for floats, date, time and timestamp
-		switch col.Type.Name {
-		case "FLOAT":
-			columnTypes = append(columnTypes, message.Rep_FLOAT)
-		case "UNSIGNED_FLOAT":
-			columnTypes = append(columnTypes, message.Rep_FLOAT)
-		case "TIME":
-			columnTypes = append(columnTypes, message.Rep_JAVA_SQL_TIME)
-		case "DATE":
-			columnTypes = append(columnTypes, message.Rep_JAVA_SQL_DATE)
-		case "TIMESTAMP":
-			columnTypes = append(columnTypes, message.Rep_JAVA_SQL_TIMESTAMP)
-		default:
-			columnTypes = append(columnTypes, col.Type.Rep)
+		for _, col := range result.Signature.Columns {
+
+			column := &column{
+				name:     col.ColumnName,
+				typeName: col.Type.Name,
+				nullable: col.Nullable != 0,
+			}
+
+			// Handle precision and length
+			switch col.Type.Name {
+			case "DECIMAL":
+
+				precision := int64(col.Precision)
+
+				if precision == 0 {
+					precision = math.MaxInt64
+				}
+
+				scale := int64(col.Scale)
+
+				if scale == 0 {
+					scale = math.MaxInt64
+				}
+
+				column.precisionScale = &precisionScale{
+					precision: precision,
+					scale:     scale,
+				}
+			case "VARCHAR", "CHAR", "BINARY":
+				column.length = int64(col.Precision)
+			case "VARBINARY":
+				column.length = math.MaxInt64
+			}
+
+			// Handle scan types
+			switch col.Type.Name {
+			case "INTEGER", "UNSIGNED_INT", "BIGINT", "UNSIGNED_LONG", "TINYINT", "UNSIGNED_TINYINT", "SMALLINT", "UNSIGNED_SMALLINT":
+				column.scanType = reflect.TypeOf(int64(0))
+
+			case "FLOAT", "UNSIGNED_FLOAT", "DOUBLE", "UNSIGNED_DOUBLE":
+				column.scanType = reflect.TypeOf(float64(0))
+
+			case "DECIMAL", "VARCHAR", "CHAR":
+				column.scanType = reflect.TypeOf("")
+
+			case "BOOLEAN":
+				column.scanType = reflect.TypeOf(bool(false))
+
+			case "TIME", "DATE", "TIMESTAMP", "UNSIGNED_TIME", "UNSIGNED_DATE", "UNSIGNED_TIMESTAMP":
+				column.scanType = reflect.TypeOf(time.Time{})
+
+			case "BINARY", "VARBINARY":
+				column.scanType = reflect.TypeOf([]byte{})
+
+			default:
+				panic(fmt.Sprintf("scantype for %s is not implemented", col.Type.Name))
+			}
+
+			// Handle rep type special cases for decimals, floats, date, time and timestamp
+			switch col.Type.Name {
+			case "DECIMAL":
+				column.rep = message.Rep_BIG_DECIMAL
+			case "FLOAT":
+				column.rep = message.Rep_FLOAT
+			case "UNSIGNED_FLOAT":
+				column.rep = message.Rep_FLOAT
+			case "TIME", "UNSIGNED_TIME":
+				column.rep = message.Rep_JAVA_SQL_TIME
+			case "DATE", "UNSIGNED_DATE":
+				column.rep = message.Rep_JAVA_SQL_DATE
+			case "TIMESTAMP", "UNSIGNED_TIMESTAMP":
+				column.rep = message.Rep_JAVA_SQL_TIMESTAMP
+			default:
+				column.rep = col.Type.Rep
+			}
+
+			columns = append(columns, column)
 		}
-	}
 
-	frame := resultSet.FirstFrame
+		frame := result.FirstFrame
 
-	data := [][]*message.TypedValue{}
+		data := [][]*message.TypedValue{}
 
-	for _, row := range frame.Rows {
-		rowData := []*message.TypedValue{}
+		for _, row := range frame.Rows {
+			rowData := []*message.TypedValue{}
 
-		for _, col := range row.Value {
-			rowData = append(rowData, col.ScalarValue)
+			for _, col := range row.Value {
+				rowData = append(rowData, col.ScalarValue)
+			}
+
+			data = append(data, rowData)
 		}
 
-		data = append(data, rowData)
+		rsets = append(rsets, &resultSet{
+			columns: columns,
+			done:    frame.Done,
+			offset:  frame.Offset,
+			data:    data,
+		})
 	}
 
 	return &rows{
-		conn:        conn,
-		statementID: statementID,
-		columnNames: columnNames,
-		columnTypes: columnTypes,
-		done:        frame.Done,
-		offset:      frame.Offset,
-		data:        data,
+		conn:             conn,
+		statementID:      statementID,
+		resultSets:       rsets,
+		currentResultSet: 0,
 	}
 }
 

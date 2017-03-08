@@ -98,8 +98,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 		return nil, err
 	}
 
-	// Currently there is only 1 ResultSet per response
-	resultSet := res.(*message.ExecuteResponse).Results[0]
+	resultSet := res.(*message.ExecuteResponse).Results
 
 	return newRows(s.conn, s.statementID, resultSet), nil
 }
@@ -110,7 +109,6 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 
 	for i, val := range vals {
 		typed := message.TypedValue{}
-
 		if val.Value == nil {
 			typed.Null = true
 		} else {
@@ -129,13 +127,19 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 				typed.Type = message.Rep_BYTE_STRING
 				typed.BytesValue = v
 			case string:
-				typed.Type = message.Rep_STRING
+
+				if s.parameters[i].TypeName == "DECIMAL" {
+					typed.Type = message.Rep_BIG_DECIMAL
+				} else {
+					typed.Type = message.Rep_STRING
+				}
 				typed.StringValue = v
+
 			case time.Time:
 				avaticaParameter := s.parameters[i]
 
 				switch avaticaParameter.TypeName {
-				case "TIME":
+				case "TIME", "UNSIGNED_TIME":
 					typed.Type = message.Rep_JAVA_SQL_TIME
 
 					// Because a location can have multiple time zones due to daylight savings,
@@ -146,7 +150,7 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 					base := time.Date(v.Year(), v.Month(), v.Day(), 0, 0, 0, 0, time.FixedZone(zone, offset))
 					typed.NumberValue = int64(v.Sub(base).Nanoseconds() / int64(time.Millisecond))
 
-				case "DATE":
+				case "DATE", "UNSIGNED_DATE":
 					typed.Type = message.Rep_JAVA_SQL_DATE
 
 					// Because a location can have multiple time zones due to daylight savings,
@@ -157,7 +161,7 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 					base := time.Date(1970, 1, 1, 0, 0, 0, 0, time.FixedZone(zone, offset))
 					typed.NumberValue = int64(v.Sub(base) / (24 * time.Hour))
 
-				case "TIMESTAMP":
+				case "TIMESTAMP", "UNSIGNED_TIMESTAMP":
 					typed.Type = message.Rep_JAVA_SQL_TIMESTAMP
 
 					// Because a location can have multiple time zones due to daylight savings,
