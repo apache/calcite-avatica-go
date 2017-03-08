@@ -68,7 +68,6 @@ func (c *conn) Close() error {
 
 // Begin starts and returns a new transaction.
 func (c *conn) Begin() (driver.Tx, error) {
-
 	return c.begin(context.Background(), isolationUseCurrent)
 }
 
@@ -143,7 +142,6 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 }
 
 // Query prepares and executes a query and returns the result directly.
-// Query's optimizations are currently disabled due to CALCITE-1181.
 func (c *conn) Query(query string, args []driver.Value) (driver.Rows, error) {
 	list := driverValueToNamedValue(args)
 	return c.query(context.Background(), query, list)

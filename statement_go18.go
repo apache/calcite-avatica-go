@@ -1,12 +1,11 @@
 // +build go1.8
+
 package avatica
 
 import (
+	"context"
 	"database/sql/driver"
-
 	"fmt"
-
-	"golang.org/x/net/context"
 )
 
 func (s *stmt) ExecContext(ctx context.Context, args []driver.NamedValue) (driver.Result, error) {
