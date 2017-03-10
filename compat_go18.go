@@ -1,5 +1,3 @@
-// +build go1.8
-
 package avatica
 
 import (
@@ -26,14 +24,14 @@ func driverValueToNamedValue(values []driver.Value) []namedValue {
 	return list
 }
 
-func driverNamedValueToNamedValue(values []driver.NamedValue) ([]namedValue,error ) {
+func driverNamedValueToNamedValue(values []driver.NamedValue) ([]namedValue, error) {
 	list := make([]namedValue, len(values))
 
 	for i, nv := range values {
 		list[i] = namedValue(nv)
 
-		if nv.Name != ""{
-			return list,fmt.Errorf("named paramters are not supported: %s given", nv.Name)
+		if nv.Name != "" {
+			return list, fmt.Errorf("named paramters are not supported: %s given", nv.Name)
 		}
 	}
 
