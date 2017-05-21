@@ -35,10 +35,18 @@ rows := db.Query("SELECT COUNT(*) FROM test")
 The DSN has the following format (optional parts are marked by square brackets):
 
 ```
-http://address:port[/schema][?parameter1=value&...parameterN=value]
+http://[username:password@]address:port[/schema][?parameter1=value&...parameterN=value]
 ```
 
 In other words, the scheme (http), address and port is mandatory, but the schema and parameters are optional.
+
+#### username
+This is the JDBC username that is passed directly to the backing database. It is *NOT* used for authenticating
+against Avatica.
+
+#### password
+This is the JDBC password that is passed directly to the backing database. It is *NOT* used for authenticating
+against Avatica.
 
 #### schema
 The `schema` path sets the default schema to use for this connection. For example, if you set it to `myschema`,

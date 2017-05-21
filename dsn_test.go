@@ -8,10 +8,18 @@ import (
 
 func TestParseDSN(t *testing.T) {
 
-	config, err := ParseDSN("http://localhost:8765/myschema?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&transactionIsolation=8")
+	config, err := ParseDSN("http://username:password@localhost:8765/myschema?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&transactionIsolation=8")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
+	}
+
+	if config.user != "username"{
+		t.Errorf("Expected username to be %s, got %s", "username", config.user)
+	}
+
+	if config.password != "password"{
+		t.Errorf("Expected password to be %s, got %s", "password", config.password)
 	}
 
 	if config.endpoint != "http://localhost:8765/myschema" {
@@ -54,6 +62,14 @@ func TestDSNDefaults(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
+	}
+
+	if config.user != ""{
+		t.Errorf("Default username should be empty, got %s", config.user)
+	}
+
+	if config.password != ""{
+		t.Errorf("Default password should be empty, got %s", config.password)
 	}
 
 	if config.location.String() == "" {
