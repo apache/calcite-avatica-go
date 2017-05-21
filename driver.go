@@ -18,6 +18,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
+
 	"github.com/Boostport/avatica/message"
 	"github.com/satori/go.uuid"
 	"golang.org/x/net/context"
@@ -40,13 +41,23 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	httpClient := NewHTTPClient(config.endpoint)
 	connectionId := uuid.NewV4().String()
 
+	info := map[string]string{
+		"AutoCommit":  "true",
+		"Consistency": "8",
+	}
+
+	if config.user != "" {
+		info["user"] = config.user
+	}
+
+	if config.password != "" {
+		info["password"] = config.password
+	}
+
 	// Open a connection to the server
 	req := &message.OpenConnectionRequest{
 		ConnectionId: connectionId,
-		Info: map[string]string{
-			"AutoCommit":  "true",
-			"Consistency": "8",
-		},
+		Info:         info,
 	}
 
 	if config.schema != "" {
