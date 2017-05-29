@@ -157,6 +157,12 @@
 			"revisionTime": "2016-09-27T10:08:44Z"
 		},
 		{
+			"checksumSHA1": "pZz/7xcCYgBXbV0T8s+7722/ZOQ=",
+			"path": "github.com/xinsnake/go-http-digest-auth-client",
+			"revision": "ddd37fe1722021e526546a269b5b5829a3d7b109",
+			"revisionTime": "2017-05-25T13:53:53Z"
+		},
+		{
 			"checksumSHA1": "D34ZqOW907kHAGTRU6lmxJs1ToU=",
 			"path": "go4.org/syncutil/singleflight",
 			"revision": "7ce08ca145dbe0e66a127c447b80ee7914f3e4f9",

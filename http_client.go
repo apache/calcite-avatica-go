@@ -2,27 +2,46 @@ package avatica
 
 import (
 	"bytes"
+	"io/ioutil"
+	"net/http"
+
 	avaticaMessage "github.com/Boostport/avatica/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/go-cleanhttp"
+	"github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
-	"io/ioutil"
-	"net/http"
 )
+
+type httpClientAuthConfig struct {
+	username           string
+	password           string
+	authenticationType authentication
+}
 
 // httpClient wraps the default http.Client to communicate with the Avatica server.
 type httpClient struct {
 	host       string
+	authConfig httpClientAuthConfig
+
 	httpClient *http.Client
 }
 
 // NewHTTPClient creates a new httpClient from a host.
-func NewHTTPClient(host string) *httpClient {
+func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) *httpClient {
+
+	client := cleanhttp.DefaultPooledClient()
+
+	if authenticationConf.authenticationType == digest {
+		rt := digest_auth_client.NewTransport(authenticationConf.username, authenticationConf.password)
+		client.Transport = &rt
+	}
 
 	return &httpClient{
 		host:       host,
-		httpClient: cleanhttp.DefaultPooledClient(),
+		authConfig: authenticationConf,
+
+		httpClient: client,
 	}
 }
 
@@ -46,7 +65,19 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 		return nil, err
 	}
 
-	res, err := ctxhttp.Post(ctx, c.httpClient, c.host, "application/x-google-protobuf", bytes.NewReader(body))
+	req, err := http.NewRequest("POST", c.host, bytes.NewReader(body))
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/x-google-protobuf")
+
+	if c.authConfig.authenticationType == basic {
+		req.SetBasicAuth(c.authConfig.username, c.authConfig.password)
+	}
+
+	res, err := ctxhttp.Do(ctx, c.httpClient, req)
 
 	if err != nil {
 		return nil, err

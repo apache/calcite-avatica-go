@@ -8,6 +8,14 @@ import (
 	"time"
 )
 
+type authentication int
+
+const (
+	none  authentication = iota
+	basic
+	digest
+)
+
 // Config is a configuration parsed from a DSN string
 type Config struct {
 	endpoint             string
@@ -16,8 +24,13 @@ type Config struct {
 	location             *time.Location
 	schema               string
 	transactionIsolation uint32
-	user                 string
-	password             string
+
+	user     string
+	password string
+
+	authentication  authentication
+	avaticaUser     string
+	avaticaPassword string
 }
 
 // ParseDSN parses a DSN string to a Config
@@ -83,10 +96,6 @@ func ParseDSN(dsn string) (*Config, error) {
 		conf.location = loc
 	}
 
-	if parsed.Path != "" {
-		conf.schema = strings.TrimPrefix(parsed.Path, "/")
-	}
-
 	if v := queries.Get("transactionIsolation"); v != "" {
 
 		isolation, err := strconv.Atoi(v)
@@ -100,6 +109,39 @@ func ParseDSN(dsn string) (*Config, error) {
 		}
 
 		conf.transactionIsolation = uint32(isolation)
+	}
+
+	if v := queries.Get("authentication"); v != "" {
+
+		auth := strings.ToUpper(v)
+
+		if auth == "BASIC" {
+			conf.authentication = basic
+		} else if auth == "DIGEST" {
+			conf.authentication = digest
+		} else {
+			return nil, fmt.Errorf("authentication must be either BASIC or DIGEST")
+		}
+
+		user := queries.Get("avaticaUser")
+
+		if user == "" {
+			return nil, fmt.Errorf("authentication is set to %s, but avaticaUser is empty", v)
+		}
+
+		conf.avaticaUser = user
+
+		pass := queries.Get("avaticaPassword")
+
+		if pass == "" {
+			return nil, fmt.Errorf("authentication is set to %s, but avaticaPassword is empty", v)
+		}
+
+		conf.avaticaPassword = pass
+	}
+
+	if parsed.Path != "" {
+		conf.schema = strings.TrimPrefix(parsed.Path, "/")
 	}
 
 	parsed.User = nil

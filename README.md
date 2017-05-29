@@ -56,6 +56,16 @@ If schema is set, you can still work on tables in other schemas by supplying a s
 
 The following parameters are supported:
 
+#### avaticaUser
+The user to use when authenticating against Avatica.
+
+#### avaticaPassword
+The password to use when authentication against Avatica.
+
+#### authentication
+The authentication type to use when authenticating against Avatica. Valid values are `BASIC` for HTTP Basic authentication
+and `DIGEST` for HTTP Digest authentication.
+
 #### location
 
 The `location` will be set as the location of unserialized `time.Time` values. It must be a valid timezone.

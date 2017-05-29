@@ -8,17 +8,17 @@ import (
 
 func TestParseDSN(t *testing.T) {
 
-	config, err := ParseDSN("http://username:password@localhost:8765/myschema?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&transactionIsolation=8")
+	config, err := ParseDSN("http://username:password@localhost:8765/myschema?maxRowsTotal=1&frameMaxSize=1&location=Australia/Melbourne&transactionIsolation=8&authentication=BASIC&avaticaUser=someuser&avaticaPassword=somepassword")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
 	}
 
-	if config.user != "username"{
+	if config.user != "username" {
 		t.Errorf("Expected username to be %s, got %s", "username", config.user)
 	}
 
-	if config.password != "password"{
+	if config.password != "password" {
 		t.Errorf("Expected password to be %s, got %s", "password", config.password)
 	}
 
@@ -45,6 +45,18 @@ func TestParseDSN(t *testing.T) {
 	if config.transactionIsolation != 8 {
 		t.Errorf("Expected transactionIsolation to be %d, got %d", 8, config.transactionIsolation)
 	}
+
+	if config.authentication != basic {
+		t.Errorf("Expected authentication to be BASIC (%d) got %d", basic, config.authentication)
+	}
+
+	if config.avaticaUser != "someuser" {
+		t.Errorf("Expected avaticaUser to be %s, got %s", "someuser", config.avaticaUser)
+	}
+
+	if config.avaticaPassword != "somepassword" {
+		t.Errorf("Expected avaticaPassword to be %s, got %s", "somepassword", config.avaticaPassword)
+	}
 }
 
 func TestParseEmptyDSN(t *testing.T) {
@@ -64,11 +76,11 @@ func TestDSNDefaults(t *testing.T) {
 		t.Fatalf("Unexpected error: %s", err)
 	}
 
-	if config.user != ""{
+	if config.user != "" {
 		t.Errorf("Default username should be empty, got %s", config.user)
 	}
 
-	if config.password != ""{
+	if config.password != "" {
 		t.Errorf("Default password should be empty, got %s", config.password)
 	}
 
@@ -90,6 +102,18 @@ func TestDSNDefaults(t *testing.T) {
 
 	if config.transactionIsolation != 0 {
 		t.Errorf("Default transaction level should be %d, got %d.", 0, config.transactionIsolation)
+	}
+
+	if config.authentication != none {
+		t.Errorf("Default authentication should be NONE (%d), got %d", none, config.authentication)
+	}
+
+	if config.avaticaUser != "" {
+		t.Errorf("Default avaticaUser should be empty, got %s", config.avaticaUser)
+	}
+
+	if config.avaticaPassword != "" {
+		t.Errorf("Default avaticaPassword should be empty, got %s", config.avaticaPassword)
 	}
 }
 
@@ -152,5 +176,46 @@ func TestValidTransactionIsolation(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Unexpected error when %d is set as the isolation level: %s", isolationLevel, err)
 		}
+	}
+}
+
+func TestInvalidAuthentication(t *testing.T) {
+
+	_, err := ParseDSN("http://localhost:8765?authentication=ASDF")
+
+	if err == nil {
+		t.Fatal("Expected error due to invalid authentication, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=BASIC")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing avaticaUser and avaticaPassword, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=BASIC&avaticaUser=test")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing avaticaPassword, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=BASIC&avaticaPassword=test")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing avaticaUser, but did not receive any.")
+	}
+}
+
+func TestValidAuthentication(t *testing.T) {
+	_, err := ParseDSN("http://localhost:8765?authentication=BASIC&avaticaUser=test&avaticaPassword=test")
+
+	if err != nil {
+		t.Fatal("Unexpected error when DSN contains an authentication method, avaticaUser and avaticaPassword")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=DIGEST&avaticaUser=test&avaticaPassword=test")
+
+	if err != nil {
+		t.Fatal("Unexpected error when DSN contains an authentication method, avaticaUser and avaticaPassword")
 	}
 }
