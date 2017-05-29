@@ -38,7 +38,11 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		return nil, fmt.Errorf("Unable to open connection: %s", err)
 	}
 
-	httpClient := NewHTTPClient(config.endpoint)
+	httpClient := NewHTTPClient(config.endpoint, httpClientAuthConfig{
+		username:           config.avaticaUser,
+		password:           config.avaticaPassword,
+		authenticationType: config.authentication,
+	})
 	connectionId := uuid.NewV4().String()
 
 	info := map[string]string{
