@@ -229,7 +229,7 @@ func TestDataTypes(t *testing.T) {
 			varbinValue   []byte    = []byte("testtesttest")
 		)
 
-		copy(binValue[:], "test")
+		copy(binValue[:], []byte("test"))
 
 		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			integerValue,
@@ -1044,7 +1044,11 @@ func TestErrorCodeParsing(t *testing.T) {
 		t.Error("Expected error due to selecting from non-existent table, but there was no error.")
 	}
 
-	resErr := err.(ResponseError)
+	resErr, ok := err.(ResponseError)
+
+	if !ok {
+		t.Fatalf("Error type was not ResponseError")
+	}
 
 	if resErr.ErrorCode != 1012 {
 		t.Errorf("Expected error code to be %d, got %d.", 1012, resErr.ErrorCode)
