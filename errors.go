@@ -1,9 +1,10 @@
 package avatica
 
 import (
-	"github.com/Boostport/avatica/message"
 	"regexp"
 	"strconv"
+
+	"github.com/Boostport/avatica/message"
 )
 
 // Error severity codes
@@ -19,7 +20,10 @@ type RPCMetadata struct {
 	ServerAddress string
 }
 
+// ErrorCode represents the error code returned by the avatica server
 type ErrorCode uint32
+
+// SQLState represents the SQL code returned by the avatica server
 type SQLState string
 
 // ResponseError is an error type that contains detailed information on
