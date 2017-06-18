@@ -683,7 +683,7 @@ func TestPreparedStatements(t *testing.T) {
 
 		queryStmt, err := dbt.db.Prepare(`SELECT * FROM ` + dbt.tableName + ` WHERE int = ?`)
 
-		if err != nil{
+		if err != nil {
 			dbt.Fatal(err)
 		}
 
