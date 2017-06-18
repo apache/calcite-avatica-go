@@ -11,7 +11,7 @@ import (
 type authentication int
 
 const (
-	none  authentication = iota
+	none authentication = iota
 	basic
 	digest
 )
