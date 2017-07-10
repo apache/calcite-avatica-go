@@ -22,17 +22,17 @@ build:
           env
     # Gets the dependencies
     - script:
-      name: go vendor
+      name: get dependencies
       code: |
         apk update
         apk add git
-        go get -u github.com/kardianos/govendor
-        govendor sync
+        go get -u github.com/golang/dep/cmd/dep
+        dep ensure -v
     # Build the project
     - script:
         name: go build
         code: |
-          go build ./...
+          go build
     # Test the project
     - script:
         name: go test

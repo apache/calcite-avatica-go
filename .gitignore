@@ -1,3 +1,2 @@
 calcite-tmp/
-vendor/*/
-!vendor/vendor.json
+vendor/
