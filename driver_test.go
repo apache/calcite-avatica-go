@@ -2,10 +2,12 @@ package avatica
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -29,7 +31,28 @@ func init() {
 		return defaultValue
 	}
 
-	dsn = env("AVATICA_HOST", "http://phoenix-server:8765")
+	dsn = env("AVATICA_HOST", "http://phoenix:8765")
+
+	// Wait for the phoenix server to be ready
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Minute)
+	ticker := time.NewTicker(2 * time.Second)
+
+	for {
+
+		select {
+		case <-ctx.Done():
+			panic("Timed out while waiting for the phoenix server to be ready after 5 minutes.")
+
+		case <-ticker.C:
+			resp, err := http.Get(dsn)
+
+			if err == nil {
+				resp.Body.Close()
+				ticker.Stop()
+				return
+			}
+		}
+	}
 }
 
 func generateTableName() string {
