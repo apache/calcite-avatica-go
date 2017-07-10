@@ -33,7 +33,7 @@ func (dbt *DBTest) mustQueryContext(ctx context.Context, query string, args ...i
 }
 
 func getContext() context.Context {
-	ctx, _ := context.WithTimeout(context.Background(), 2*time.Minute)
+	ctx, _ := context.WithTimeout(context.Background(), 4*time.Minute)
 
 	return ctx
 }
