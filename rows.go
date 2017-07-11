@@ -140,6 +140,9 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 	rsets := []*resultSet{}
 
 	for _, result := range resultSets {
+		if result.Signature == nil {
+			break
+		}
 		columns := []*column{}
 
 		for _, col := range result.Signature.Columns {
