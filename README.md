@@ -56,15 +56,32 @@ If schema is set, you can still work on tables in other schemas by supplying a s
 
 The following parameters are supported:
 
+#### authentication
+The authentication type to use when authenticating against Avatica. Valid values are `BASIC` for HTTP Basic authentication,
+`DIGEST` for HTTP Digest authentication, and `SPNEGO` for Kerberos with SPNEGO authentication.
+
 #### avaticaUser
-The user to use when authenticating against Avatica.
+The user to use when authenticating against Avatica. This parameter is required if `authentication` is `BASIC` or `DIGEST`.
 
 #### avaticaPassword
-The password to use when authentication against Avatica.
+The password to use when authenticating against Avatica. This parameter is required if `authentication` is `BASIC` or `DIGEST`.
 
-#### authentication
-The authentication type to use when authenticating against Avatica. Valid values are `BASIC` for HTTP Basic authentication
-and `DIGEST` for HTTP Digest authentication.
+#### principal
+The Kerberos principal to use when authenticating against Avatica. It should be in the form `primary/instance@realm`, where
+the instance is optional. This parameter is required if `authentication` is `SPNEGO` and you want the driver to perform the
+Kerberos login.
+
+#### keytab
+The path to the Kerberos keytab to use when authenticating against Avatica. This parameter is required if `authentication`
+is `SPNEGO` and you want the driver to perform the Kerberos login.
+
+#### krb5Conf
+The path to the Kerberos configuration to use when authenticating against Avatica. This parameter is required if `authentication`
+is `SPNEGO` and you want the driver to perform the Kerberos login.
+
+#### krb5CredentialsCache
+The path to the Kerberos credential cache file to use when authenticating against Avatica. This parameter is required if
+`authentication` is `SPNEGO` and you have logged into Kerberos already and want the driver to use the existing credentials.
 
 #### location
 

@@ -32,3 +32,7 @@
 [[constraint]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
   revision = "ddd37fe1722021e526546a269b5b5829a3d7b109"
+
+[[constraint]]
+  name = "github.com/jcmturner/gokrb5"
+  revision = "c26bda0a3bb400baa018645465f49407ef530f27"
