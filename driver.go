@@ -38,11 +38,20 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		return nil, fmt.Errorf("Unable to open connection: %s", err)
 	}
 
-	httpClient := NewHTTPClient(config.endpoint, httpClientAuthConfig{
-		username:           config.avaticaUser,
-		password:           config.avaticaPassword,
-		authenticationType: config.authentication,
+	httpClient, err := NewHTTPClient(config.endpoint, httpClientAuthConfig{
+		authenticationType:  config.authentication,
+		username:            config.avaticaUser,
+		password:            config.avaticaPassword,
+		principal:           config.principal,
+		keytab:              config.keytab,
+		krb5Conf:            config.krb5Conf,
+		krb5CredentialCache: config.krb5CredentialCache,
 	})
+
+	if err != nil {
+		return nil, fmt.Errorf("Unable to create HTTP client: %s", err)
+	}
+
 	connectionId := uuid.NewV4().String()
 
 	info := map[string]string{

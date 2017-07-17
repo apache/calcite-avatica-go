@@ -14,6 +14,17 @@
   revision = "3573b8b52aa7b37b9358d966a898feb387f62437"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/jcmturner/asn1"
+  packages = ["."]
+  revision = "478ccf09c45d824f741022c79e542624952a83c5"
+
+[[projects]]
+  name = "github.com/jcmturner/gokrb5"
+  packages = ["asn1tools","client","config","credentials","crypto","crypto/aescts","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
+  revision = "c26bda0a3bb400baa018645465f49407ef530f27"
+
+[[projects]]
   name = "github.com/satori/go.uuid"
   packages = ["."]
   revision = "879c5887cd475cd7864858769793b2ceb0d44feb"
@@ -26,6 +37,12 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["pbkdf2"]
+  revision = "7f7c0c2d75ebb4e32a21396ce36e87b6dadc91c9"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
   revision = "054b33e6527139ad5b1ec2f6232c3b175bd9a30c"
@@ -33,6 +50,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "65536a41be5ba5e7160432be7dc25c788d7df51bef4b2524a63de2608860179d"
+  inputs-digest = "b97d946f979b64b669b1fe36fbf3566976593958b26305dc1efab8490eccbfee"
   solver-name = "gps-cdcl"
   solver-version = 1

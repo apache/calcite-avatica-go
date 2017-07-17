@@ -115,9 +115,27 @@ func TestDSNDefaults(t *testing.T) {
 	if config.avaticaPassword != "" {
 		t.Errorf("Default avaticaPassword should be empty, got %s", config.avaticaPassword)
 	}
+
+	principal := krb5Principal{}
+
+	if config.principal != principal {
+		t.Errorf("Default principal should be empty, got %s", config.principal)
+	}
+
+	if config.keytab != "" {
+		t.Errorf("Default keytab should be empty, got %s", config.keytab)
+	}
+
+	if config.krb5Conf != "" {
+		t.Errorf("Default krb5Conf should be empty, got %s", config.krb5Conf)
+	}
+
+	if config.krb5CredentialCache != "" {
+		t.Errorf("Default krb5CredentialCache should be empty, got %s", config.krb5CredentialCache)
+	}
 }
 
-func TestLocallocation(t *testing.T) {
+func TestLocalLocation(t *testing.T) {
 
 	config, err := ParseDSN("http://localhost:8765?location=Local")
 
@@ -204,6 +222,30 @@ func TestInvalidAuthentication(t *testing.T) {
 	if err == nil {
 		t.Fatal("Expected error due to missing avaticaUser, but did not receive any.")
 	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO&principal=test/test@realm&krb5Conf=/path/to/krb5.conf")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing keytab, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO&keytab=/path/to/file.keytab&krb5Conf=/path/to/krb5.conf")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing principal, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO&principal=test/test@realm&keytab=/path/to/file.keytab")
+
+	if err == nil {
+		t.Fatal("Expected error due to missing krb5Conf, but did not receive any.")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO")
+
+	if err == nil {
+		t.Fatal("Expected error due to invalid SPNEGO config, but did not receive any.")
+	}
 }
 
 func TestValidAuthentication(t *testing.T) {
@@ -217,5 +259,17 @@ func TestValidAuthentication(t *testing.T) {
 
 	if err != nil {
 		t.Fatal("Unexpected error when DSN contains an authentication method, avaticaUser and avaticaPassword")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO&principal=test/test@realm&keytab=/path/to/file.keytab&krb5Conf=/path/to/krb5.conf")
+
+	if err != nil {
+		t.Fatal("Unexpected error when DSN contains an authentication method, principal and keytab and krb5Conf")
+	}
+
+	_, err = ParseDSN("http://localhost:8765?authentication=SPNEGO&krb5CredentialCache=/path/to/cache")
+
+	if err != nil {
+		t.Fatal("Unexpected error when DSN contains an authentication method with path to the credential cache")
 	}
 }
