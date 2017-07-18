@@ -2,10 +2,11 @@ package avatica
 
 import (
 	"bytes"
+	"database/sql/driver"
+	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	"fmt"
+	"regexp"
 
 	avaticaMessage "github.com/Boostport/avatica/message"
 	"github.com/golang/protobuf/proto"
@@ -17,6 +18,10 @@ import (
 	"github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
+)
+
+var (
+	badConnRe = regexp.MustCompile(`org\.apache\.calcite\.avatica\.NoSuchConnectionException`)
 )
 
 type httpClientAuthConfig struct {
@@ -176,6 +181,13 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	}
 
 	if v, ok := inner.(*avaticaMessage.ErrorResponse); ok {
+
+		for _, exception := range v.Exceptions {
+			if badConnRe.MatchString(exception) {
+				return nil, driver.ErrBadConn
+			}
+		}
+
 		return nil, errorResponseToResponseError(v)
 	}
 
