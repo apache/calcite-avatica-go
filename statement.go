@@ -59,7 +59,7 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 	res, err := s.conn.httpClient.post(ctx, &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
-		FirstFrameMaxSize:  uint64(s.conn.config.frameMaxSize), //TODO: Due to CALCITE-1353, if frameMaxSize == -1, it overflows to 18446744073709551615 due to the conversion to uint64, which is basically all rows.
+		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
 	})
 
@@ -90,7 +90,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 	res, err := s.conn.httpClient.post(ctx, &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
-		FirstFrameMaxSize:  uint64(s.conn.config.frameMaxSize), //TODO: Due to CALCITE-1353, if frameMaxSize == -1, it overflows to 18446744073709551615 due to the conversion to uint64, which is basically all rows.
+		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
 	})
 

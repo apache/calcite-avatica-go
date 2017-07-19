@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
-export CALCITE_VER=calcite-1.11.0
+export AVATICA_VER="rel/avatica-1.10.0"
 
 rm -rf message
-rm -rf calcite-tmp
+rm -rf avatica-tmp
 
-git init calcite-tmp
-cd calcite-tmp
-git remote add origin https://github.com/apache/calcite/
+git init avatica-tmp
+cd avatica-tmp
+git remote add origin https://github.com/apache/calcite-avatica/
 git config core.sparsecheckout true
-echo "avatica/core/src/main/protobuf/*" >> .git/info/sparse-checkout
-git pull --depth=1 origin $CALCITE_VER
+echo "core/src/main/protobuf/*" >> .git/info/sparse-checkout
+git fetch --depth=1 origin $AVATICA_VER
+git checkout FETCH_HEAD
 
 cd ..
 mkdir message
-protoc --proto_path=calcite-tmp/avatica/core/src/main/protobuf/ --go_out=import_path=message/message calcite-tmp/avatica/core/src/main/protobuf/*.proto
+protoc --proto_path=avatica-tmp/core/src/main/protobuf/ --go_out=import_path=message/message avatica-tmp/core/src/main/protobuf/*.proto
 
-rm -rf calcite-tmp
+rm -rf avatica-tmp
