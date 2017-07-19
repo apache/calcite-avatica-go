@@ -4,6 +4,8 @@ import (
 	"database/sql/driver"
 	"time"
 
+	"math"
+
 	"github.com/Boostport/avatica/message"
 	"golang.org/x/net/context"
 )
@@ -56,12 +58,20 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 		return nil, driver.ErrBadConn
 	}
 
-	res, err := s.conn.httpClient.post(ctx, &message.ExecuteRequest{
+	msg := &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
 		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
-	})
+	}
+
+	if s.conn.config.frameMaxSize <= -1 {
+		msg.DeprecatedFirstFrameMaxSize = math.MaxInt64
+	} else {
+		msg.DeprecatedFirstFrameMaxSize = uint64(s.conn.config.frameMaxSize)
+	}
+
+	res, err := s.conn.httpClient.post(ctx, msg)
 
 	if err != nil {
 		return nil, err
@@ -87,12 +97,20 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 		return nil, driver.ErrBadConn
 	}
 
-	res, err := s.conn.httpClient.post(ctx, &message.ExecuteRequest{
+	msg := &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
 		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
-	})
+	}
+
+	if s.conn.config.frameMaxSize <= -1 {
+		msg.DeprecatedFirstFrameMaxSize = math.MaxInt64
+	} else {
+		msg.DeprecatedFirstFrameMaxSize = uint64(s.conn.config.frameMaxSize)
+	}
+
+	res, err := s.conn.httpClient.post(ctx, msg)
 
 	if err != nil {
 		return nil, err
