@@ -133,8 +133,8 @@ We recommend using `UTC`, which is the default value of `location`.
 ## Version compatibility
 | Driver Version  | Phoenix Version   | Calcite-Avatica Version |
 | --------------- | ----------------- | ----------------------- |
-| 1.x.x           | >= 4.8.x, <= 4.10 | >= 1.8.0, <=1.9.0       |
-| 2.x.x           | >= 4.8.11         | >= 1.10.0               |
+| 1.x.x           | >= 4.8.0          | >= 1.8.0                |
+| 2.x.x           | >= 4.8.0          | >= 1.8.0                |
 
 ## Development
 
