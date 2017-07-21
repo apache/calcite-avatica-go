@@ -1,7 +1,8 @@
+@ECHO OFF
 SET AVATICA_VER=rel/avatica-1.10.0
 
-rmdir /Q /S message
-rmdir /Q /S avatica-tmp
+IF EXIST message\ rmdir /Q /S message
+IF EXIST avatica-tmp\ rmdir /Q /S avatica-tmp
 
 git init avatica-tmp
 cd avatica-tmp
@@ -16,3 +17,6 @@ mkdir message
 protoc --proto_path=avatica-tmp/core/src/main/protobuf/ --go_out=import_path=message:message avatica-tmp/core/src/main/protobuf/*.proto
 
 rmdir /Q /S avatica-tmp
+
+echo.
+echo Protobufs generated!
