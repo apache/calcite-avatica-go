@@ -18,3 +18,5 @@ mkdir message
 protoc --proto_path=avatica-tmp/core/src/main/protobuf/ --go_out=import_path=message/message avatica-tmp/core/src/main/protobuf/*.proto
 
 rm -rf avatica-tmp
+
+echo -e "\nProtobufs generated!"
