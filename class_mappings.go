@@ -2,9 +2,10 @@ package avatica
 
 import (
 	"fmt"
+	"strings"
+
 	avaticaMessage "github.com/apache/calcite-avatica-go/message"
 	"github.com/golang/protobuf/proto"
-	"strings"
 )
 
 const (
