@@ -1,15 +1,15 @@
 # Apache Phoenix/Avatica SQL Driver
-[![GoDoc](https://godoc.org/github.com/Boostport/avatica?status.png)](https://godoc.org/github.com/Boostport/Avatica)
+[![GoDoc](https://godoc.org/github.com/apache/calcite-avatica-go?status.png)](https://godoc.org/github.com/apache/calcite-avatica-go)
 [![wercker status](https://app.wercker.com/status/1abd1c7014e780ba7754decadb212451/s/master "wercker status")](https://app.wercker.com/project/byKey/1abd1c7014e780ba7754decadb212451)
 [![Coverage Status](https://coveralls.io/repos/github/Boostport/avatica/badge.svg?branch=master)](https://coveralls.io/github/Boostport/avatica?branch=master)
 
 An Apache Phoenix/Avatica driver for Go's [database/sql](http://golang.org/pkg/database/sql) package
 
 ## Getting started
-Install using the go tool or your dependency management tool:
+Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
 
 ```
-$ go get github.com/Boostport/avatica
+$ dep ensure -add github.com/apache/calcite-avatica-go
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, 
 
 ```
 import "database/sql"
-import _ "github.com/Boostport/avatica"
+import _ "github.com/apache/calcite-avatica-go"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 ```

@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/Boostport/avatica/message"
+	"github.com/apache/calcite-avatica-go/message"
 )
 
 // Error severity codes
