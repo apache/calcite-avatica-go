@@ -12,7 +12,7 @@ dev:
     - type: script
       name: Set up workspace
       options:
-        command: mkdir -p "$GOPATH/src/github.com/Boostport" && ln -s /source $GOPATH/src/github.com/apache/calcite-avatica-go
+        command: mkdir -p "$GOPATH/src/github.com/apache" && ln -s /source $GOPATH/src/github.com/apache/calcite-avatica-go
 
   reload:
     - type: script
