@@ -12,11 +12,11 @@ dev:
     - type: script
       name: Set up workspace
       options:
-        command: mkdir -p "$GOPATH/src/github.com/Boostport" && ln -s /source $GOPATH/src/github.com/Boostport/avatica
+        command: mkdir -p "$GOPATH/src/github.com/Boostport" && ln -s /source $GOPATH/src/github.com/apache/calcite-avatica-go
 
   reload:
     - type: script
       name: Run tests
-      cwd: $GOPATH/src/github.com/Boostport/avatica
+      cwd: $GOPATH/src/github.com/apache/calcite-avatica-go
       options:
         command: go test -v $(go list ./... | grep -v /vendor/)

@@ -6,11 +6,11 @@ Quickstart
 Import the database/sql package along with the avatica driver.
 
 	import "database/sql"
-	import _ "github.com/Boostport/avatica"
+	import _ "github.com/apache/calcite-avatica-go"
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
-See https://github.com/Boostport/avatica#usage for more details
+See https://github.com/apache/calcite-avatica-go#usage for more details
 */
 package avatica
 
@@ -19,7 +19,7 @@ import (
 	"database/sql/driver"
 	"fmt"
 
-	"github.com/Boostport/avatica/message"
+	"github.com/apache/calcite-avatica-go/message"
 	"github.com/satori/go.uuid"
 	"golang.org/x/net/context"
 )
@@ -28,7 +28,7 @@ import (
 type Driver struct{}
 
 // Open a Connection to the server.
-// See https://github.com/Boostport/avatica#dsn for more information
+// See https://github.com/apache/calcite-avatica-go#dsn for more information
 // on how the DSN is formatted.
 func (a *Driver) Open(dsn string) (driver.Conn, error) {
 

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"regexp"
 
-	avaticaMessage "github.com/Boostport/avatica/message"
+	avaticaMessage "github.com/apache/calcite-avatica-go/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/go-cleanhttp"
 	"github.com/jcmturner/gokrb5/client"
