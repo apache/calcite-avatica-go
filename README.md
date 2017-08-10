@@ -168,4 +168,4 @@ To update the procotol buffer definitions, update `CALCITE_VER` in `gen-protobuf
 the version included by Phoenix and then run the appropriate script for your platform.
 
 ## License
-The driver is licensed under the Apache 2 license.
+The driver is licensed under the Apache 2 license. See the [LICENSE](LICENSE.md) and [NOTICE](NOTICE.md) files for more information.
