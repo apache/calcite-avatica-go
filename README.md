@@ -157,21 +157,15 @@ We recommend using `UTC`, which is the default value of `location`.
 
 ## Development
 
-To run tests, but skip tests in the vendor directory, run:
+To run tests, but skip tests in the vendor directory (to avoid running tests for the dependencies), run:
 
 ```
 go test $(go list ./... | grep -v /vendor/)
 ```
 
-The driver is not feature-complete yet, so contributions are very appreciated.
-
 #### Updating protocol buffer definitions
 To update the procotol buffer definitions, update `CALCITE_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
 the version included by Phoenix and then run the appropriate script for your platform.
-
-#### About the moby.yml file
-The moby.yml file is used by our internal tool to automatically reload and test the code during development.
-We hope to have this tool open-sourced soon.
 
 ## License
 The driver is licensed under the Apache 2 license.
