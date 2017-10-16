@@ -1,2 +1,2 @@
-calcite-tmp/
-vendor/
+/vendor/
+/avatica-tmp/

@@ -28,13 +28,13 @@ import (
 	avaticaMessage "github.com/apache/calcite-avatica-go/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/go-cleanhttp"
-	"github.com/jcmturner/gokrb5/client"
-	"github.com/jcmturner/gokrb5/config"
-	"github.com/jcmturner/gokrb5/credentials"
-	"github.com/jcmturner/gokrb5/keytab"
 	"github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
+	"gopkg.in/jcmturner/gokrb5.v1/client"
+	"gopkg.in/jcmturner/gokrb5.v1/config"
+	"gopkg.in/jcmturner/gokrb5.v1/credentials"
+	"gopkg.in/jcmturner/gokrb5.v1/keytab"
 )
 
 var (
@@ -90,7 +90,6 @@ func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) (*httpC
 			}
 
 			kc, err := client.NewClientFromCCache(tc)
-
 			if err != nil {
 				return nil, fmt.Errorf("error creating kerberos client: %s", err)
 			}

@@ -15,14 +15,15 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/hashicorp/go-uuid"
+  packages = ["."]
+  revision = "64130c7a86d732268a38cb04cfbaf0cc987fda98"
+
+[[projects]]
+  branch = "master"
   name = "github.com/jcmturner/asn1"
   packages = ["."]
   revision = "478ccf09c45d824f741022c79e542624952a83c5"
-
-[[projects]]
-  name = "github.com/jcmturner/gokrb5"
-  packages = ["asn1tools","client","config","credentials","crypto","crypto/aescts","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
-  revision = "c26bda0a3bb400baa018645465f49407ef530f27"
 
 [[projects]]
   name = "github.com/satori/go.uuid"
@@ -38,7 +39,7 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["pbkdf2"]
+  packages = ["md4","pbkdf2"]
   revision = "7f7c0c2d75ebb4e32a21396ce36e87b6dadc91c9"
 
 [[projects]]
@@ -47,9 +48,21 @@
   packages = ["context","context/ctxhttp"]
   revision = "054b33e6527139ad5b1ec2f6232c3b175bd9a30c"
 
+[[projects]]
+  name = "gopkg.in/jcmturner/aescts.v1"
+  packages = ["."]
+  revision = "f6abebb3171c4c1b1fea279cb7c7325020a26290"
+  version = "v1.0.1"
+
+[[projects]]
+  name = "gopkg.in/jcmturner/gokrb5.v1"
+  packages = ["asn1tools","client","config","credentials","crypto","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc4757","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
+  revision = "f5b5d035fe8c9212b223058a3a8c22c099e623cf"
+  version = "v1.1.3"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0954c9752efc99bbfd938a977802d6a8902d3b5f7c09bbb444bf95ec8c77ab19"
+  inputs-digest = "bd9d17a95e066641ed78da4e8044d997e2686ea4c10549684ec833b79d8de791"
   solver-name = "gps-cdcl"
   solver-version = 1
