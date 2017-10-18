@@ -119,7 +119,13 @@ func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) (*httpC
 				return nil, fmt.Errorf("error performing kerberos login with keytab: %s", err)
 			}
 
-			kc.EnableAutoSessionRenewal()
+			session, err := kc.GetSessionFromRealm(authenticationConf.principal.realm)
+
+			if err != nil {
+				return nil, fmt.Errorf("error getting session from realm name: %s", err)
+			}
+
+			kc.EnableAutoSessionRenewal(session)
 
 			c.kerberosClient = kc
 		}
