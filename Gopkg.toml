@@ -23,6 +23,10 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/golang/protobuf"
+
+[[constraint]]
+  branch = "master"
   name = "github.com/hashicorp/go-cleanhttp"
 
 [[constraint]]
@@ -31,8 +35,12 @@
 
 [[constraint]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
-  revision = "ddd37fe1722021e526546a269b5b5829a3d7b109"
+  version = "0.3.0"
 
 [[constraint]]
-  name = "github.com/jcmturner/gokrb5"
-  revision = "c26bda0a3bb400baa018645465f49407ef530f27"
+  branch = "master"
+  name = "golang.org/x/net"
+
+[[constraint]]
+  name = "gopkg.in/jcmturner/gokrb5.v1"
+  version = "1.2.0"
