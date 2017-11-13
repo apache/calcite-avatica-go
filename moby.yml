@@ -15,7 +15,7 @@
 #
 services:
   - id: phoenix
-    image: boostport/hbase-phoenix-all-in-one:1.3-4.12
+    image: boostport/hbase-phoenix-all-in-one:1.3-4.13
     ports:
       - "8765"
 
