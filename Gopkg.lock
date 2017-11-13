@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "130e6b02ab059e7b717a096f397c5b60111cae74"
+  revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
 
 [[projects]]
   branch = "master"
@@ -41,13 +41,13 @@
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["md4","pbkdf2"]
-  revision = "9419663f5a44be8b34ca85f08abc5fe1be11f8a3"
+  revision = "9f005a07e0d31d45e6656d241bb5c0f2efd4bc94"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
-  revision = "1087133bc4af3073e18add999345c6ae75918503"
+  revision = "a337091b0525af65de94df2eb7e98bd9962dcbe2"
 
 [[projects]]
   name = "gopkg.in/jcmturner/aescts.v1"
@@ -58,12 +58,12 @@
 [[projects]]
   name = "gopkg.in/jcmturner/gokrb5.v1"
   packages = ["asn1tools","client","config","credentials","crypto","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc4757","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
-  revision = "ab3cf9b73d364620add518ba8fcfaa67a6c37649"
-  version = "v1.2.0"
+  revision = "21f62e24b17594e14791870b83db77ad2ee14e64"
+  version = "v1.2.3"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b65d0123d2b03cf1df895c14308b8f5328335b0c86c57e6cd4597488262e3751"
+  inputs-digest = "cc7360e230b5cbba34cbbdf28812a31863ab0f756519c6ae9b0e4be608fe2e27"
   solver-name = "gps-cdcl"
   solver-version = 1
