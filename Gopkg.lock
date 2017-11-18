@@ -47,7 +47,7 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
-  revision = "a337091b0525af65de94df2eb7e98bd9962dcbe2"
+  revision = "9dfe39835686865bff950a07b394c12a98ddc811"
 
 [[projects]]
   name = "gopkg.in/jcmturner/aescts.v1"
@@ -56,14 +56,14 @@
   version = "v1.0.1"
 
 [[projects]]
-  name = "gopkg.in/jcmturner/gokrb5.v1"
+  name = "gopkg.in/jcmturner/gokrb5.v2"
   packages = ["asn1tools","client","config","credentials","crypto","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc4757","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
-  revision = "21f62e24b17594e14791870b83db77ad2ee14e64"
-  version = "v1.2.3"
+  revision = "5cf868a24ea32b3d89fa06004db9fcb20601f586"
+  version = "v2.0.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cc7360e230b5cbba34cbbdf28812a31863ab0f756519c6ae9b0e4be608fe2e27"
+  inputs-digest = "e02ea8ad283d26e6d437d323c8f9a0bb090bbd29f1dea8041bb5ffa81ca89e80"
   solver-name = "gps-cdcl"
   solver-version = 1

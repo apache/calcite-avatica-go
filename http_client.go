@@ -31,10 +31,10 @@ import (
 	"github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
-	"gopkg.in/jcmturner/gokrb5.v1/client"
-	"gopkg.in/jcmturner/gokrb5.v1/config"
-	"gopkg.in/jcmturner/gokrb5.v1/credentials"
-	"gopkg.in/jcmturner/gokrb5.v1/keytab"
+	"gopkg.in/jcmturner/gokrb5.v2/client"
+	"gopkg.in/jcmturner/gokrb5.v2/config"
+	"gopkg.in/jcmturner/gokrb5.v2/credentials"
+	"gopkg.in/jcmturner/gokrb5.v2/keytab"
 )
 
 var (
