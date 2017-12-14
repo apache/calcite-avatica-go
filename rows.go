@@ -68,7 +68,7 @@ type rows struct {
 // string should be returned for that entry.
 func (r *rows) Columns() []string {
 
-	cols := []string{}
+	var cols []string
 
 	for _, column := range r.resultSets[r.currentResultSet].columns {
 		cols = append(cols, column.name)
@@ -118,7 +118,7 @@ func (r *rows) Next(dest []driver.Value) error {
 
 		frame := res.(*message.FetchResponse).Frame
 
-		data := [][]*message.TypedValue{}
+		var data [][]*message.TypedValue
 
 		// In some cases the server does not return done as true
 		// until it returns a result with no rows
@@ -127,7 +127,7 @@ func (r *rows) Next(dest []driver.Value) error {
 		}
 
 		for _, row := range frame.Rows {
-			rowData := []*message.TypedValue{}
+			var rowData []*message.TypedValue
 
 			for _, col := range row.Value {
 				rowData = append(rowData, col.ScalarValue)
@@ -154,13 +154,14 @@ func (r *rows) Next(dest []driver.Value) error {
 // newRows create a new set of rows from a result set.
 func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResponse) *rows {
 
-	rsets := []*resultSet{}
+	var rsets []*resultSet
 
 	for _, result := range resultSets {
 		if result.Signature == nil {
 			break
 		}
-		columns := []*column{}
+
+		var columns []*column
 
 		for _, col := range result.Signature.Columns {
 
@@ -243,10 +244,10 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 
 		frame := result.FirstFrame
 
-		data := [][]*message.TypedValue{}
+		var data [][]*message.TypedValue
 
 		for _, row := range frame.Rows {
-			rowData := []*message.TypedValue{}
+			var rowData []*message.TypedValue
 
 			for _, col := range row.Value {
 				rowData = append(rowData, col.ScalarValue)

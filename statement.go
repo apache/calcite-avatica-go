@@ -19,12 +19,12 @@ package avatica
 
 import (
 	"database/sql/driver"
+	"errors"
 	"math"
 	"time"
 
 	"github.com/apache/calcite-avatica-go/message"
 	"golang.org/x/net/context"
-	"errors"
 )
 
 type stmt struct {
@@ -96,7 +96,7 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 
 	results := res.(*message.ExecuteResponse).Results
 
-	if len(results) <= 0{
+	if len(results) <= 0 {
 		return nil, errors.New("empty ResultSet in ExecuteResponse")
 	}
 
@@ -146,7 +146,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 
 func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue {
 
-	result := []*message.TypedValue{}
+	var result []*message.TypedValue
 
 	for i, val := range vals {
 		typed := message.TypedValue{}
