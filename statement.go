@@ -24,6 +24,7 @@ import (
 
 	"github.com/apache/calcite-avatica-go/message"
 	"golang.org/x/net/context"
+	"errors"
 )
 
 type stmt struct {
@@ -93,8 +94,14 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 		return nil, err
 	}
 
+	results := res.(*message.ExecuteResponse).Results
+
+	if len(results) <= 0{
+		return nil, errors.New("empty ResultSet in ExecuteResponse")
+	}
+
 	// Currently there is only 1 ResultSet per response
-	changed := int64(res.(*message.ExecuteResponse).Results[0].UpdateCount)
+	changed := int64(results[0].UpdateCount)
 
 	return &result{
 		affectedRows: changed,
