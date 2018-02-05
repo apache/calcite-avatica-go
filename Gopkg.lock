@@ -2,16 +2,16 @@
 
 
 [[projects]]
-  branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
   name = "github.com/hashicorp/go-cleanhttp"
   packages = ["."]
-  revision = "3573b8b52aa7b37b9358d966a898feb387f62437"
+  revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
 
 [[projects]]
   branch = "master"
@@ -21,15 +21,18 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/jcmturner/asn1"
-  packages = ["."]
-  revision = "478ccf09c45d824f741022c79e542624952a83c5"
+  name = "github.com/jcmturner/gofork"
+  packages = [
+    "encoding/asn1",
+    "x/crypto/pbkdf2"
+  ]
+  revision = "2aebee971930cd0dd525873330952ab7df5ac95c"
 
 [[projects]]
   name = "github.com/satori/go.uuid"
   packages = ["."]
-  revision = "879c5887cd475cd7864858769793b2ceb0d44feb"
-  version = "v1.1.0"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
 
 [[projects]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
@@ -40,14 +43,20 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["md4","pbkdf2"]
-  revision = "9f005a07e0d31d45e6656d241bb5c0f2efd4bc94"
+  packages = [
+    "md4",
+    "pbkdf2"
+  ]
+  revision = "1875d0a70c90e57f11972aefd42276df65e895b9"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","context/ctxhttp"]
-  revision = "9dfe39835686865bff950a07b394c12a98ddc811"
+  packages = [
+    "context",
+    "context/ctxhttp"
+  ]
+  revision = "2fb46b16b8dda405028c50f7c7f0f9dd1fa6bfb1"
 
 [[projects]]
   name = "gopkg.in/jcmturner/aescts.v1"
@@ -56,14 +65,52 @@
   version = "v1.0.1"
 
 [[projects]]
-  name = "gopkg.in/jcmturner/gokrb5.v2"
-  packages = ["asn1tools","client","config","credentials","crypto","crypto/common","crypto/etype","crypto/rfc3961","crypto/rfc3962","crypto/rfc4757","crypto/rfc8009","gssapi","iana","iana/adtype","iana/asnAppTag","iana/chksumtype","iana/errorcode","iana/etypeID","iana/flags","iana/keyusage","iana/msgtype","iana/nametype","iana/patype","keytab","krberror","messages","mstypes","ndr","pac","types"]
-  revision = "5cf868a24ea32b3d89fa06004db9fcb20601f586"
-  version = "v2.0.2"
+  name = "gopkg.in/jcmturner/dnsutils.v1"
+  packages = ["."]
+  revision = "13eeb8d49ffb74d7a75784c35e4d900607a3943c"
+  version = "v1.0.1"
+
+[[projects]]
+  name = "gopkg.in/jcmturner/gokrb5.v4"
+  packages = [
+    "asn1tools",
+    "client",
+    "config",
+    "credentials",
+    "crypto",
+    "crypto/common",
+    "crypto/etype",
+    "crypto/rfc3961",
+    "crypto/rfc3962",
+    "crypto/rfc4757",
+    "crypto/rfc8009",
+    "gssapi",
+    "iana",
+    "iana/addrtype",
+    "iana/adtype",
+    "iana/asnAppTag",
+    "iana/chksumtype",
+    "iana/errorcode",
+    "iana/etypeID",
+    "iana/flags",
+    "iana/keyusage",
+    "iana/msgtype",
+    "iana/nametype",
+    "iana/patype",
+    "keytab",
+    "krberror",
+    "messages",
+    "mstypes",
+    "ndr",
+    "pac",
+    "types"
+  ]
+  revision = "48dba5ef0aac5a0737948e1f2d38ff71880f0a72"
+  version = "v4.1.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e02ea8ad283d26e6d437d323c8f9a0bb090bbd29f1dea8041bb5ffa81ca89e80"
+  inputs-digest = "231ef23988ab84851ff2a6824a57a2518d481bfcb758f9d17457ee31b344a2c5"
   solver-name = "gps-cdcl"
   solver-version = 1
