@@ -34,8 +34,8 @@
   name = "github.com/hashicorp/go-cleanhttp"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/satori/go.uuid"
-  version = "1.2.0"
 
 [[constraint]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
@@ -47,7 +47,7 @@
 
 [[constraint]]
   name = "gopkg.in/jcmturner/gokrb5.v4"
-  version = "4.1.0"
+  version = "4.1.1"
 
 [prune]
   go-tests = true

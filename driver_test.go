@@ -27,11 +27,10 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 	"time"
 
-	"github.com/satori/go.uuid"
+	"math/rand"
 )
 
 var (
@@ -73,7 +72,7 @@ func init() {
 }
 
 func generateTableName() string {
-	return "test" + strings.Replace(uuid.NewV4().String(), "-", "", -1)
+	return fmt.Sprintf("%s%d%d", "test", time.Now().UnixNano(), rand.Intn(100))
 }
 
 type DBTest struct {

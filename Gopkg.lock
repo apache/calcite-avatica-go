@@ -17,7 +17,7 @@
   branch = "master"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
-  revision = "64130c7a86d732268a38cb04cfbaf0cc987fda98"
+  revision = "27454136f0364f2d44b1276c552d69105cf8c498"
 
 [[projects]]
   branch = "master"
@@ -29,10 +29,10 @@
   revision = "2aebee971930cd0dd525873330952ab7df5ac95c"
 
 [[projects]]
+  branch = "master"
   name = "github.com/satori/go.uuid"
   packages = ["."]
-  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
-  version = "v1.2.0"
+  revision = "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
 
 [[projects]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
@@ -47,7 +47,7 @@
     "md4",
     "pbkdf2"
   ]
-  revision = "1875d0a70c90e57f11972aefd42276df65e895b9"
+  revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
 
 [[projects]]
   branch = "master"
@@ -56,7 +56,7 @@
     "context",
     "context/ctxhttp"
   ]
-  revision = "2fb46b16b8dda405028c50f7c7f0f9dd1fa6bfb1"
+  revision = "22ae77b79946ea320088417e4d50825671d82d57"
 
 [[projects]]
   name = "gopkg.in/jcmturner/aescts.v1"
@@ -105,12 +105,12 @@
     "pac",
     "types"
   ]
-  revision = "48dba5ef0aac5a0737948e1f2d38ff71880f0a72"
-  version = "v4.1.0"
+  revision = "4f6bed961aa8e808136b8fd9de87cf47d3a77050"
+  version = "v4.1.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "231ef23988ab84851ff2a6824a57a2518d481bfcb758f9d17457ee31b344a2c5"
+  inputs-digest = "d5adc65c05f3950e5e2358e02a101c34711c2145a417eb9f61ca96b10c0df7dc"
   solver-name = "gps-cdcl"
   solver-version = 1
