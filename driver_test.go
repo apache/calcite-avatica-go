@@ -24,13 +24,12 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
-
-	"math/rand"
 )
 
 var (

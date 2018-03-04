@@ -20,13 +20,12 @@
 package avatica
 
 import (
-	"database/sql"
-	"testing"
-	"time"
-
 	"context"
+	"database/sql"
 	"math"
 	"reflect"
+	"testing"
+	"time"
 )
 
 func (dbt *DBTest) mustExecContext(ctx context.Context, query string, args ...interface{}) (res sql.Result) {
@@ -565,7 +564,7 @@ func TestColumnTypes(t *testing.T) {
 					nullable: true,
 					ok:       true,
 				},
-				scanType: reflect.TypeOf(bool(false)),
+				scanType: reflect.TypeOf(false),
 			},
 			{
 				databaseTypeName: "TIME",

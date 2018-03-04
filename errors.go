@@ -108,7 +108,6 @@ func errorResponseToResponseError(message *message.ErrorResponse) ResponseError 
 }
 
 var errorCodeNames = map[ErrorCode]string{
-
 	// Connection exceptions (errorcode 01, sqlstate 08)
 	101: "io_exception",
 	102: "malformed_connection_url",
