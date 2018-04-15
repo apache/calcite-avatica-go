@@ -46,7 +46,11 @@ func (s *stmt) Close() error {
 		StatementId:  s.statementID,
 	})
 
-	return err
+	if err != nil {
+		return s.conn.avaticaErrorToResponseErrorOrError(err)
+	}
+
+	return nil
 }
 
 // NumInput returns the number of placeholder parameters.
@@ -91,7 +95,7 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 	res, err := s.conn.httpClient.post(ctx, msg)
 
 	if err != nil {
-		return nil, err
+		return nil, s.conn.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	results := res.(*message.ExecuteResponse).Results
@@ -136,7 +140,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 	res, err := s.conn.httpClient.post(ctx, msg)
 
 	if err != nil {
-		return nil, err
+		return nil, s.conn.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	resultSet := res.(*message.ExecuteResponse).Results

@@ -19,33 +19,16 @@ package avatica
 
 import (
 	"database/sql/driver"
-	"fmt"
 	"io"
-	"math"
-	"reflect"
 	"time"
 
+	"github.com/apache/calcite-avatica-go/internal"
 	"github.com/apache/calcite-avatica-go/message"
 	"golang.org/x/net/context"
 )
 
-type precisionScale struct {
-	precision int64
-	scale     int64
-}
-
-type column struct {
-	name           string
-	typeName       string
-	rep            message.Rep
-	length         int64
-	nullable       bool
-	precisionScale *precisionScale
-	scanType       reflect.Type
-}
-
 type resultSet struct {
-	columns    []*column
+	columns    []*internal.Column
 	done       bool
 	offset     uint64
 	data       [][]*message.TypedValue
@@ -68,7 +51,7 @@ func (r *rows) Columns() []string {
 	var cols []string
 
 	for _, column := range r.resultSets[r.currentResultSet].columns {
-		cols = append(cols, column.name)
+		cols = append(cols, column.Name)
 	}
 
 	return cols
@@ -110,7 +93,7 @@ func (r *rows) Next(dest []driver.Value) error {
 		})
 
 		if err != nil {
-			return err
+			return r.conn.avaticaErrorToResponseErrorOrError(err)
 		}
 
 		frame := res.(*message.FetchResponse).Frame
@@ -140,7 +123,7 @@ func (r *rows) Next(dest []driver.Value) error {
 	}
 
 	for i, val := range resultSet.data[resultSet.currentRow] {
-		dest[i] = typedValueToNative(resultSet.columns[i].rep, val, r.conn.config)
+		dest[i] = typedValueToNative(resultSet.columns[i].Rep, val, r.conn.config)
 	}
 
 	resultSet.currentRow++
@@ -158,84 +141,10 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 			break
 		}
 
-		var columns []*column
+		var columns []*internal.Column
 
 		for _, col := range result.Signature.Columns {
-
-			column := &column{
-				name:     col.ColumnName,
-				typeName: col.Type.Name,
-				nullable: col.Nullable != 0,
-			}
-
-			// Handle precision and length
-			switch col.Type.Name {
-			case "DECIMAL":
-
-				precision := int64(col.Precision)
-
-				if precision == 0 {
-					precision = math.MaxInt64
-				}
-
-				scale := int64(col.Scale)
-
-				if scale == 0 {
-					scale = math.MaxInt64
-				}
-
-				column.precisionScale = &precisionScale{
-					precision: precision,
-					scale:     scale,
-				}
-			case "VARCHAR", "CHAR", "BINARY":
-				column.length = int64(col.Precision)
-			case "VARBINARY":
-				column.length = math.MaxInt64
-			}
-
-			// Handle scan types
-			switch col.Type.Name {
-			case "INTEGER", "UNSIGNED_INT", "BIGINT", "UNSIGNED_LONG", "TINYINT", "UNSIGNED_TINYINT", "SMALLINT", "UNSIGNED_SMALLINT":
-				column.scanType = reflect.TypeOf(int64(0))
-
-			case "FLOAT", "UNSIGNED_FLOAT", "DOUBLE", "UNSIGNED_DOUBLE":
-				column.scanType = reflect.TypeOf(float64(0))
-
-			case "DECIMAL", "VARCHAR", "CHAR":
-				column.scanType = reflect.TypeOf("")
-
-			case "BOOLEAN":
-				column.scanType = reflect.TypeOf(false)
-
-			case "TIME", "DATE", "TIMESTAMP", "UNSIGNED_TIME", "UNSIGNED_DATE", "UNSIGNED_TIMESTAMP":
-				column.scanType = reflect.TypeOf(time.Time{})
-
-			case "BINARY", "VARBINARY":
-				column.scanType = reflect.TypeOf([]byte{})
-
-			default:
-				panic(fmt.Sprintf("scantype for %s is not implemented", col.Type.Name))
-			}
-
-			// Handle rep type special cases for decimals, floats, date, time and timestamp
-			switch col.Type.Name {
-			case "DECIMAL":
-				column.rep = message.Rep_BIG_DECIMAL
-			case "FLOAT":
-				column.rep = message.Rep_FLOAT
-			case "UNSIGNED_FLOAT":
-				column.rep = message.Rep_FLOAT
-			case "TIME", "UNSIGNED_TIME":
-				column.rep = message.Rep_JAVA_SQL_TIME
-			case "DATE", "UNSIGNED_DATE":
-				column.rep = message.Rep_JAVA_SQL_DATE
-			case "TIMESTAMP", "UNSIGNED_TIMESTAMP":
-				column.rep = message.Rep_JAVA_SQL_TIMESTAMP
-			default:
-				column.rep = col.Type.Rep
-			}
-
+			column := conn.adapter.GetColumnTypeDefinition(col)
 			columns = append(columns, column)
 		}
 
@@ -271,7 +180,6 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 
 // typedValueToNative converts values from avatica's types to Go's native types
 func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) interface{} {
-
 	switch rep {
 	case message.Rep_BOOLEAN, message.Rep_PRIMITIVE_BOOLEAN:
 		return v.BoolValue

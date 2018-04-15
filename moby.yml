@@ -16,13 +16,18 @@
 services:
   - id: phoenix
     image: boostport/hbase-phoenix-all-in-one:1.3-4.13
+
+  - id: hsqldb
+    image: f21global/calcite-avatica:1.11.0-hypersql
+    command: -u jdbc:hsqldb:mem:public
     ports:
       - "8765"
 
 dev:
   image: golang:1.10-alpine
   env:
-    AVATICA_HOST: http://phoenix:8765
+    PHOENIX_HOST: http://phoenix:8765
+    HSQLDB_HOST: http://hsqldb:8765
   steps:
     - type: script
       name: Set up workspace
@@ -34,4 +39,4 @@ dev:
       name: Run tests
       cwd: $GOPATH/src/github.com/apache/calcite-avatica-go
       options:
-        command: go test -v $(go list ./... | grep -v /vendor/)
+        command: export AVATICA_FLAVOR=HSQLDB && go test -v ./... && export AVATICA_FLAVOR=PHOENIX && go test -v ./...

@@ -55,12 +55,18 @@ type httpClientAuthConfig struct {
 
 // httpClient wraps the default http.Client to communicate with the Avatica server.
 type httpClient struct {
-	host       string
-	authConfig httpClientAuthConfig
-
-	httpClient *http.Client
-
+	host           string
+	authConfig     httpClientAuthConfig
+	httpClient     *http.Client
 	kerberosClient client.Client
+}
+
+type avaticaError struct {
+	message *avaticaMessage.ErrorResponse
+}
+
+func (e avaticaError) Error() string {
+	return fmt.Sprintf("avatica encountered an error: %s", e.message.ErrorMessage)
 }
 
 // NewHTTPClient creates a new httpClient from a host.
@@ -202,7 +208,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 			}
 		}
 
-		return nil, errorResponseToResponseError(v)
+		return nil, avaticaError{v}
 	}
 
 	return inner, nil

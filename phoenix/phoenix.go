@@ -15,68 +15,108 @@
  * limitations under the License.
  */
 
-package avatica
+package phoenix
 
 import (
+	"fmt"
+	"math"
+	"reflect"
 	"regexp"
 	"strconv"
+	"time"
 
+	"github.com/apache/calcite-avatica-go/errors"
+	"github.com/apache/calcite-avatica-go/internal"
 	"github.com/apache/calcite-avatica-go/message"
 )
 
-// Error severity codes
-const (
-	Eunknown int8 = iota
-	Efatal
-	Eerror
-	Ewarning
-)
-
-// RPCMetadata contains metadata about the call that caused the error.
-type RPCMetadata struct {
-	ServerAddress string
+type Adapter struct {
 }
 
-// ErrorCode represents the error code returned by the avatica server
-type ErrorCode uint32
-
-// SQLState represents the SQL code returned by the avatica server
-type SQLState string
-
-// ResponseError is an error type that contains detailed information on
-// what caused the server to return an error.
-type ResponseError struct {
-	Exceptions    []string
-	HasExceptions bool
-	ErrorMessage  string
-	Severity      int8
-	ErrorCode     ErrorCode
-	SqlState      SQLState
-	Metadata      *RPCMetadata
+func (a Adapter) GetPingStatement() string {
+	return "SELECT 1"
 }
 
-func (r ResponseError) Error() string {
+func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.Column {
 
-	msg := "An error was encountered while processing your request"
-
-	if r.ErrorMessage != "" {
-		msg += ": " + r.ErrorMessage
-	} else if len(r.Exceptions) > 0 {
-		msg += ":\n" + r.Exceptions[0]
+	column := &internal.Column{
+		Name:     col.ColumnName,
+		TypeName: col.Type.Name,
+		Nullable: col.Nullable != 0,
 	}
 
-	return msg
+	// Handle precision and length
+	switch col.Type.Name {
+	case "DECIMAL":
+
+		precision := int64(col.Precision)
+
+		if precision == 0 {
+			precision = math.MaxInt64
+		}
+
+		scale := int64(col.Scale)
+
+		if scale == 0 {
+			scale = math.MaxInt64
+		}
+
+		column.PrecisionScale = &internal.PrecisionScale{
+			Precision: precision,
+			Scale:     scale,
+		}
+	case "VARCHAR", "CHAR", "BINARY":
+		column.Length = int64(col.Precision)
+	case "VARBINARY":
+		column.Length = math.MaxInt64
+	}
+
+	// Handle scan types
+	switch col.Type.Name {
+	case "INTEGER", "UNSIGNED_INT", "BIGINT", "UNSIGNED_LONG", "TINYINT", "UNSIGNED_TINYINT", "SMALLINT", "UNSIGNED_SMALLINT":
+		column.ScanType = reflect.TypeOf(int64(0))
+
+	case "FLOAT", "UNSIGNED_FLOAT", "DOUBLE", "UNSIGNED_DOUBLE":
+		column.ScanType = reflect.TypeOf(float64(0))
+
+	case "DECIMAL", "VARCHAR", "CHAR":
+		column.ScanType = reflect.TypeOf("")
+
+	case "BOOLEAN":
+		column.ScanType = reflect.TypeOf(false)
+
+	case "TIME", "DATE", "TIMESTAMP", "UNSIGNED_TIME", "UNSIGNED_DATE", "UNSIGNED_TIMESTAMP":
+		column.ScanType = reflect.TypeOf(time.Time{})
+
+	case "BINARY", "VARBINARY":
+		column.ScanType = reflect.TypeOf([]byte{})
+
+	default:
+		panic(fmt.Sprintf("scantype for %s is not implemented", col.Type.Name))
+	}
+
+	// Handle rep type special cases for decimals, floats, date, time and timestamp
+	switch col.Type.Name {
+	case "DECIMAL":
+		column.Rep = message.Rep_BIG_DECIMAL
+	case "FLOAT":
+		column.Rep = message.Rep_FLOAT
+	case "UNSIGNED_FLOAT":
+		column.Rep = message.Rep_FLOAT
+	case "TIME", "UNSIGNED_TIME":
+		column.Rep = message.Rep_JAVA_SQL_TIME
+	case "DATE", "UNSIGNED_DATE":
+		column.Rep = message.Rep_JAVA_SQL_DATE
+	case "TIMESTAMP", "UNSIGNED_TIMESTAMP":
+		column.Rep = message.Rep_JAVA_SQL_TIMESTAMP
+	default:
+		column.Rep = col.Type.Rep
+	}
+
+	return column
 }
 
-// Name returns the name of the error encountered by the server.
-func (r ResponseError) Name() string {
-	return errorCodeNames[r.ErrorCode]
-}
-
-// errorResponseToReponseError converts an error protocol buffer response
-// to a native golang error.
-func errorResponseToResponseError(message *message.ErrorResponse) ResponseError {
-
+func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) errors.ResponseError {
 	var (
 		errorCode int
 		sqlState  string
@@ -93,21 +133,22 @@ func errorResponseToResponseError(message *message.ErrorResponse) ResponseError 
 		sqlState = codes[2]
 	}
 
-	err := ResponseError{
+	err := errors.ResponseError{
 		Exceptions:   message.Exceptions,
 		ErrorMessage: message.ErrorMessage,
 		Severity:     int8(message.Severity),
-		ErrorCode:    ErrorCode(errorCode),
-		SqlState:     SQLState(sqlState),
-		Metadata: &RPCMetadata{
+		ErrorCode:    errors.ErrorCode(errorCode),
+		SqlState:     errors.SQLState(sqlState),
+		Metadata: &errors.RPCMetadata{
 			ServerAddress: message.GetMetadata().ServerAddress,
 		},
+		Name: errorCodeNames[uint32(errorCode)],
 	}
 
 	return err
 }
 
-var errorCodeNames = map[ErrorCode]string{
+var errorCodeNames = map[uint32]string{
 	// Connection exceptions (errorcode 01, sqlstate 08)
 	101: "io_exception",
 	102: "malformed_connection_url",

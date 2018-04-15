@@ -75,7 +75,7 @@ func (c *conn) ExecContext(ctx context.Context, query string, args []driver.Name
 
 func (c *conn) Ping(ctx context.Context) error {
 
-	_, err := c.ExecContext(ctx, "SELECT 1", []driver.NamedValue{})
+	_, err := c.ExecContext(ctx, c.adapter.GetPingStatement(), []driver.NamedValue{})
 
 	if err != nil {
 		return fmt.Errorf("Error pinging database: %s", err)

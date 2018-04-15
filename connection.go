@@ -20,6 +20,7 @@ package avatica
 import (
 	"database/sql/driver"
 
+	"github.com/apache/calcite-avatica-go/errors"
 	"github.com/apache/calcite-avatica-go/message"
 	"golang.org/x/net/context"
 )
@@ -28,6 +29,7 @@ type conn struct {
 	connectionId string
 	config       *Config
 	httpClient   *httpClient
+	adapter      Adapter
 }
 
 // Prepare returns a prepared statement, bound to this connection.
@@ -47,7 +49,7 @@ func (c *conn) prepare(ctx context.Context, query string) (driver.Stmt, error) {
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	prepareResponse := response.(*message.PrepareResponse)
@@ -80,7 +82,11 @@ func (c *conn) Close() error {
 
 	c.connectionId = ""
 
-	return err
+	if err != nil {
+		return c.avaticaErrorToResponseErrorOrError(err)
+	}
+
+	return nil
 }
 
 // Begin starts and returns a new transaction.
@@ -107,7 +113,7 @@ func (c *conn) begin(ctx context.Context, isolationLevel isoLevel) (driver.Tx, e
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	return &tx{
@@ -135,7 +141,7 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
@@ -147,7 +153,7 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	// Currently there is only 1 ResultSet per response for exec
@@ -178,7 +184,7 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
@@ -190,10 +196,34 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	resultSets := res.(*message.ExecuteResponse).Results
 
 	return newRows(c, st.(*message.CreateStatementResponse).StatementId, resultSets), nil
+}
+
+func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
+
+	avaticaErr, ok := err.(avaticaError)
+
+	if !ok {
+		return err
+	}
+
+	if c.adapter != nil {
+		return c.adapter.ErrorResponseToResponseError(avaticaErr.message)
+	}
+
+	return errors.ResponseError{
+		Exceptions:   avaticaErr.message.Exceptions,
+		ErrorMessage: avaticaErr.message.ErrorMessage,
+		Severity:     int8(avaticaErr.message.Severity),
+		ErrorCode:    errors.ErrorCode(avaticaErr.message.ErrorCode),
+		SqlState:     errors.SQLState(avaticaErr.message.SqlState),
+		Metadata: &errors.RPCMetadata{
+			ServerAddress: avaticaErr.message.GetMetadata().ServerAddress,
+		},
+	}
 }

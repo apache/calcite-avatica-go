@@ -35,7 +35,11 @@ func (t *tx) Commit() error {
 		ConnectionId: t.conn.connectionId,
 	})
 
-	return err
+	if err != nil {
+		return t.conn.avaticaErrorToResponseErrorOrError(err)
+	}
+
+	return nil
 }
 
 // Rollback rolls back a transaction
@@ -47,7 +51,11 @@ func (t *tx) Rollback() error {
 		ConnectionId: t.conn.connectionId,
 	})
 
-	return err
+	if err != nil {
+		return t.conn.avaticaErrorToResponseErrorOrError(err)
+	}
+
+	return nil
 }
 
 // enableAutoCommit enables auto-commit on the server
@@ -62,5 +70,9 @@ func (t *tx) enableAutoCommit() error {
 		},
 	})
 
-	return err
+	if err != nil {
+		return t.conn.avaticaErrorToResponseErrorOrError(err)
+	}
+
+	return nil
 }

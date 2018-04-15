@@ -36,7 +36,10 @@ import (
 	"database/sql/driver"
 	"fmt"
 
+	"github.com/apache/calcite-avatica-go/generic"
+	"github.com/apache/calcite-avatica-go/hsqldb"
 	"github.com/apache/calcite-avatica-go/message"
+	"github.com/apache/calcite-avatica-go/phoenix"
 	"github.com/satori/go.uuid"
 	"golang.org/x/net/context"
 )
@@ -88,6 +91,12 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		info["password"] = config.password
 	}
 
+	conn := &conn{
+		connectionId: connectionId.String(),
+		httpClient:   httpClient,
+		config:       config,
+	}
+
 	// Open a connection to the server
 	req := &message.OpenConnectionRequest{
 		ConnectionId: connectionId.String(),
@@ -101,16 +110,41 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	_, err = httpClient.post(context.Background(), req)
 
 	if err != nil {
-		return nil, err
+		return nil, conn.avaticaErrorToResponseErrorOrError(err)
 	}
 
-	conn := &conn{
-		connectionId: connectionId.String(),
-		httpClient:   httpClient,
-		config:       config,
+	response, err := httpClient.post(context.Background(), &message.DatabasePropertyRequest{
+		ConnectionId: connectionId.String(),
+	})
+
+	if err != nil {
+		return nil, conn.avaticaErrorToResponseErrorOrError(err)
 	}
+
+	databasePropertyResponse := response.(*message.DatabasePropertyResponse)
+
+	adapter := ""
+
+	for _, property := range databasePropertyResponse.Props {
+		if property.Key.Name == "GET_DRIVER_NAME" {
+			adapter = property.Value.StringValue
+		}
+	}
+
+	conn.adapter = getAdapter(adapter)
 
 	return conn, nil
+}
+
+func getAdapter(e string) Adapter {
+	switch e {
+	case "HSQL Database Engine Driver":
+		return hsqldb.Adapter{}
+	case "PhoenixEmbeddedDriver":
+		return phoenix.Adapter{}
+	default:
+		return generic.Adapter{}
+	}
 }
 
 func init() {

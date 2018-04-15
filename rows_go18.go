@@ -44,11 +44,11 @@ func (r *rows) NextResultSet() error {
 
 func (r *rows) ColumnTypeDatabaseTypeName(index int) string {
 
-	return r.resultSets[r.currentResultSet].columns[index].typeName
+	return r.resultSets[r.currentResultSet].columns[index].TypeName
 }
 
 func (r *rows) ColumnTypeLength(index int) (length int64, ok bool) {
-	l := r.resultSets[r.currentResultSet].columns[index].length
+	l := r.resultSets[r.currentResultSet].columns[index].Length
 
 	if l == 0 {
 		return 0, false
@@ -58,20 +58,20 @@ func (r *rows) ColumnTypeLength(index int) (length int64, ok bool) {
 }
 
 func (r *rows) ColumnTypeNullable(index int) (nullable, ok bool) {
-	return r.resultSets[r.currentResultSet].columns[index].nullable, true
+	return r.resultSets[r.currentResultSet].columns[index].Nullable, true
 }
 
 func (r *rows) ColumnTypePrecisionScale(index int) (precision, scale int64, ok bool) {
 
-	ps := r.resultSets[r.currentResultSet].columns[index].precisionScale
+	ps := r.resultSets[r.currentResultSet].columns[index].PrecisionScale
 
 	if ps != nil {
-		return ps.precision, ps.scale, true
+		return ps.Precision, ps.Scale, true
 	}
 
 	return 0, 0, false
 }
 
 func (r *rows) ColumnTypeScanType(index int) reflect.Type {
-	return r.resultSets[r.currentResultSet].columns[index].scanType
+	return r.resultSets[r.currentResultSet].columns[index].ScanType
 }
