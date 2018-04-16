@@ -17,12 +17,11 @@ limitations under the License.
 {% endcomment %}
 -->
 
-# Apache Phoenix/Avatica SQL Driver
+# Apache Avatica/Phoenix SQL Driver
 [![GoDoc](https://godoc.org/github.com/apache/calcite-avatica-go?status.png)](https://godoc.org/github.com/apache/calcite-avatica-go)
-[![wercker status](https://app.wercker.com/status/1abd1c7014e780ba7754decadb212451/s/master "wercker status")](https://app.wercker.com/project/byKey/1abd1c7014e780ba7754decadb212451)
-[![Coverage Status](https://coveralls.io/repos/github/Boostport/avatica/badge.svg?branch=master)](https://coveralls.io/github/Boostport/avatica?branch=master)
+[![Build Status](https://travis-ci.org/apache/calcite-avatica-go.svg?branch=master)](https://travis-ci.org/apache/calcite-avatica-go)
 
-An Apache Phoenix/Avatica driver for Go's [database/sql](http://golang.org/pkg/database/sql) package
+An Apache Avatica/Phoenix driver for Go's [database/sql](http://golang.org/pkg/database/sql) package
 
 ## Getting started
 Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
@@ -160,7 +159,7 @@ We recommend using `UTC`, which is the default value of `location`.
 To run tests, but skip tests in the vendor directory (to avoid running tests for the dependencies), run:
 
 ```
-go test $(go list ./... | grep -v /vendor/)
+go test -v ./...
 ```
 
 #### Updating protocol buffer definitions
