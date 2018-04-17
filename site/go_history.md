@@ -28,10 +28,10 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/calcite-avatica-2.2.0">2.2.0</a> / 2017-08-XX
-{: #v2-2-0}
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/calcite-avatica-go-3.0.0">3.0.0</a> / 2018-04-23
+{: #v3-0-0}
 
-Apache Calcite Avatica Go 2.2.0 is the first release since the Go driver has been donated
+Apache Calcite Avatica Go 3.0.0 is the first release since the Go driver has been donated
 to the Apache Software foundation.
 Go 1.7+ is supported, but we recommend using the latest stable version of Go.
 
@@ -42,6 +42,9 @@ Features and bug fixes
   [apache/calcite-avatica-go](https://github.com/apache/calcite-avatica-go) repository
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-1938">CALCITE-1938</a>]
   Releasing the first release of Calcite Avatica Go under the Apache Software Foundation
+* Remove go-cleanhttp dependency
+* Support for Avatica HSQLDB backend and move Apache Phoenix support into adapter
+* Add bash script to automate releases
 
 Web site and documentation
 
@@ -50,7 +53,7 @@ Web site and documentation
 
 ## Past releases
 
-Prior to release 2.2.0, the Avatica Go client was developed by Boostport.
+Prior to release 3.0.0, the Avatica Go client was developed by Boostport.
 
 Please refer to the [Boostport/Avatica](https://github.com/Boostport/avatica) Github repository for previous releases
 of the Avatica Go client.
