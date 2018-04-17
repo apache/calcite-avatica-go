@@ -41,7 +41,7 @@
     "md4",
     "pbkdf2"
   ]
-  revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
+  revision = "d6449816ce06963d9d136eee5a56fca5b0616e7e"
 
 [[projects]]
   branch = "master"
@@ -50,7 +50,7 @@
     "context",
     "context/ctxhttp"
   ]
-  revision = "22ae77b79946ea320088417e4d50825671d82d57"
+  revision = "8d16fa6dc9a85c1cd3ed24ad08ff21cf94f10888"
 
 [[projects]]
   name = "gopkg.in/jcmturner/aescts.v1"
@@ -105,6 +105,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d5adc65c05f3950e5e2358e02a101c34711c2145a417eb9f61ca96b10c0df7dc"
+  inputs-digest = "59f780040e7b6a2bfdfff74142a368c4e1c7967769977b14494c3d7f3c5a29e2"
   solver-name = "gps-cdcl"
   solver-version = 1
