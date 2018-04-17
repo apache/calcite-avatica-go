@@ -31,10 +31,6 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/hashicorp/go-cleanhttp"
-
-[[constraint]]
-  branch = "master"
   name = "github.com/satori/go.uuid"
 
 [[constraint]]

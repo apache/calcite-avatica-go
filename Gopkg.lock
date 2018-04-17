@@ -9,12 +9,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/hashicorp/go-cleanhttp"
-  packages = ["."]
-  revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
-
-[[projects]]
-  branch = "master"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
   revision = "27454136f0364f2d44b1276c552d69105cf8c498"
