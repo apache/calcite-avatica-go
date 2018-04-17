@@ -184,7 +184,7 @@ fmt.Println(perr.Name()) // Prints: table_undefined
 ## Version Compatibility
 | Driver Version  | Phoenix Version   | Calcite-Avatica Version |
 | :-------------- | :---------------- | :---------------------- |
-| 2.x.x           | >= 4.8.0          | >= 1.8.0                |
+| 3.x.x           | >= 4.8.0          | >= 1.11.0                |
 
 ## Development
 
