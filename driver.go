@@ -27,7 +27,7 @@ Import the database/sql package along with the avatica driver.
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
-See https://github.com/apache/calcite-avatica-go#usage for more details
+See https://calcite.apache.org/avatica/go_client_reference.html for more details
 */
 package avatica
 

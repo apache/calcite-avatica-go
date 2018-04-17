@@ -26,6 +26,29 @@ Apache Calcite's Avatica Go is a Go [database/sql](https://golang.org/pkg/databa
 
 Avatica is a sub-project of [Apache Calcite](https://calcite.apache.org).
 
+## Quick Start
+Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
+
+```
+$ dep ensure -add github.com/apache/calcite-avatica-go
+```
+
+The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, import the
+`database/sql` package and the driver:
+
+```
+import "database/sql"
+import _ "github.com/apache/calcite-avatica-go"
+
+db, err := sql.Open("avatica", "http://localhost:8765")
+```
+
+Then simply use the database connection to query some data, for example:
+
+```
+rows := db.Query("SELECT COUNT(*) FROM test")
+```
+
 For more details, see the [home page](https://calcite.apache.org/avatica/go_client_reference.html).
 
 Release notes for all published versions are available on the [history
