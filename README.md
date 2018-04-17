@@ -18,7 +18,7 @@ limitations under the License.
 -->
 
 # Apache Avatica/Phoenix SQL Driver
-=======
+
 [![GoDoc](https://godoc.org/github.com/apache/calcite-avatica-go?status.png)](https://godoc.org/github.com/apache/calcite-avatica-go)
 [![Build Status](https://travis-ci.org/apache/calcite-avatica-go.svg?branch=master)](https://travis-ci.org/apache/calcite-avatica-go)
 
