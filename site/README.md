@@ -22,8 +22,7 @@ limitations under the License.
 This directory contains the code for the web pages documenting the Calcite Avatica Go client.
 
 It is symlinked and built by the [Avatica web site](https://calcite.apache.org/avatica),
-a sub-directory of the
-[Apache Calcite web site](https://calcite.apache.org).
+a sub-directory of the [Apache Calcite web site](https://calcite.apache.org).
 
 ## Pushing to site
 

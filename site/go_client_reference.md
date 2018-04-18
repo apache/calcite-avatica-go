@@ -184,23 +184,4 @@ fmt.Println(perr.Name()) // Prints: table_undefined
 ## Version Compatibility
 | Driver Version  | Phoenix Version   | Calcite-Avatica Version |
 | :-------------- | :---------------- | :---------------------- |
-| 3.x.x           | >= 4.8.0          | >= 1.11.0                |
-
-## Development
-
-To file issues, please use the [Calcite JIRA](https://issues.apache.org/jira/projects/CALCITE/issues).
-
-To run tests, you must have an instance of the Avatica server available and set it in the `AVATICA_HOST`
-environment variable.
-
-For example: `export AVATICA_HOST=http://localhost:8765`
-
-Once that is set up, you can run the tests but skip tests in the vendor directory
-(to avoid running tests for the dependencies) using:
-
-~~~~
-go test $(go list ./... | grep -v /vendor/)
-~~~~
-
-To update the procotol buffer definitions, update `AVATICA_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
-the version you want to generate protobufs for and then run the appropriate script for your platform.
+| 3.x.x           | >= 4.8.0          | >= 1.11.0               |

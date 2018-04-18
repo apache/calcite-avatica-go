@@ -24,6 +24,16 @@ limitations under the License.
 {% endcomment %}
 -->
 
+## Issues
+
+To file issues, please use the [Calcite JIRA](https://issues.apache.org/jira/projects/CALCITE/issues) and select `avatica-go`
+as the component.
+
+## Updating protobuf definitions
+
+To update the procotol buffer definitions, update `AVATICA_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
+the version you want to generate protobufs for and then run the appropriate script for your platform.
+
 ## Testing
 
 The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB and Apache Phoenix tests.
@@ -51,7 +61,7 @@ PHOENIX_HOST: http://phoenix:8765
 
 5. To select the test suite, export `AVATICA_FLAVOR=HSQLDB` for Avatica HSQLDB or `AVATICA_FLAVOR=PHOENIX` for Phoenix.
 
-6. Then run `go test-v ./...` from the root of the repository to execute the test suite.
+6. Then run `go test -v ./...` from the root of the repository to execute the test suite.
 
 ## Releasing
 If you have not set up a GPG signing key, set one up by following these [instructions](https://www.apache.org/dev/openpgp.html#generate-key).
