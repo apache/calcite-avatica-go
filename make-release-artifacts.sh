@@ -6,21 +6,25 @@ mkdir -p dist
 git fetch --tags
 
 # Get latest tag name
-latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
+latestTag=$(git describe --tags `git rev-list --tags --max-count=1` | sed -e 's/-rc[0-9][0-9]*//')
+product=apache-calcite-avatica-go
+tarFile=$product-src-$latestTag.tar.gz
 
 # Checkout latest tag
 git checkout $latestTag
 
 # Make tar
-tar -zcvf dist/calcite-avatica-go-src-$latestTag.tar.gz --transform "s/^\./calcite-avatica-go-src-$latestTag/g" --exclude "dist" .
+tar -zcvf dist/$tarFile --transform "s/^\./$product-src-$latestTag/g" --exclude "dist" --exclude ".git" .
 
 cd dist
 
 # Calculate MD5
-gpg --print-md MD5 calcite-avatica-go-src-$latestTag.tar.gz > calcite-avatica-go-src-$latestTag.tar.gz.md5
+gpg --print-md MD5 $tarFile > $tarFile.md5
 
 # Calculate SHA256
-gpg --print-md SHA256 calcite-avatica-go-src-$latestTag.tar.gz > calcite-avatica-go-src-$latestTag.tar.gz.sha256
+gpg --print-md SHA256 $tarFile > $tarFile.sha256
 
 # Sign
-gpg --armor --output calcite-avatica-go-src-$latestTag.gz.asc --detach-sig calcite-avatica-go-src-$latestTag.tar.gz 
+gpg --armor --output $tarFile.asc --detach-sig $tarFile
+
+# End
