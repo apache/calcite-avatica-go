@@ -462,7 +462,7 @@ func TestHSQLDBStoreAndRetrieveBinaryData(t *testing.T) {
 	})
 }
 
-/*func TestHSQLDBCommittingTransactions(t *testing.T) {
+func TestHSQLDBCommittingTransactions(t *testing.T) {
 
 	skipTestIfNotHSQLDB(t)
 
@@ -600,7 +600,7 @@ func TestHSQLDBRollingBackTransactions(t *testing.T) {
 			t.Fatalf("Expected %d rows, got %d", 0, countAfterRollback)
 		}
 	})
-}*/
+}
 
 func TestHSQLDBPreparedStatements(t *testing.T) {
 
