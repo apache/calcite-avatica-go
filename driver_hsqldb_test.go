@@ -425,7 +425,7 @@ func TestHSQLDBStoreAndRetrieveBinaryData(t *testing.T) {
 				bin VARBINARY(999999)
 			    )`)
 
-		filePath := filepath.Join("test-fixtures", "gopher.png")
+		filePath := filepath.Join("test-fixtures", "calcite.png")
 
 		file, err := ioutil.ReadFile(filePath)
 
@@ -453,8 +453,6 @@ func TestHSQLDBStoreAndRetrieveBinaryData(t *testing.T) {
 				dbt.Fatal(err)
 			}
 		}
-
-		ioutil.WriteFile("test-fixtures/gopher.png", receivedFile, os.ModePerm)
 
 		receivedHash := sha256.Sum256(receivedFile)
 
