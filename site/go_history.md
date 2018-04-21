@@ -44,7 +44,8 @@ Features and bug fixes
   Releasing the first release of Calcite Avatica Go under the Apache Software Foundation
 * Remove go-cleanhttp dependency
 * Support for Avatica HSQLDB backend and move Apache Phoenix support into adapter
-* Add bash script to automate releases
+* Add bash script to automate releases with checks to alert on files without the Apache license header
+* Replace gopher.png test fixture with Calcite logo
 
 Web site and documentation
 
