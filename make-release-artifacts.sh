@@ -7,6 +7,15 @@ git fetch --tags
 
 # Get latest tag name
 latestTag=$(git describe --tags `git rev-list --tags --max-count=1` | sed -e 's/-rc[0-9][0-9]*//')
+
+# Exclude files without the Apache license header
+for i in $(git ls-files); do
+   case "$i" in
+   (LICENSE|NOTICE|message/common.pb.go|message/requests.pb.go|message/responses.pb.go|test-fixtures/calcite.png|Gopkg.lock|Gopkg.toml);; # add exceptions here
+   (*) grep -q "Licensed to the Apache Software Foundation" $i || echo "$i has no header";;
+   esac
+done
+
 product=apache-calcite-avatica-go
 tarFile=$product-src-$latestTag.tar.gz
 
