@@ -52,6 +52,10 @@ done
 tagWithoutRC=$(echo $tag | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
 tarFile=$product-src-$tagWithoutRC.tar.gz
+releaseDir=$product-$tag
+
+#Make release dir
+mkdir -p dist/$releaseDir
 
 # Checkout tag
 if ! git checkout $tag; then
@@ -60,9 +64,9 @@ if ! git checkout $tag; then
 fi
 
 # Make tar
-tar -zcvf dist/$tarFile --transform "s/^\./$product-src-$tagWithoutRC/g" --exclude "dist" --exclude ".git" .
+tar -zcvf dist/$releaseDir/$tarFile --transform "s/^\./$product-src-$tagWithoutRC/g" --exclude "dist" --exclude ".git" .
 
-cd dist
+cd dist/$releaseDir
 
 # Calculate MD5
 gpg --print-md MD5 $tarFile > $tarFile.md5

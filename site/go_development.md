@@ -70,4 +70,4 @@ From the root of the repository, run `./make-release-artifacts.sh`.
 
 You will be asked to select the tag to build release artifacts for. The latest tag is automatically selected if no tag is selected.
 
-The release artifacts will be placed in the `dist/` folder.
+The release artifacts will be placed in a folder named for the release within the `dist/` folder.
