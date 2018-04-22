@@ -68,4 +68,6 @@ If you have not set up a GPG signing key, set one up by following these [instruc
 
 From the root of the repository, run `./make-release-artifacts.sh`.
 
+You will be asked to select the tag to build release artifacts for. The latest tag is automatically selected if no tag is selected.
+
 The release artifacts will be placed in the `dist/` folder.
