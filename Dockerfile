@@ -20,5 +20,3 @@ COPY . .
 RUN apk --no-cache --update add git \
     && go get -u github.com/golang/dep/cmd/dep \
     && dep ensure -v
-
-CMD ["python", "app.py"]
