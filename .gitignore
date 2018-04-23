@@ -17,3 +17,23 @@
 vendor/
 avatica-tmp/
 dist/
+
+# intellij
+.idea
+*.iml
+settings.xml
+.classpath.txt
+.fullclasspath.txt
+
+# eclipse
+.project
+.buildpath
+.classpath
+.settings
+.checkstyle
+
+# netbeans
+nb-configuration.xml
+*/nb-configuration.xml
+
+# End .gitignore
