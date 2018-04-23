@@ -188,7 +188,7 @@ func ParseDSN(dsn string) (*Config, error) {
 			}
 
 			if (principal != "" || keytab != "" || krb5Conf != "") && krb5CredentialCache != "" {
-				return nil, fmt.Errorf("ambigious configuration for SPNEGO authentication: use either pricipal, keytab and krb5Conf or krb5TicketCache")
+				return nil, fmt.Errorf("ambigious configuration for SPNEGO authentication: use either principal, keytab and krb5Conf or krb5TicketCache")
 			}
 
 			if principal != "" {
