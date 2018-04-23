@@ -41,7 +41,7 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 ### Easy way
 1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `docker-compose up`.
+2. From the root of the repository, run `docker-compose up --build`.
 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).
