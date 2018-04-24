@@ -86,8 +86,6 @@ The tar.gz must be named `apache-calcite-avatica-go-src-$version.tar.gz`.
 
 There must be a GPG signature for the tar.gz named: `apache-calcite-avatica-go-src-$version.tar.gz.asc`
 
-There must be a MD5 hash for the tar.gz named: `apache-calcite-avatica-go-src-$version.tar.gz.md5`
-
 There must be a SHA256 hash for the tar.gz named: `apache-calcite-avatica-go-src-$version.tar.gz.sha256`
 
 ## Uploading release artifacts to dev for voting

@@ -68,9 +68,6 @@ tar -zcvf dist/$releaseDir/$tarFile --transform "s/^\./$product-src-$tagWithoutR
 
 cd dist/$releaseDir
 
-# Calculate MD5
-gpg --print-md MD5 $tarFile > $tarFile.md5
-
 # Calculate SHA256
 gpg --print-md SHA256 $tarFile > $tarFile.sha256
 
