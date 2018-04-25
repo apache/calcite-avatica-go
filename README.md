@@ -53,3 +53,7 @@ For more details, see the [home page](https://calcite.apache.org/avatica/go_clie
 
 Release notes for all published versions are available on the [history
 page](https://calcite.apache.org/avatica/docs/go_history.html).
+
+## Issues
+We do not use Github to file issues. Please create an issue on [Calcite's JIRA](https://issues.apache.org/jira/projects/CALCITE/issues)
+and select `avatica-go` as the component.
