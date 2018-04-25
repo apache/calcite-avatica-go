@@ -1,8 +1,7 @@
 ---
-layout: docs
-title: Go Client Development
-sidebar_title: Go Client Development
-permalink: /docs/go_development.html
+layout: page
+title: Developing the Avatica Go Client
+permalink: develop/avatica-go.html
 ---
 
 <!--
@@ -23,6 +22,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 {% endcomment %}
 -->
+
+* TOC
+{:toc}
 
 ## Issues
 
@@ -54,10 +56,10 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 Phoenix Query Server.
 
 You should then set the `HSQLDB_HOST` and `PHOENIX_HOST` environment variables. For example:
-~~~~~~
+{% highlight bash %}
 HSQLDB_HOST: http://hsqldb:8765
 PHOENIX_HOST: http://phoenix:8765
-~~~~~~
+{% endhighlight %}
 
 5. To select the test suite, export `AVATICA_FLAVOR=HSQLDB` for Avatica HSQLDB or `AVATICA_FLAVOR=PHOENIX` for Phoenix.
 

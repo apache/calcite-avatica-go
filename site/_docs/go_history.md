@@ -26,7 +26,7 @@ limitations under the License.
 For a full list of releases, see
 <a href="https://github.com/apache/calcite-avatica-go/releases">github</a>.
 Downloads are available on the
-[downloads page]({{ site.baseurl }}/downloads/).
+[downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/3.0.0">3.0.0</a> / 2018-04-26
 {: #v3-0-0}
@@ -56,5 +56,5 @@ Web site and documentation
 
 Prior to release 3.0.0, the Avatica Go client was developed by Boostport.
 
-Please refer to the [Boostport/Avatica](https://github.com/Boostport/avatica) Github repository for previous releases
+Please refer to the [Boostport/avatica](https://github.com/Boostport/avatica) Github repository for previous releases
 of the Avatica Go client.

@@ -26,5 +26,5 @@ a sub-directory of the [Apache Calcite web site](https://calcite.apache.org).
 
 ## Pushing to site
 
-The web pages are symlinked by the Apache Calcite Avatica project and pushes should be done from the
-Apache Calcite Avatica repository.
+The web pages are pulled by the Apache Calcite Avatica project when building the Avatica site and pushes should be done
+from the Apache Calcite Avatica repository.

@@ -31,10 +31,13 @@ It also works with the Phoenix Query Server from the Apache
 Phoenix project, as the Phoenix Query Server uses Avatica under the
 hood.
 
+* TOC
+{:toc}
+
 ## Getting Started
 Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
 
-~~~~~~
+~~~~~~bash
 $ dep ensure -add github.com/apache/calcite-avatica-go
 ~~~~~~
 
@@ -73,14 +76,17 @@ on-hover images for the permalink, but oh well.
 {% endcomment %}
 
 <strong><a name="username" href="#username">username</a></strong>
+
 This is the JDBC username that is passed directly to the backing database. It is *NOT* used for authenticating
 against Avatica.
 
 <strong><a name="password" href="#password">password</a></strong>
+
 This is the JDBC password that is passed directly to the backing database. It is *NOT* used for authenticating
 against Avatica.
 
 <strong><a name="schema" href="#schema">schema</a></strong>
+
 The `schema` path sets the default schema to use for this connection. For example, if you set it to `myschema`,
 then executing the query `SELECT * FROM my_table` will have the equivalence of `SELECT * FROM myschema.my_table`.
 If schema is set, you can still work on tables in other schemas by supplying a schema prefix:
@@ -90,41 +96,51 @@ The parameters references the options used by the Java implementation as much as
 The following parameters are supported:
 
 <strong><a name="authentication" href="#authentication">authentication</a></strong>
+
 The authentication type to use when authenticating against Avatica. Valid values are `BASIC` for HTTP Basic authentication,
 `DIGEST` for HTTP Digest authentication, and `SPNEGO` for Kerberos with SPNEGO authentication.
 
 <strong><a name="avaticaUser" href="#avaticaUser">avaticaUser</a></strong>
+
 The user to use when authenticating against Avatica. This parameter is required if `authentication` is `BASIC` or `DIGEST`.
 
 <strong><a name="avaticaPassword" href="#avaticaPassword">avaticaPassword</a></strong>
+
 The password to use when authenticating against Avatica. This parameter is required if `authentication` is `BASIC` or `DIGEST`.
 
 <strong><a name="principal" href="#principal">principal</a></strong>
+
 The Kerberos principal to use when authenticating against Avatica. It should be in the form `primary/instance@realm`, where
 the instance is optional. This parameter is required if `authentication` is `SPNEGO` and you want the driver to perform the
 Kerberos login.
 
 <strong><a name="keytab" href="#keytab">keytab</a></strong>
+
 The path to the Kerberos keytab to use when authenticating against Avatica. This parameter is required if `authentication`
 is `SPNEGO` and you want the driver to perform the Kerberos login.
 
 <strong><a name="krb5Conf" href="#krb5Conf">krb5Conf</a></strong>
+
 The path to the Kerberos configuration to use when authenticating against Avatica. This parameter is required if `authentication`
 is `SPNEGO` and you want the driver to perform the Kerberos login.
 
 <strong><a name="krb5CredentialsCache" href="#krb5CredentialsCache">krb5CredentialsCache</a></strong>
+
 The path to the Kerberos credential cache file to use when authenticating against Avatica. This parameter is required if
 `authentication` is `SPNEGO` and you have logged into Kerberos already and want the driver to use the existing credentials.
 
 <strong><a name="location" href="#location">location</a></strong>
+
 The `location` will be set as the location of unserialized `time.Time` values. It must be a valid timezone.
 If you want to use the local timezone, use `Local`. By default, this is set to `UTC`.
 
 <strong><a name="maxRowsTotal" href="#maxRowsTotal">maxRowsTotal</a></strong>
+
 The `maxRowsTotal` parameter sets the maximum number of rows to return for a given query. By default, this is set to
 `-1`, so that there is no limit on the number of rows returned.
 
 <strong><a name="frameMaxSize" href="#frameMaxSize">frameMaxSize</a></strong>
+
 The `frameMaxSize` parameter sets the maximum number of rows to return in a frame. Depending on the number of rows
 returned and subject to the limits of `maxRowsTotal`, a query result set can contain rows in multiple frames. These
 additional frames are then fetched on a as-needed basis. `frameMaxSize` allows you to control the number of rows
@@ -132,6 +148,7 @@ in each frame to suit your application's performance profile. By default this is
 on the number of rows in a frame.
 
 <strong><a name="transactionIsolation" href="#transactionIsolation">transactionIsolation</a></strong>
+
 Setting `transactionIsolation` allows you to set the isolation level for transactions using the connection. The value
 should be a positive integer analogous to the transaction levels defined by the JDBC specification. The default value
 is `0`, which means transactions are not supported. This is to deal with the fact that Calcite/Avatica works with
@@ -173,7 +190,7 @@ _, err := db.Exec("SELECT * FROM table_that_does_not_exist") // Query undefined 
 perr, ok := err.(avatica.ResponseError)
 
 // If it cannot be asserted
-if !ok{
+if !ok {
     // Error was not an Avatica ResponseError
 }
 
@@ -182,6 +199,7 @@ fmt.Println(perr.Name()) // Prints: table_undefined
 ~~~~
 
 ## Version Compatibility
+
 | Driver Version  | Phoenix Version   | Calcite-Avatica Version |
 | :-------------- | :---------------- | :---------------------- |
 | 3.x.x           | >= 4.8.0          | >= 1.11.0               |
