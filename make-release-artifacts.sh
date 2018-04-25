@@ -52,6 +52,7 @@ done
 tagWithoutRC=$(echo $tag | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
 tarFile=$product-src-$tagWithoutRC.tar.gz
+zipFile=$product-src-$tagWithoutRC.zip
 releaseDir=$product-$tag
 
 #Make release dir
@@ -66,12 +67,30 @@ fi
 # Make tar
 tar -zcvf dist/$releaseDir/$tarFile --transform "s/^\./$product-src-$tagWithoutRC/g" --exclude "dist" --exclude ".git" .
 
-cd dist/$releaseDir
+# Make temp dir
+mkdir -p dist/tmp/$product-src-$tagWithoutRC
+
+# Make a temporary copy
+cp -r `ls -A | grep -v "dist"` dist/tmp/$product-src-$tagWithoutRC/
+
+cd dist/tmp/
+
+# Make zip
+zip -r ../$releaseDir/$zipFile . -x /$product-src-$tagWithoutRC/.git/*
+
+cd ..
+
+# Delete temp dir
+rm -rf tmp
+
+cd $releaseDir
 
 # Calculate SHA256
 gpg --print-md SHA256 $tarFile > $tarFile.sha256
+gpg --print-md SHA256 $zipFile > $zipFile.sha256
 
 # Sign
 gpg --armor --output $tarFile.asc --detach-sig $tarFile
+gpg --armor --output $zipFile.asc --detach-sig $zipFile
 
 # End
