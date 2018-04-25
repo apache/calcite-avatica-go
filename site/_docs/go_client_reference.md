@@ -37,35 +37,35 @@ hood.
 ## Getting Started
 Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
 
-~~~~~~bash
+{% highlight bash %}
 $ dep ensure -add github.com/apache/calcite-avatica-go
-~~~~~~
+{% endhighlight %}
 
 ## Usage
 
 The Avatica Go driver implements Go's `database/sql/driver` interface, so, import Go's
 `database/sql` package and the driver:
 
-~~~~~~go
+{% highlight go %}
 import "database/sql"
 import _ "github.com/apache/calcite-avatica-go"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
-~~~~~~
+{% endhighlight %}
 
 Then simply use the database connection to query some data, for example:
 
-~~~~~~go
+{% highlight go %}
 rows := db.Query("SELECT COUNT(*) FROM test")
-~~~~~~
+{% endhighlight %}
 
 ## DSN (Data Source Name)
 
 The DSN has the following format (optional parts are marked by square brackets):
 
-~~~~~~
+{% highlight %}
 http://[username:password@]address:port[/schema][?parameter1=value&...parameterN=value]
-~~~~~~
+{% endhighlight %}
 
 In other words, the scheme (http), address and port are mandatory, but the schema and parameters are optional.
 
@@ -183,7 +183,7 @@ you want to take specific action when a particular type of error occurs.
 If the error returned is a ResponseError, calling the `Name()` method on the error will return the appropriate
 Apache Phoenix error code:
 
-~~~~go
+{% highlight go %}
 _, err := db.Exec("SELECT * FROM table_that_does_not_exist") // Query undefined table
 
 // First, assert the error type
@@ -196,7 +196,7 @@ if !ok {
 
 // Print the Apache Phoenix error code
 fmt.Println(perr.Name()) // Prints: table_undefined
-~~~~
+{% endhighlight %}
 
 ## Version Compatibility
 
