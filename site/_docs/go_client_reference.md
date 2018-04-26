@@ -37,7 +37,7 @@ hood.
 ## Getting Started
 Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
 
-{% highlight bash %}
+{% highlight shell %}
 $ dep ensure -add github.com/apache/calcite-avatica-go
 {% endhighlight %}
 
@@ -46,7 +46,7 @@ $ dep ensure -add github.com/apache/calcite-avatica-go
 The Avatica Go driver implements Go's `database/sql/driver` interface, so, import Go's
 `database/sql` package and the driver:
 
-{% highlight %}
+{% highlight go %}
 import "database/sql"
 import _ "github.com/apache/calcite-avatica-go"
 
@@ -55,7 +55,7 @@ db, err := sql.Open("avatica", "http://localhost:8765")
 
 Then simply use the database connection to query some data, for example:
 
-{% highlight %}
+{% highlight go %}
 rows := db.Query("SELECT COUNT(*) FROM test")
 {% endhighlight %}
 
@@ -183,7 +183,7 @@ you want to take specific action when a particular type of error occurs.
 If the error returned is a ResponseError, calling the `Name()` method on the error will return the appropriate
 Apache Phoenix error code:
 
-{% highlight %}
+{% highlight go %}
 _, err := db.Exec("SELECT * FROM table_that_does_not_exist") // Query undefined table
 
 // First, assert the error type
