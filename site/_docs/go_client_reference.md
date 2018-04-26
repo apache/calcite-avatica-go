@@ -63,7 +63,7 @@ rows := db.Query("SELECT COUNT(*) FROM test")
 
 The DSN has the following format (optional parts are marked by square brackets):
 
-{% highlight %}
+{% highlight shell %}
 http://[username:password@]address:port[/schema][?parameter1=value&...parameterN=value]
 {% endhighlight %}
 

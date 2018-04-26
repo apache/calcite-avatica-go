@@ -56,7 +56,7 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 Phoenix Query Server.
 
 You should then set the `HSQLDB_HOST` and `PHOENIX_HOST` environment variables. For example:
-{% highlight bash %}
+{% highlight shell %}
 HSQLDB_HOST: http://hsqldb:8765
 PHOENIX_HOST: http://phoenix:8765
 {% endhighlight %}
