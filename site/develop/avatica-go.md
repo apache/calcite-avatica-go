@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Developing the Avatica Go Client
-permalink: develop/avatica-go.html
+permalink: /develop/avatica-go.html
 ---
 
 <!--

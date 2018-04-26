@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: Go Client History
-permalink: "/docs/go_history.html"
+permalink: /docs/go_history.html
 ---
 
 <!--
