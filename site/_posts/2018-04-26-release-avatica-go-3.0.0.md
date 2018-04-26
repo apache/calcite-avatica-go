@@ -3,9 +3,10 @@ layout: news_item
 date: "2018-04-26 00:00:00 +0000"
 author: francischuang
 version: 3.0.0
-categories: [release, avatica-go]
+categories: [release]
 tag: v3-0-0
 sha: 273c53f
+component: avatica-go
 ---
 <!--
 {% comment %}
