@@ -180,7 +180,7 @@ We recommend using `UTC`, which is the default value of `location`.
 The Go client comes with support for retrieving the error code when an error occurs. This is extremely useful when
 you want to take specific action when a particular type of error occurs.
 
-If the error returned is a ResponseError, the `Name`field on the error will return the appropriate
+If the error returned is a ResponseError, the `Name` field on the error will return the appropriate
 Apache Phoenix error code:
 
 {% highlight go %}
