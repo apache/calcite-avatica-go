@@ -49,7 +49,7 @@ Then simply use the database connection to query some data, for example:
 rows := db.Query("SELECT COUNT(*) FROM test")
 ```
 
-For more details, see the [home page](https://calcite.apache.org/avatica/go_client_reference.html).
+For more details, see the [home page](https://calcite.apache.org/avatica/docs/go_client_reference.html).
 
 Release notes for all published versions are available on the [history
 page](https://calcite.apache.org/avatica/docs/go_history.html).
