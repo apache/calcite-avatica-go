@@ -6,7 +6,6 @@ version: 3.0.0
 categories: [release]
 tag: v3-0-0
 sha: 273c53f
-has_zip: true
 component: avatica-go
 ---
 <!--
