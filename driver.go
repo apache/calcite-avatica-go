@@ -40,7 +40,7 @@ import (
 	"github.com/apache/calcite-avatica-go/hsqldb"
 	"github.com/apache/calcite-avatica-go/message"
 	"github.com/apache/calcite-avatica-go/phoenix"
-	"github.com/satori/go.uuid"
+	"github.com/hashicorp/go-uuid"
 	"golang.org/x/net/context"
 )
 
@@ -72,8 +72,7 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		return nil, fmt.Errorf("Unable to create HTTP client: %s", err)
 	}
 
-	connectionId, err := uuid.NewV4()
-
+	connectionId, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, fmt.Errorf("Error generating connection id: %s", err)
 	}
@@ -92,14 +91,14 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	}
 
 	conn := &conn{
-		connectionId: connectionId.String(),
+		connectionId: connectionId,
 		httpClient:   httpClient,
 		config:       config,
 	}
 
 	// Open a connection to the server
 	req := &message.OpenConnectionRequest{
-		ConnectionId: connectionId.String(),
+		ConnectionId: connectionId,
 		Info:         info,
 	}
 
@@ -114,7 +113,7 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	}
 
 	response, err := httpClient.post(context.Background(), &message.DatabasePropertyRequest{
-		ConnectionId: connectionId.String(),
+		ConnectionId: connectionId,
 	})
 
 	if err != nil {

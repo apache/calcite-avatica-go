@@ -23,12 +23,6 @@
   revision = "2aebee971930cd0dd525873330952ab7df5ac95c"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/satori/go.uuid"
-  packages = ["."]
-  revision = "36e9d2ebbde5e3f13ab2e25625fd453271d6522e"
-
-[[projects]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
   packages = ["."]
   revision = "366760120fe0342664d581b235be4eb08aca8834"
@@ -105,6 +99,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "59f780040e7b6a2bfdfff74142a368c4e1c7967769977b14494c3d7f3c5a29e2"
+  inputs-digest = "013ea49100cb3f3a5edfe9778567a160acc63d92dd13d8b2c58394d08f462256"
   solver-name = "gps-cdcl"
   solver-version = 1

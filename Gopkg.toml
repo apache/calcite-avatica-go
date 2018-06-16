@@ -30,10 +30,6 @@
   version = "1.0.0"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/satori/go.uuid"
-
-[[constraint]]
   name = "github.com/xinsnake/go-http-digest-auth-client"
   version = "0.3.0"
 
