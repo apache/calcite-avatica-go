@@ -1,4 +1,4 @@
-module github.com/apache/calcite-avatica-go/v2
+module github.com/apache/calcite-avatica-go/v3
 
 require (
 	github.com/apache/calcite-avatica-go v0.0.0-20180828061053-334bc15f92dd
