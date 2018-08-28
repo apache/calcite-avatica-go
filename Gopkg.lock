@@ -2,64 +2,81 @@
 
 
 [[projects]]
+  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
-  version = "v1.0.0"
+  pruneopts = "UT"
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:354978aad16c56c27f57e5b152224806d87902e4935da3b03e18263d82ae77aa"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
+  pruneopts = "UT"
   revision = "27454136f0364f2d44b1276c552d69105cf8c498"
 
 [[projects]]
   branch = "master"
+  digest = "1:ae221758bdddd57f5c76f4ee5e4110af32ee62583c46299094697f8f127e63da"
   name = "github.com/jcmturner/gofork"
   packages = [
     "encoding/asn1",
-    "x/crypto/pbkdf2"
+    "x/crypto/pbkdf2",
   ]
+  pruneopts = "UT"
   revision = "2aebee971930cd0dd525873330952ab7df5ac95c"
 
 [[projects]]
+  digest = "1:220454f22582ee261c09b310a14e6979886069808a696005c5ca998f80eca0cf"
   name = "github.com/xinsnake/go-http-digest-auth-client"
   packages = ["."]
-  revision = "366760120fe0342664d581b235be4eb08aca8834"
-  version = "v0.3.0"
+  pruneopts = "UT"
+  revision = "9da83de55d71220f00cbffb736dba373e6e683b1"
+  version = "v0.4.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:706aaf5e43c7dc00fe3fe91015cf8ef07e50736356c8acf924a061ccb1845237"
   name = "golang.org/x/crypto"
   packages = [
     "md4",
-    "pbkdf2"
+    "pbkdf2",
   ]
-  revision = "d6449816ce06963d9d136eee5a56fca5b0616e7e"
+  pruneopts = "UT"
+  revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
 
 [[projects]]
   branch = "master"
+  digest = "1:d6b719875cf8091fbab38527d81d34e71f4521b9ee9ccfbd4a32cff2ac5af96e"
   name = "golang.org/x/net"
   packages = [
     "context",
-    "context/ctxhttp"
+    "context/ctxhttp",
   ]
-  revision = "8d16fa6dc9a85c1cd3ed24ad08ff21cf94f10888"
+  pruneopts = "UT"
+  revision = "8a410e7b638dca158bf9e766925842f6651ff828"
 
 [[projects]]
+  digest = "1:c902038ee2d6f964d3b9f2c718126571410c5d81251cbab9fe58abd37803513c"
   name = "gopkg.in/jcmturner/aescts.v1"
   packages = ["."]
+  pruneopts = "UT"
   revision = "f6abebb3171c4c1b1fea279cb7c7325020a26290"
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:a1a3e185c03d79a7452d5d5b4c91be4cc433f55e6ed3a35233d852c966e39013"
   name = "gopkg.in/jcmturner/dnsutils.v1"
   packages = ["."]
+  pruneopts = "UT"
   revision = "13eeb8d49ffb74d7a75784c35e4d900607a3943c"
   version = "v1.0.1"
 
 [[projects]]
-  name = "gopkg.in/jcmturner/gokrb5.v4"
+  digest = "1:653c1ef9be253f28c38612cc0fb0571dd440a3d61a97f82e6205d53942a7b4a9"
+  name = "gopkg.in/jcmturner/gokrb5.v5"
   packages = [
     "asn1tools",
     "client",
@@ -85,20 +102,39 @@
     "iana/msgtype",
     "iana/nametype",
     "iana/patype",
+    "kadmin",
     "keytab",
     "krberror",
     "messages",
     "mstypes",
-    "ndr",
     "pac",
-    "types"
+    "types",
   ]
-  revision = "4f6bed961aa8e808136b8fd9de87cf47d3a77050"
-  version = "v4.1.1"
+  pruneopts = "UT"
+  revision = "32ba44ca5b42f17a4a9f33ff4305e70665a1bc0f"
+  version = "v5.3.0"
+
+[[projects]]
+  digest = "1:917e312d1c83bac01db5771433a141f7e4754df0ebe83d2e8edc821320aff849"
+  name = "gopkg.in/jcmturner/rpc.v0"
+  packages = ["ndr"]
+  pruneopts = "UT"
+  revision = "4480c480c9cd343b54b0acb5b62261cbd33d7adf"
+  version = "v0.0.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "013ea49100cb3f3a5edfe9778567a160acc63d92dd13d8b2c58394d08f462256"
+  input-imports = [
+    "github.com/golang/protobuf/proto",
+    "github.com/hashicorp/go-uuid",
+    "github.com/xinsnake/go-http-digest-auth-client",
+    "golang.org/x/net/context",
+    "golang.org/x/net/context/ctxhttp",
+    "gopkg.in/jcmturner/gokrb5.v5/client",
+    "gopkg.in/jcmturner/gokrb5.v5/config",
+    "gopkg.in/jcmturner/gokrb5.v5/credentials",
+    "gopkg.in/jcmturner/gokrb5.v5/keytab",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
