@@ -48,11 +48,12 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).
 
-2. Install [dep](https://github.com/golang/dep): `go get -u github.com/golang/dep/cmd/dep`
+For Go 1.10 and below, install the dependencies (skip these steps if using Go 1.11 and above):
+1a. Install [dep](https://github.com/golang/dep): `go get -u github.com/golang/dep/cmd/dep`
 
-3. Install dependencies by running `dep ensure -v` from the root of the repository.
+1b. Install dependencies by running `dep ensure -v` from the root of the repository.
 
-4. The test suite requires access to an instance of Avatica running HSQLDB and an instance of Apache Phoenix running the
+2. The test suite requires access to an instance of Avatica running HSQLDB and an instance of Apache Phoenix running the
 Phoenix Query Server.
 
 You should then set the `HSQLDB_HOST` and `PHOENIX_HOST` environment variables. For example:
@@ -61,9 +62,9 @@ HSQLDB_HOST: http://hsqldb:8765
 PHOENIX_HOST: http://phoenix:8765
 {% endhighlight %}
 
-5. To select the test suite, export `AVATICA_FLAVOR=HSQLDB` for Avatica HSQLDB or `AVATICA_FLAVOR=PHOENIX` for Phoenix.
+3. To select the test suite, export `AVATICA_FLAVOR=HSQLDB` for Avatica HSQLDB or `AVATICA_FLAVOR=PHOENIX` for Phoenix.
 
-6. Then run `go test -v ./...` from the root of the repository to execute the test suite.
+4. Then run `go test -v ./...` from the root of the repository to execute the test suite.
 
 ## Releasing
 If you have not set up a GPG signing key, set one up by following these [instructions](https://www.apache.org/dev/openpgp.html#generate-key).

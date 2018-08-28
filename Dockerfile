@@ -13,10 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.10-alpine
+FROM golang:1.11-alpine
 
 WORKDIR /go/src/github.com/apache/calcite-avatica-go
 COPY . .
-RUN apk --no-cache --update add git \
-    && go get -u github.com/golang/dep/cmd/dep \
-    && dep ensure -v
+RUN apk --no-cache --no-progress add build-base git

@@ -24,19 +24,20 @@ services:
       - "8765"
 
 dev:
-  image: golang:1.10-alpine
+  image: golang:1.11-alpine
   env:
     PHOENIX_HOST: http://phoenix:8765
     HSQLDB_HOST: http://hsqldb:8765
+
   steps:
     - type: script
-      name: Set up workspace
+      name: Install build tools and git
       options:
-        command: mkdir -p "$GOPATH/src/github.com/apache" && ln -s /source $GOPATH/src/github.com/apache/calcite-avatica-go
+        command: apk --no-cache --no-progress add build-base git
 
   reload:
     - type: script
       name: Run tests
-      cwd: $GOPATH/src/github.com/apache/calcite-avatica-go
+      cwd: /source
       options:
         command: export AVATICA_FLAVOR=HSQLDB && go test -v ./... && export AVATICA_FLAVOR=PHOENIX && go test -v ./...
