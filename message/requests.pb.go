@@ -12,15 +12,43 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
 // Request for Meta#getCatalogs()
 type CatalogsRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CatalogsRequest) Reset()                    { *m = CatalogsRequest{} }
-func (m *CatalogsRequest) String() string            { return proto.CompactTextString(m) }
-func (*CatalogsRequest) ProtoMessage()               {}
-func (*CatalogsRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+func (m *CatalogsRequest) Reset()         { *m = CatalogsRequest{} }
+func (m *CatalogsRequest) String() string { return proto.CompactTextString(m) }
+func (*CatalogsRequest) ProtoMessage()    {}
+func (*CatalogsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{0}
+}
+func (m *CatalogsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CatalogsRequest.Unmarshal(m, b)
+}
+func (m *CatalogsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CatalogsRequest.Marshal(b, m, deterministic)
+}
+func (dst *CatalogsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CatalogsRequest.Merge(dst, src)
+}
+func (m *CatalogsRequest) XXX_Size() int {
+	return xxx_messageInfo_CatalogsRequest.Size(m)
+}
+func (m *CatalogsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CatalogsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CatalogsRequest proto.InternalMessageInfo
 
 func (m *CatalogsRequest) GetConnectionId() string {
 	if m != nil {
@@ -31,13 +59,35 @@ func (m *CatalogsRequest) GetConnectionId() string {
 
 // Request for Meta#getDatabaseProperties()
 type DatabasePropertyRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DatabasePropertyRequest) Reset()                    { *m = DatabasePropertyRequest{} }
-func (m *DatabasePropertyRequest) String() string            { return proto.CompactTextString(m) }
-func (*DatabasePropertyRequest) ProtoMessage()               {}
-func (*DatabasePropertyRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{1} }
+func (m *DatabasePropertyRequest) Reset()         { *m = DatabasePropertyRequest{} }
+func (m *DatabasePropertyRequest) String() string { return proto.CompactTextString(m) }
+func (*DatabasePropertyRequest) ProtoMessage()    {}
+func (*DatabasePropertyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{1}
+}
+func (m *DatabasePropertyRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DatabasePropertyRequest.Unmarshal(m, b)
+}
+func (m *DatabasePropertyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DatabasePropertyRequest.Marshal(b, m, deterministic)
+}
+func (dst *DatabasePropertyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabasePropertyRequest.Merge(dst, src)
+}
+func (m *DatabasePropertyRequest) XXX_Size() int {
+	return xxx_messageInfo_DatabasePropertyRequest.Size(m)
+}
+func (m *DatabasePropertyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabasePropertyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabasePropertyRequest proto.InternalMessageInfo
 
 func (m *DatabasePropertyRequest) GetConnectionId() string {
 	if m != nil {
@@ -48,15 +98,37 @@ func (m *DatabasePropertyRequest) GetConnectionId() string {
 
 // Request for Meta#getSchemas(String, org.apache.calcite.avatica.Meta.Pat)}
 type SchemasRequest struct {
-	Catalog       string `protobuf:"bytes,1,opt,name=catalog" json:"catalog,omitempty"`
-	SchemaPattern string `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern" json:"schema_pattern,omitempty"`
-	ConnectionId  string `protobuf:"bytes,3,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	Catalog              string   `protobuf:"bytes,1,opt,name=catalog,proto3" json:"catalog,omitempty"`
+	SchemaPattern        string   `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern,proto3" json:"schema_pattern,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,3,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SchemasRequest) Reset()                    { *m = SchemasRequest{} }
-func (m *SchemasRequest) String() string            { return proto.CompactTextString(m) }
-func (*SchemasRequest) ProtoMessage()               {}
-func (*SchemasRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{2} }
+func (m *SchemasRequest) Reset()         { *m = SchemasRequest{} }
+func (m *SchemasRequest) String() string { return proto.CompactTextString(m) }
+func (*SchemasRequest) ProtoMessage()    {}
+func (*SchemasRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{2}
+}
+func (m *SchemasRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SchemasRequest.Unmarshal(m, b)
+}
+func (m *SchemasRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SchemasRequest.Marshal(b, m, deterministic)
+}
+func (dst *SchemasRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SchemasRequest.Merge(dst, src)
+}
+func (m *SchemasRequest) XXX_Size() int {
+	return xxx_messageInfo_SchemasRequest.Size(m)
+}
+func (m *SchemasRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SchemasRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SchemasRequest proto.InternalMessageInfo
 
 func (m *SchemasRequest) GetCatalog() string {
 	if m != nil {
@@ -82,18 +154,40 @@ func (m *SchemasRequest) GetConnectionId() string {
 // Request for Request for Meta#getTables(String, org.apache.calcite.avatica.Meta.Pat,
 //   org.apache.calcite.avatica.Meta.Pat, java.util.List)
 type TablesRequest struct {
-	Catalog          string   `protobuf:"bytes,1,opt,name=catalog" json:"catalog,omitempty"`
-	SchemaPattern    string   `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern" json:"schema_pattern,omitempty"`
-	TableNamePattern string   `protobuf:"bytes,3,opt,name=table_name_pattern,json=tableNamePattern" json:"table_name_pattern,omitempty"`
-	TypeList         []string `protobuf:"bytes,4,rep,name=type_list,json=typeList" json:"type_list,omitempty"`
-	HasTypeList      bool     `protobuf:"varint,6,opt,name=has_type_list,json=hasTypeList" json:"has_type_list,omitempty"`
-	ConnectionId     string   `protobuf:"bytes,7,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	Catalog              string   `protobuf:"bytes,1,opt,name=catalog,proto3" json:"catalog,omitempty"`
+	SchemaPattern        string   `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern,proto3" json:"schema_pattern,omitempty"`
+	TableNamePattern     string   `protobuf:"bytes,3,opt,name=table_name_pattern,json=tableNamePattern,proto3" json:"table_name_pattern,omitempty"`
+	TypeList             []string `protobuf:"bytes,4,rep,name=type_list,json=typeList,proto3" json:"type_list,omitempty"`
+	HasTypeList          bool     `protobuf:"varint,6,opt,name=has_type_list,json=hasTypeList,proto3" json:"has_type_list,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,7,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TablesRequest) Reset()                    { *m = TablesRequest{} }
-func (m *TablesRequest) String() string            { return proto.CompactTextString(m) }
-func (*TablesRequest) ProtoMessage()               {}
-func (*TablesRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{3} }
+func (m *TablesRequest) Reset()         { *m = TablesRequest{} }
+func (m *TablesRequest) String() string { return proto.CompactTextString(m) }
+func (*TablesRequest) ProtoMessage()    {}
+func (*TablesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{3}
+}
+func (m *TablesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TablesRequest.Unmarshal(m, b)
+}
+func (m *TablesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TablesRequest.Marshal(b, m, deterministic)
+}
+func (dst *TablesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TablesRequest.Merge(dst, src)
+}
+func (m *TablesRequest) XXX_Size() int {
+	return xxx_messageInfo_TablesRequest.Size(m)
+}
+func (m *TablesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TablesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TablesRequest proto.InternalMessageInfo
 
 func (m *TablesRequest) GetCatalog() string {
 	if m != nil {
@@ -139,13 +233,35 @@ func (m *TablesRequest) GetConnectionId() string {
 
 // Request for Meta#getTableTypes()
 type TableTypesRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TableTypesRequest) Reset()                    { *m = TableTypesRequest{} }
-func (m *TableTypesRequest) String() string            { return proto.CompactTextString(m) }
-func (*TableTypesRequest) ProtoMessage()               {}
-func (*TableTypesRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{4} }
+func (m *TableTypesRequest) Reset()         { *m = TableTypesRequest{} }
+func (m *TableTypesRequest) String() string { return proto.CompactTextString(m) }
+func (*TableTypesRequest) ProtoMessage()    {}
+func (*TableTypesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{4}
+}
+func (m *TableTypesRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TableTypesRequest.Unmarshal(m, b)
+}
+func (m *TableTypesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TableTypesRequest.Marshal(b, m, deterministic)
+}
+func (dst *TableTypesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TableTypesRequest.Merge(dst, src)
+}
+func (m *TableTypesRequest) XXX_Size() int {
+	return xxx_messageInfo_TableTypesRequest.Size(m)
+}
+func (m *TableTypesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TableTypesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TableTypesRequest proto.InternalMessageInfo
 
 func (m *TableTypesRequest) GetConnectionId() string {
 	if m != nil {
@@ -157,17 +273,39 @@ func (m *TableTypesRequest) GetConnectionId() string {
 // Request for Meta#getColumns(String, org.apache.calcite.avatica.Meta.Pat,
 //   org.apache.calcite.avatica.Meta.Pat, org.apache.calcite.avatica.Meta.Pat).
 type ColumnsRequest struct {
-	Catalog           string `protobuf:"bytes,1,opt,name=catalog" json:"catalog,omitempty"`
-	SchemaPattern     string `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern" json:"schema_pattern,omitempty"`
-	TableNamePattern  string `protobuf:"bytes,3,opt,name=table_name_pattern,json=tableNamePattern" json:"table_name_pattern,omitempty"`
-	ColumnNamePattern string `protobuf:"bytes,4,opt,name=column_name_pattern,json=columnNamePattern" json:"column_name_pattern,omitempty"`
-	ConnectionId      string `protobuf:"bytes,5,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	Catalog              string   `protobuf:"bytes,1,opt,name=catalog,proto3" json:"catalog,omitempty"`
+	SchemaPattern        string   `protobuf:"bytes,2,opt,name=schema_pattern,json=schemaPattern,proto3" json:"schema_pattern,omitempty"`
+	TableNamePattern     string   `protobuf:"bytes,3,opt,name=table_name_pattern,json=tableNamePattern,proto3" json:"table_name_pattern,omitempty"`
+	ColumnNamePattern    string   `protobuf:"bytes,4,opt,name=column_name_pattern,json=columnNamePattern,proto3" json:"column_name_pattern,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,5,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ColumnsRequest) Reset()                    { *m = ColumnsRequest{} }
-func (m *ColumnsRequest) String() string            { return proto.CompactTextString(m) }
-func (*ColumnsRequest) ProtoMessage()               {}
-func (*ColumnsRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{5} }
+func (m *ColumnsRequest) Reset()         { *m = ColumnsRequest{} }
+func (m *ColumnsRequest) String() string { return proto.CompactTextString(m) }
+func (*ColumnsRequest) ProtoMessage()    {}
+func (*ColumnsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{5}
+}
+func (m *ColumnsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ColumnsRequest.Unmarshal(m, b)
+}
+func (m *ColumnsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ColumnsRequest.Marshal(b, m, deterministic)
+}
+func (dst *ColumnsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ColumnsRequest.Merge(dst, src)
+}
+func (m *ColumnsRequest) XXX_Size() int {
+	return xxx_messageInfo_ColumnsRequest.Size(m)
+}
+func (m *ColumnsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ColumnsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ColumnsRequest proto.InternalMessageInfo
 
 func (m *ColumnsRequest) GetCatalog() string {
 	if m != nil {
@@ -206,13 +344,35 @@ func (m *ColumnsRequest) GetConnectionId() string {
 
 // Request for Meta#getTypeInfo()
 type TypeInfoRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TypeInfoRequest) Reset()                    { *m = TypeInfoRequest{} }
-func (m *TypeInfoRequest) String() string            { return proto.CompactTextString(m) }
-func (*TypeInfoRequest) ProtoMessage()               {}
-func (*TypeInfoRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{6} }
+func (m *TypeInfoRequest) Reset()         { *m = TypeInfoRequest{} }
+func (m *TypeInfoRequest) String() string { return proto.CompactTextString(m) }
+func (*TypeInfoRequest) ProtoMessage()    {}
+func (*TypeInfoRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{6}
+}
+func (m *TypeInfoRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TypeInfoRequest.Unmarshal(m, b)
+}
+func (m *TypeInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TypeInfoRequest.Marshal(b, m, deterministic)
+}
+func (dst *TypeInfoRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TypeInfoRequest.Merge(dst, src)
+}
+func (m *TypeInfoRequest) XXX_Size() int {
+	return xxx_messageInfo_TypeInfoRequest.Size(m)
+}
+func (m *TypeInfoRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_TypeInfoRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TypeInfoRequest proto.InternalMessageInfo
 
 func (m *TypeInfoRequest) GetConnectionId() string {
 	if m != nil {
@@ -223,18 +383,40 @@ func (m *TypeInfoRequest) GetConnectionId() string {
 
 // Request for Meta#prepareAndExecute(Meta.StatementHandle, String, long, Meta.PrepareCallback)
 type PrepareAndExecuteRequest struct {
-	ConnectionId      string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	Sql               string `protobuf:"bytes,2,opt,name=sql" json:"sql,omitempty"`
-	MaxRowCount       uint64 `protobuf:"varint,3,opt,name=max_row_count,json=maxRowCount" json:"max_row_count,omitempty"`
-	StatementId       uint32 `protobuf:"varint,4,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	MaxRowsTotal      int64  `protobuf:"varint,5,opt,name=max_rows_total,json=maxRowsTotal" json:"max_rows_total,omitempty"`
-	FirstFrameMaxSize int32  `protobuf:"varint,6,opt,name=first_frame_max_size,json=firstFrameMaxSize" json:"first_frame_max_size,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Sql                  string   `protobuf:"bytes,2,opt,name=sql,proto3" json:"sql,omitempty"`
+	MaxRowCount          uint64   `protobuf:"varint,3,opt,name=max_row_count,json=maxRowCount,proto3" json:"max_row_count,omitempty"`
+	StatementId          uint32   `protobuf:"varint,4,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	MaxRowsTotal         int64    `protobuf:"varint,5,opt,name=max_rows_total,json=maxRowsTotal,proto3" json:"max_rows_total,omitempty"`
+	FirstFrameMaxSize    int32    `protobuf:"varint,6,opt,name=first_frame_max_size,json=firstFrameMaxSize,proto3" json:"first_frame_max_size,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *PrepareAndExecuteRequest) Reset()                    { *m = PrepareAndExecuteRequest{} }
-func (m *PrepareAndExecuteRequest) String() string            { return proto.CompactTextString(m) }
-func (*PrepareAndExecuteRequest) ProtoMessage()               {}
-func (*PrepareAndExecuteRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{7} }
+func (m *PrepareAndExecuteRequest) Reset()         { *m = PrepareAndExecuteRequest{} }
+func (m *PrepareAndExecuteRequest) String() string { return proto.CompactTextString(m) }
+func (*PrepareAndExecuteRequest) ProtoMessage()    {}
+func (*PrepareAndExecuteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{7}
+}
+func (m *PrepareAndExecuteRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrepareAndExecuteRequest.Unmarshal(m, b)
+}
+func (m *PrepareAndExecuteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrepareAndExecuteRequest.Marshal(b, m, deterministic)
+}
+func (dst *PrepareAndExecuteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareAndExecuteRequest.Merge(dst, src)
+}
+func (m *PrepareAndExecuteRequest) XXX_Size() int {
+	return xxx_messageInfo_PrepareAndExecuteRequest.Size(m)
+}
+func (m *PrepareAndExecuteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrepareAndExecuteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrepareAndExecuteRequest proto.InternalMessageInfo
 
 func (m *PrepareAndExecuteRequest) GetConnectionId() string {
 	if m != nil {
@@ -280,16 +462,38 @@ func (m *PrepareAndExecuteRequest) GetFirstFrameMaxSize() int32 {
 
 // Request for Meta.prepare(Meta.ConnectionHandle, String, long)
 type PrepareRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	Sql          string `protobuf:"bytes,2,opt,name=sql" json:"sql,omitempty"`
-	MaxRowCount  uint64 `protobuf:"varint,3,opt,name=max_row_count,json=maxRowCount" json:"max_row_count,omitempty"`
-	MaxRowsTotal int64  `protobuf:"varint,4,opt,name=max_rows_total,json=maxRowsTotal" json:"max_rows_total,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Sql                  string   `protobuf:"bytes,2,opt,name=sql,proto3" json:"sql,omitempty"`
+	MaxRowCount          uint64   `protobuf:"varint,3,opt,name=max_row_count,json=maxRowCount,proto3" json:"max_row_count,omitempty"`
+	MaxRowsTotal         int64    `protobuf:"varint,4,opt,name=max_rows_total,json=maxRowsTotal,proto3" json:"max_rows_total,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *PrepareRequest) Reset()                    { *m = PrepareRequest{} }
-func (m *PrepareRequest) String() string            { return proto.CompactTextString(m) }
-func (*PrepareRequest) ProtoMessage()               {}
-func (*PrepareRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{8} }
+func (m *PrepareRequest) Reset()         { *m = PrepareRequest{} }
+func (m *PrepareRequest) String() string { return proto.CompactTextString(m) }
+func (*PrepareRequest) ProtoMessage()    {}
+func (*PrepareRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{8}
+}
+func (m *PrepareRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrepareRequest.Unmarshal(m, b)
+}
+func (m *PrepareRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrepareRequest.Marshal(b, m, deterministic)
+}
+func (dst *PrepareRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareRequest.Merge(dst, src)
+}
+func (m *PrepareRequest) XXX_Size() int {
+	return xxx_messageInfo_PrepareRequest.Size(m)
+}
+func (m *PrepareRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrepareRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrepareRequest proto.InternalMessageInfo
 
 func (m *PrepareRequest) GetConnectionId() string {
 	if m != nil {
@@ -321,17 +525,39 @@ func (m *PrepareRequest) GetMaxRowsTotal() int64 {
 
 // Request for Meta#fetch(Meta.StatementHandle, List, long, int)
 type FetchRequest struct {
-	ConnectionId     string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId      uint32 `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	Offset           uint64 `protobuf:"varint,3,opt,name=offset" json:"offset,omitempty"`
-	FetchMaxRowCount uint32 `protobuf:"varint,4,opt,name=fetch_max_row_count,json=fetchMaxRowCount" json:"fetch_max_row_count,omitempty"`
-	FrameMaxSize     int32  `protobuf:"varint,5,opt,name=frame_max_size,json=frameMaxSize" json:"frame_max_size,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32   `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Offset               uint64   `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	FetchMaxRowCount     uint32   `protobuf:"varint,4,opt,name=fetch_max_row_count,json=fetchMaxRowCount,proto3" json:"fetch_max_row_count,omitempty"`
+	FrameMaxSize         int32    `protobuf:"varint,5,opt,name=frame_max_size,json=frameMaxSize,proto3" json:"frame_max_size,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *FetchRequest) Reset()                    { *m = FetchRequest{} }
-func (m *FetchRequest) String() string            { return proto.CompactTextString(m) }
-func (*FetchRequest) ProtoMessage()               {}
-func (*FetchRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{9} }
+func (m *FetchRequest) Reset()         { *m = FetchRequest{} }
+func (m *FetchRequest) String() string { return proto.CompactTextString(m) }
+func (*FetchRequest) ProtoMessage()    {}
+func (*FetchRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{9}
+}
+func (m *FetchRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FetchRequest.Unmarshal(m, b)
+}
+func (m *FetchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FetchRequest.Marshal(b, m, deterministic)
+}
+func (dst *FetchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FetchRequest.Merge(dst, src)
+}
+func (m *FetchRequest) XXX_Size() int {
+	return xxx_messageInfo_FetchRequest.Size(m)
+}
+func (m *FetchRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_FetchRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FetchRequest proto.InternalMessageInfo
 
 func (m *FetchRequest) GetConnectionId() string {
 	if m != nil {
@@ -370,13 +596,35 @@ func (m *FetchRequest) GetFrameMaxSize() int32 {
 
 // Request for Meta#createStatement(Meta.ConnectionHandle)
 type CreateStatementRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreateStatementRequest) Reset()                    { *m = CreateStatementRequest{} }
-func (m *CreateStatementRequest) String() string            { return proto.CompactTextString(m) }
-func (*CreateStatementRequest) ProtoMessage()               {}
-func (*CreateStatementRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{10} }
+func (m *CreateStatementRequest) Reset()         { *m = CreateStatementRequest{} }
+func (m *CreateStatementRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateStatementRequest) ProtoMessage()    {}
+func (*CreateStatementRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{10}
+}
+func (m *CreateStatementRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateStatementRequest.Unmarshal(m, b)
+}
+func (m *CreateStatementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateStatementRequest.Marshal(b, m, deterministic)
+}
+func (dst *CreateStatementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateStatementRequest.Merge(dst, src)
+}
+func (m *CreateStatementRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateStatementRequest.Size(m)
+}
+func (m *CreateStatementRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateStatementRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateStatementRequest proto.InternalMessageInfo
 
 func (m *CreateStatementRequest) GetConnectionId() string {
 	if m != nil {
@@ -387,14 +635,36 @@ func (m *CreateStatementRequest) GetConnectionId() string {
 
 // Request for Meta#closeStatement(Meta.StatementHandle)
 type CloseStatementRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32 `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32   `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CloseStatementRequest) Reset()                    { *m = CloseStatementRequest{} }
-func (m *CloseStatementRequest) String() string            { return proto.CompactTextString(m) }
-func (*CloseStatementRequest) ProtoMessage()               {}
-func (*CloseStatementRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{11} }
+func (m *CloseStatementRequest) Reset()         { *m = CloseStatementRequest{} }
+func (m *CloseStatementRequest) String() string { return proto.CompactTextString(m) }
+func (*CloseStatementRequest) ProtoMessage()    {}
+func (*CloseStatementRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{11}
+}
+func (m *CloseStatementRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CloseStatementRequest.Unmarshal(m, b)
+}
+func (m *CloseStatementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CloseStatementRequest.Marshal(b, m, deterministic)
+}
+func (dst *CloseStatementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseStatementRequest.Merge(dst, src)
+}
+func (m *CloseStatementRequest) XXX_Size() int {
+	return xxx_messageInfo_CloseStatementRequest.Size(m)
+}
+func (m *CloseStatementRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CloseStatementRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CloseStatementRequest proto.InternalMessageInfo
 
 func (m *CloseStatementRequest) GetConnectionId() string {
 	if m != nil {
@@ -412,14 +682,36 @@ func (m *CloseStatementRequest) GetStatementId() uint32 {
 
 // Request for Meta#openConnection(Meta.ConnectionHandle, Map<String, String>)
 type OpenConnectionRequest struct {
-	ConnectionId string            `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	Info         map[string]string `protobuf:"bytes,2,rep,name=info" json:"info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ConnectionId         string            `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Info                 map[string]string `protobuf:"bytes,2,rep,name=info,proto3" json:"info,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *OpenConnectionRequest) Reset()                    { *m = OpenConnectionRequest{} }
-func (m *OpenConnectionRequest) String() string            { return proto.CompactTextString(m) }
-func (*OpenConnectionRequest) ProtoMessage()               {}
-func (*OpenConnectionRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{12} }
+func (m *OpenConnectionRequest) Reset()         { *m = OpenConnectionRequest{} }
+func (m *OpenConnectionRequest) String() string { return proto.CompactTextString(m) }
+func (*OpenConnectionRequest) ProtoMessage()    {}
+func (*OpenConnectionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{12}
+}
+func (m *OpenConnectionRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OpenConnectionRequest.Unmarshal(m, b)
+}
+func (m *OpenConnectionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OpenConnectionRequest.Marshal(b, m, deterministic)
+}
+func (dst *OpenConnectionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OpenConnectionRequest.Merge(dst, src)
+}
+func (m *OpenConnectionRequest) XXX_Size() int {
+	return xxx_messageInfo_OpenConnectionRequest.Size(m)
+}
+func (m *OpenConnectionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_OpenConnectionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OpenConnectionRequest proto.InternalMessageInfo
 
 func (m *OpenConnectionRequest) GetConnectionId() string {
 	if m != nil {
@@ -437,13 +729,35 @@ func (m *OpenConnectionRequest) GetInfo() map[string]string {
 
 // Request for Meta#closeConnection(Meta.ConnectionHandle)
 type CloseConnectionRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CloseConnectionRequest) Reset()                    { *m = CloseConnectionRequest{} }
-func (m *CloseConnectionRequest) String() string            { return proto.CompactTextString(m) }
-func (*CloseConnectionRequest) ProtoMessage()               {}
-func (*CloseConnectionRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{13} }
+func (m *CloseConnectionRequest) Reset()         { *m = CloseConnectionRequest{} }
+func (m *CloseConnectionRequest) String() string { return proto.CompactTextString(m) }
+func (*CloseConnectionRequest) ProtoMessage()    {}
+func (*CloseConnectionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{13}
+}
+func (m *CloseConnectionRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CloseConnectionRequest.Unmarshal(m, b)
+}
+func (m *CloseConnectionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CloseConnectionRequest.Marshal(b, m, deterministic)
+}
+func (dst *CloseConnectionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseConnectionRequest.Merge(dst, src)
+}
+func (m *CloseConnectionRequest) XXX_Size() int {
+	return xxx_messageInfo_CloseConnectionRequest.Size(m)
+}
+func (m *CloseConnectionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CloseConnectionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CloseConnectionRequest proto.InternalMessageInfo
 
 func (m *CloseConnectionRequest) GetConnectionId() string {
 	if m != nil {
@@ -453,14 +767,36 @@ func (m *CloseConnectionRequest) GetConnectionId() string {
 }
 
 type ConnectionSyncRequest struct {
-	ConnectionId string                `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	ConnProps    *ConnectionProperties `protobuf:"bytes,2,opt,name=conn_props,json=connProps" json:"conn_props,omitempty"`
+	ConnectionId         string                `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	ConnProps            *ConnectionProperties `protobuf:"bytes,2,opt,name=conn_props,json=connProps,proto3" json:"conn_props,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *ConnectionSyncRequest) Reset()                    { *m = ConnectionSyncRequest{} }
-func (m *ConnectionSyncRequest) String() string            { return proto.CompactTextString(m) }
-func (*ConnectionSyncRequest) ProtoMessage()               {}
-func (*ConnectionSyncRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{14} }
+func (m *ConnectionSyncRequest) Reset()         { *m = ConnectionSyncRequest{} }
+func (m *ConnectionSyncRequest) String() string { return proto.CompactTextString(m) }
+func (*ConnectionSyncRequest) ProtoMessage()    {}
+func (*ConnectionSyncRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{14}
+}
+func (m *ConnectionSyncRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConnectionSyncRequest.Unmarshal(m, b)
+}
+func (m *ConnectionSyncRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConnectionSyncRequest.Marshal(b, m, deterministic)
+}
+func (dst *ConnectionSyncRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectionSyncRequest.Merge(dst, src)
+}
+func (m *ConnectionSyncRequest) XXX_Size() int {
+	return xxx_messageInfo_ConnectionSyncRequest.Size(m)
+}
+func (m *ConnectionSyncRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConnectionSyncRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConnectionSyncRequest proto.InternalMessageInfo
 
 func (m *ConnectionSyncRequest) GetConnectionId() string {
 	if m != nil {
@@ -478,17 +814,39 @@ func (m *ConnectionSyncRequest) GetConnProps() *ConnectionProperties {
 
 // Request for Meta#execute(Meta.ConnectionHandle, list, long)
 type ExecuteRequest struct {
-	StatementHandle             *StatementHandle `protobuf:"bytes,1,opt,name=statementHandle" json:"statementHandle,omitempty"`
-	ParameterValues             []*TypedValue    `protobuf:"bytes,2,rep,name=parameter_values,json=parameterValues" json:"parameter_values,omitempty"`
-	DeprecatedFirstFrameMaxSize uint64           `protobuf:"varint,3,opt,name=deprecated_first_frame_max_size,json=deprecatedFirstFrameMaxSize" json:"deprecated_first_frame_max_size,omitempty"`
-	HasParameterValues          bool             `protobuf:"varint,4,opt,name=has_parameter_values,json=hasParameterValues" json:"has_parameter_values,omitempty"`
-	FirstFrameMaxSize           int32            `protobuf:"varint,5,opt,name=first_frame_max_size,json=firstFrameMaxSize" json:"first_frame_max_size,omitempty"`
+	StatementHandle             *StatementHandle `protobuf:"bytes,1,opt,name=statementHandle,proto3" json:"statementHandle,omitempty"`
+	ParameterValues             []*TypedValue    `protobuf:"bytes,2,rep,name=parameter_values,json=parameterValues,proto3" json:"parameter_values,omitempty"`
+	DeprecatedFirstFrameMaxSize uint64           `protobuf:"varint,3,opt,name=deprecated_first_frame_max_size,json=deprecatedFirstFrameMaxSize,proto3" json:"deprecated_first_frame_max_size,omitempty"`
+	HasParameterValues          bool             `protobuf:"varint,4,opt,name=has_parameter_values,json=hasParameterValues,proto3" json:"has_parameter_values,omitempty"`
+	FirstFrameMaxSize           int32            `protobuf:"varint,5,opt,name=first_frame_max_size,json=firstFrameMaxSize,proto3" json:"first_frame_max_size,omitempty"`
+	XXX_NoUnkeyedLiteral        struct{}         `json:"-"`
+	XXX_unrecognized            []byte           `json:"-"`
+	XXX_sizecache               int32            `json:"-"`
 }
 
-func (m *ExecuteRequest) Reset()                    { *m = ExecuteRequest{} }
-func (m *ExecuteRequest) String() string            { return proto.CompactTextString(m) }
-func (*ExecuteRequest) ProtoMessage()               {}
-func (*ExecuteRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{15} }
+func (m *ExecuteRequest) Reset()         { *m = ExecuteRequest{} }
+func (m *ExecuteRequest) String() string { return proto.CompactTextString(m) }
+func (*ExecuteRequest) ProtoMessage()    {}
+func (*ExecuteRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{15}
+}
+func (m *ExecuteRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ExecuteRequest.Unmarshal(m, b)
+}
+func (m *ExecuteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ExecuteRequest.Marshal(b, m, deterministic)
+}
+func (dst *ExecuteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteRequest.Merge(dst, src)
+}
+func (m *ExecuteRequest) XXX_Size() int {
+	return xxx_messageInfo_ExecuteRequest.Size(m)
+}
+func (m *ExecuteRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ExecuteRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ExecuteRequest proto.InternalMessageInfo
 
 func (m *ExecuteRequest) GetStatementHandle() *StatementHandle {
 	if m != nil {
@@ -526,16 +884,38 @@ func (m *ExecuteRequest) GetFirstFrameMaxSize() int32 {
 }
 
 type SyncResultsRequest struct {
-	ConnectionId string      `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32      `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	State        *QueryState `protobuf:"bytes,3,opt,name=state" json:"state,omitempty"`
-	Offset       uint64      `protobuf:"varint,4,opt,name=offset" json:"offset,omitempty"`
+	ConnectionId         string      `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32      `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	State                *QueryState `protobuf:"bytes,3,opt,name=state,proto3" json:"state,omitempty"`
+	Offset               uint64      `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *SyncResultsRequest) Reset()                    { *m = SyncResultsRequest{} }
-func (m *SyncResultsRequest) String() string            { return proto.CompactTextString(m) }
-func (*SyncResultsRequest) ProtoMessage()               {}
-func (*SyncResultsRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{16} }
+func (m *SyncResultsRequest) Reset()         { *m = SyncResultsRequest{} }
+func (m *SyncResultsRequest) String() string { return proto.CompactTextString(m) }
+func (*SyncResultsRequest) ProtoMessage()    {}
+func (*SyncResultsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{16}
+}
+func (m *SyncResultsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SyncResultsRequest.Unmarshal(m, b)
+}
+func (m *SyncResultsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SyncResultsRequest.Marshal(b, m, deterministic)
+}
+func (dst *SyncResultsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SyncResultsRequest.Merge(dst, src)
+}
+func (m *SyncResultsRequest) XXX_Size() int {
+	return xxx_messageInfo_SyncResultsRequest.Size(m)
+}
+func (m *SyncResultsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SyncResultsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SyncResultsRequest proto.InternalMessageInfo
 
 func (m *SyncResultsRequest) GetConnectionId() string {
 	if m != nil {
@@ -567,13 +947,35 @@ func (m *SyncResultsRequest) GetOffset() uint64 {
 
 // Request to invoke a commit on a Connection
 type CommitRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CommitRequest) Reset()                    { *m = CommitRequest{} }
-func (m *CommitRequest) String() string            { return proto.CompactTextString(m) }
-func (*CommitRequest) ProtoMessage()               {}
-func (*CommitRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{17} }
+func (m *CommitRequest) Reset()         { *m = CommitRequest{} }
+func (m *CommitRequest) String() string { return proto.CompactTextString(m) }
+func (*CommitRequest) ProtoMessage()    {}
+func (*CommitRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{17}
+}
+func (m *CommitRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CommitRequest.Unmarshal(m, b)
+}
+func (m *CommitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CommitRequest.Marshal(b, m, deterministic)
+}
+func (dst *CommitRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommitRequest.Merge(dst, src)
+}
+func (m *CommitRequest) XXX_Size() int {
+	return xxx_messageInfo_CommitRequest.Size(m)
+}
+func (m *CommitRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommitRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CommitRequest proto.InternalMessageInfo
 
 func (m *CommitRequest) GetConnectionId() string {
 	if m != nil {
@@ -584,13 +986,35 @@ func (m *CommitRequest) GetConnectionId() string {
 
 // Request to invoke rollback on a Connection
 type RollbackRequest struct {
-	ConnectionId string `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RollbackRequest) Reset()                    { *m = RollbackRequest{} }
-func (m *RollbackRequest) String() string            { return proto.CompactTextString(m) }
-func (*RollbackRequest) ProtoMessage()               {}
-func (*RollbackRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{18} }
+func (m *RollbackRequest) Reset()         { *m = RollbackRequest{} }
+func (m *RollbackRequest) String() string { return proto.CompactTextString(m) }
+func (*RollbackRequest) ProtoMessage()    {}
+func (*RollbackRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{18}
+}
+func (m *RollbackRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RollbackRequest.Unmarshal(m, b)
+}
+func (m *RollbackRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RollbackRequest.Marshal(b, m, deterministic)
+}
+func (dst *RollbackRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RollbackRequest.Merge(dst, src)
+}
+func (m *RollbackRequest) XXX_Size() int {
+	return xxx_messageInfo_RollbackRequest.Size(m)
+}
+func (m *RollbackRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RollbackRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RollbackRequest proto.InternalMessageInfo
 
 func (m *RollbackRequest) GetConnectionId() string {
 	if m != nil {
@@ -601,15 +1025,37 @@ func (m *RollbackRequest) GetConnectionId() string {
 
 // Request to prepare and execute a collection of sql statements.
 type PrepareAndExecuteBatchRequest struct {
-	ConnectionId string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32   `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	SqlCommands  []string `protobuf:"bytes,3,rep,name=sql_commands,json=sqlCommands" json:"sql_commands,omitempty"`
+	ConnectionId         string   `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32   `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	SqlCommands          []string `protobuf:"bytes,3,rep,name=sql_commands,json=sqlCommands,proto3" json:"sql_commands,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *PrepareAndExecuteBatchRequest) Reset()                    { *m = PrepareAndExecuteBatchRequest{} }
-func (m *PrepareAndExecuteBatchRequest) String() string            { return proto.CompactTextString(m) }
-func (*PrepareAndExecuteBatchRequest) ProtoMessage()               {}
-func (*PrepareAndExecuteBatchRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{19} }
+func (m *PrepareAndExecuteBatchRequest) Reset()         { *m = PrepareAndExecuteBatchRequest{} }
+func (m *PrepareAndExecuteBatchRequest) String() string { return proto.CompactTextString(m) }
+func (*PrepareAndExecuteBatchRequest) ProtoMessage()    {}
+func (*PrepareAndExecuteBatchRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{19}
+}
+func (m *PrepareAndExecuteBatchRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Unmarshal(m, b)
+}
+func (m *PrepareAndExecuteBatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Marshal(b, m, deterministic)
+}
+func (dst *PrepareAndExecuteBatchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareAndExecuteBatchRequest.Merge(dst, src)
+}
+func (m *PrepareAndExecuteBatchRequest) XXX_Size() int {
+	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Size(m)
+}
+func (m *PrepareAndExecuteBatchRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrepareAndExecuteBatchRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrepareAndExecuteBatchRequest proto.InternalMessageInfo
 
 func (m *PrepareAndExecuteBatchRequest) GetConnectionId() string {
 	if m != nil {
@@ -634,13 +1080,35 @@ func (m *PrepareAndExecuteBatchRequest) GetSqlCommands() []string {
 
 // Each command is a list of TypedValues
 type UpdateBatch struct {
-	ParameterValues []*TypedValue `protobuf:"bytes,1,rep,name=parameter_values,json=parameterValues" json:"parameter_values,omitempty"`
+	ParameterValues      []*TypedValue `protobuf:"bytes,1,rep,name=parameter_values,json=parameterValues,proto3" json:"parameter_values,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *UpdateBatch) Reset()                    { *m = UpdateBatch{} }
-func (m *UpdateBatch) String() string            { return proto.CompactTextString(m) }
-func (*UpdateBatch) ProtoMessage()               {}
-func (*UpdateBatch) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{20} }
+func (m *UpdateBatch) Reset()         { *m = UpdateBatch{} }
+func (m *UpdateBatch) String() string { return proto.CompactTextString(m) }
+func (*UpdateBatch) ProtoMessage()    {}
+func (*UpdateBatch) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{20}
+}
+func (m *UpdateBatch) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateBatch.Unmarshal(m, b)
+}
+func (m *UpdateBatch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateBatch.Marshal(b, m, deterministic)
+}
+func (dst *UpdateBatch) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBatch.Merge(dst, src)
+}
+func (m *UpdateBatch) XXX_Size() int {
+	return xxx_messageInfo_UpdateBatch.Size(m)
+}
+func (m *UpdateBatch) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateBatch.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateBatch proto.InternalMessageInfo
 
 func (m *UpdateBatch) GetParameterValues() []*TypedValue {
 	if m != nil {
@@ -650,15 +1118,37 @@ func (m *UpdateBatch) GetParameterValues() []*TypedValue {
 }
 
 type ExecuteBatchRequest struct {
-	ConnectionId string         `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32         `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	Updates      []*UpdateBatch `protobuf:"bytes,3,rep,name=updates" json:"updates,omitempty"`
+	ConnectionId         string         `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32         `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Updates              []*UpdateBatch `protobuf:"bytes,3,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
-func (m *ExecuteBatchRequest) Reset()                    { *m = ExecuteBatchRequest{} }
-func (m *ExecuteBatchRequest) String() string            { return proto.CompactTextString(m) }
-func (*ExecuteBatchRequest) ProtoMessage()               {}
-func (*ExecuteBatchRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{21} }
+func (m *ExecuteBatchRequest) Reset()         { *m = ExecuteBatchRequest{} }
+func (m *ExecuteBatchRequest) String() string { return proto.CompactTextString(m) }
+func (*ExecuteBatchRequest) ProtoMessage()    {}
+func (*ExecuteBatchRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_requests_f149f33d924311f5, []int{21}
+}
+func (m *ExecuteBatchRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ExecuteBatchRequest.Unmarshal(m, b)
+}
+func (m *ExecuteBatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ExecuteBatchRequest.Marshal(b, m, deterministic)
+}
+func (dst *ExecuteBatchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteBatchRequest.Merge(dst, src)
+}
+func (m *ExecuteBatchRequest) XXX_Size() int {
+	return xxx_messageInfo_ExecuteBatchRequest.Size(m)
+}
+func (m *ExecuteBatchRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ExecuteBatchRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ExecuteBatchRequest proto.InternalMessageInfo
 
 func (m *ExecuteBatchRequest) GetConnectionId() string {
 	if m != nil {
@@ -695,6 +1185,7 @@ func init() {
 	proto.RegisterType((*CreateStatementRequest)(nil), "CreateStatementRequest")
 	proto.RegisterType((*CloseStatementRequest)(nil), "CloseStatementRequest")
 	proto.RegisterType((*OpenConnectionRequest)(nil), "OpenConnectionRequest")
+	proto.RegisterMapType((map[string]string)(nil), "OpenConnectionRequest.InfoEntry")
 	proto.RegisterType((*CloseConnectionRequest)(nil), "CloseConnectionRequest")
 	proto.RegisterType((*ConnectionSyncRequest)(nil), "ConnectionSyncRequest")
 	proto.RegisterType((*ExecuteRequest)(nil), "ExecuteRequest")
@@ -706,9 +1197,9 @@ func init() {
 	proto.RegisterType((*ExecuteBatchRequest)(nil), "ExecuteBatchRequest")
 }
 
-func init() { proto.RegisterFile("requests.proto", fileDescriptor1) }
+func init() { proto.RegisterFile("requests.proto", fileDescriptor_requests_f149f33d924311f5) }
 
-var fileDescriptor1 = []byte{
+var fileDescriptor_requests_f149f33d924311f5 = []byte{
 	// 904 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0xdd, 0x6e, 0x1b, 0x45,
 	0x14, 0xd6, 0xfa, 0x27, 0xa9, 0xcf, 0xfa, 0x2f, 0x9b, 0xa4, 0x58, 0xad, 0x10, 0xee, 0xf2, 0xa3,

@@ -18,7 +18,7 @@ set -e
 
 rm -rf message avatica-tmp
 
-export AVATICA_VER="rel/avatica-1.11.0"
+export AVATICA_VER="rel/avatica-1.12.0"s
 
 mkdir -p avatica-tmp
 pushd avatica-tmp &> /dev/null

@@ -12,22 +12,50 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
 // Response that contains a result set.
 type ResultSetResponse struct {
-	ConnectionId string     `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32     `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	OwnStatement bool       `protobuf:"varint,3,opt,name=own_statement,json=ownStatement" json:"own_statement,omitempty"`
-	Signature    *Signature `protobuf:"bytes,4,opt,name=signature" json:"signature,omitempty"`
-	FirstFrame   *Frame     `protobuf:"bytes,5,opt,name=first_frame,json=firstFrame" json:"first_frame,omitempty"`
-	UpdateCount  uint64     `protobuf:"varint,6,opt,name=update_count,json=updateCount" json:"update_count,omitempty"`
+	ConnectionId string     `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId  uint32     `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	OwnStatement bool       `protobuf:"varint,3,opt,name=own_statement,json=ownStatement,proto3" json:"own_statement,omitempty"`
+	Signature    *Signature `protobuf:"bytes,4,opt,name=signature,proto3" json:"signature,omitempty"`
+	FirstFrame   *Frame     `protobuf:"bytes,5,opt,name=first_frame,json=firstFrame,proto3" json:"first_frame,omitempty"`
+	UpdateCount  uint64     `protobuf:"varint,6,opt,name=update_count,json=updateCount,proto3" json:"update_count,omitempty"`
 	// with no signature nor other data.
-	Metadata *RpcMetadata `protobuf:"bytes,7,opt,name=metadata" json:"metadata,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ResultSetResponse) Reset()                    { *m = ResultSetResponse{} }
-func (m *ResultSetResponse) String() string            { return proto.CompactTextString(m) }
-func (*ResultSetResponse) ProtoMessage()               {}
-func (*ResultSetResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
+func (m *ResultSetResponse) Reset()         { *m = ResultSetResponse{} }
+func (m *ResultSetResponse) String() string { return proto.CompactTextString(m) }
+func (*ResultSetResponse) ProtoMessage()    {}
+func (*ResultSetResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{0}
+}
+func (m *ResultSetResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResultSetResponse.Unmarshal(m, b)
+}
+func (m *ResultSetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResultSetResponse.Marshal(b, m, deterministic)
+}
+func (dst *ResultSetResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResultSetResponse.Merge(dst, src)
+}
+func (m *ResultSetResponse) XXX_Size() int {
+	return xxx_messageInfo_ResultSetResponse.Size(m)
+}
+func (m *ResultSetResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResultSetResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResultSetResponse proto.InternalMessageInfo
 
 func (m *ResultSetResponse) GetConnectionId() string {
 	if m != nil {
@@ -80,15 +108,37 @@ func (m *ResultSetResponse) GetMetadata() *RpcMetadata {
 
 // Response to PrepareAndExecuteRequest
 type ExecuteResponse struct {
-	Results          []*ResultSetResponse `protobuf:"bytes,1,rep,name=results" json:"results,omitempty"`
-	MissingStatement bool                 `protobuf:"varint,2,opt,name=missing_statement,json=missingStatement" json:"missing_statement,omitempty"`
-	Metadata         *RpcMetadata         `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"`
+	Results              []*ResultSetResponse `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+	MissingStatement     bool                 `protobuf:"varint,2,opt,name=missing_statement,json=missingStatement,proto3" json:"missing_statement,omitempty"`
+	Metadata             *RpcMetadata         `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
-func (m *ExecuteResponse) Reset()                    { *m = ExecuteResponse{} }
-func (m *ExecuteResponse) String() string            { return proto.CompactTextString(m) }
-func (*ExecuteResponse) ProtoMessage()               {}
-func (*ExecuteResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
+func (m *ExecuteResponse) Reset()         { *m = ExecuteResponse{} }
+func (m *ExecuteResponse) String() string { return proto.CompactTextString(m) }
+func (*ExecuteResponse) ProtoMessage()    {}
+func (*ExecuteResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{1}
+}
+func (m *ExecuteResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ExecuteResponse.Unmarshal(m, b)
+}
+func (m *ExecuteResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ExecuteResponse.Marshal(b, m, deterministic)
+}
+func (dst *ExecuteResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteResponse.Merge(dst, src)
+}
+func (m *ExecuteResponse) XXX_Size() int {
+	return xxx_messageInfo_ExecuteResponse.Size(m)
+}
+func (m *ExecuteResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ExecuteResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ExecuteResponse proto.InternalMessageInfo
 
 func (m *ExecuteResponse) GetResults() []*ResultSetResponse {
 	if m != nil {
@@ -113,14 +163,36 @@ func (m *ExecuteResponse) GetMetadata() *RpcMetadata {
 
 // Response to PrepareRequest
 type PrepareResponse struct {
-	Statement *StatementHandle `protobuf:"bytes,1,opt,name=statement" json:"statement,omitempty"`
-	Metadata  *RpcMetadata     `protobuf:"bytes,2,opt,name=metadata" json:"metadata,omitempty"`
+	Statement            *StatementHandle `protobuf:"bytes,1,opt,name=statement,proto3" json:"statement,omitempty"`
+	Metadata             *RpcMetadata     `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *PrepareResponse) Reset()                    { *m = PrepareResponse{} }
-func (m *PrepareResponse) String() string            { return proto.CompactTextString(m) }
-func (*PrepareResponse) ProtoMessage()               {}
-func (*PrepareResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{2} }
+func (m *PrepareResponse) Reset()         { *m = PrepareResponse{} }
+func (m *PrepareResponse) String() string { return proto.CompactTextString(m) }
+func (*PrepareResponse) ProtoMessage()    {}
+func (*PrepareResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{2}
+}
+func (m *PrepareResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PrepareResponse.Unmarshal(m, b)
+}
+func (m *PrepareResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PrepareResponse.Marshal(b, m, deterministic)
+}
+func (dst *PrepareResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareResponse.Merge(dst, src)
+}
+func (m *PrepareResponse) XXX_Size() int {
+	return xxx_messageInfo_PrepareResponse.Size(m)
+}
+func (m *PrepareResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_PrepareResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PrepareResponse proto.InternalMessageInfo
 
 func (m *PrepareResponse) GetStatement() *StatementHandle {
 	if m != nil {
@@ -138,16 +210,38 @@ func (m *PrepareResponse) GetMetadata() *RpcMetadata {
 
 // Response to FetchRequest
 type FetchResponse struct {
-	Frame            *Frame       `protobuf:"bytes,1,opt,name=frame" json:"frame,omitempty"`
-	MissingStatement bool         `protobuf:"varint,2,opt,name=missing_statement,json=missingStatement" json:"missing_statement,omitempty"`
-	MissingResults   bool         `protobuf:"varint,3,opt,name=missing_results,json=missingResults" json:"missing_results,omitempty"`
-	Metadata         *RpcMetadata `protobuf:"bytes,4,opt,name=metadata" json:"metadata,omitempty"`
+	Frame                *Frame       `protobuf:"bytes,1,opt,name=frame,proto3" json:"frame,omitempty"`
+	MissingStatement     bool         `protobuf:"varint,2,opt,name=missing_statement,json=missingStatement,proto3" json:"missing_statement,omitempty"`
+	MissingResults       bool         `protobuf:"varint,3,opt,name=missing_results,json=missingResults,proto3" json:"missing_results,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *FetchResponse) Reset()                    { *m = FetchResponse{} }
-func (m *FetchResponse) String() string            { return proto.CompactTextString(m) }
-func (*FetchResponse) ProtoMessage()               {}
-func (*FetchResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{3} }
+func (m *FetchResponse) Reset()         { *m = FetchResponse{} }
+func (m *FetchResponse) String() string { return proto.CompactTextString(m) }
+func (*FetchResponse) ProtoMessage()    {}
+func (*FetchResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{3}
+}
+func (m *FetchResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FetchResponse.Unmarshal(m, b)
+}
+func (m *FetchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FetchResponse.Marshal(b, m, deterministic)
+}
+func (dst *FetchResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FetchResponse.Merge(dst, src)
+}
+func (m *FetchResponse) XXX_Size() int {
+	return xxx_messageInfo_FetchResponse.Size(m)
+}
+func (m *FetchResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_FetchResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FetchResponse proto.InternalMessageInfo
 
 func (m *FetchResponse) GetFrame() *Frame {
 	if m != nil {
@@ -179,15 +273,37 @@ func (m *FetchResponse) GetMetadata() *RpcMetadata {
 
 // Response to CreateStatementRequest
 type CreateStatementResponse struct {
-	ConnectionId string       `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId  uint32       `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	Metadata     *RpcMetadata `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"`
+	ConnectionId         string       `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32       `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *CreateStatementResponse) Reset()                    { *m = CreateStatementResponse{} }
-func (m *CreateStatementResponse) String() string            { return proto.CompactTextString(m) }
-func (*CreateStatementResponse) ProtoMessage()               {}
-func (*CreateStatementResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{4} }
+func (m *CreateStatementResponse) Reset()         { *m = CreateStatementResponse{} }
+func (m *CreateStatementResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateStatementResponse) ProtoMessage()    {}
+func (*CreateStatementResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{4}
+}
+func (m *CreateStatementResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateStatementResponse.Unmarshal(m, b)
+}
+func (m *CreateStatementResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateStatementResponse.Marshal(b, m, deterministic)
+}
+func (dst *CreateStatementResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateStatementResponse.Merge(dst, src)
+}
+func (m *CreateStatementResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateStatementResponse.Size(m)
+}
+func (m *CreateStatementResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateStatementResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateStatementResponse proto.InternalMessageInfo
 
 func (m *CreateStatementResponse) GetConnectionId() string {
 	if m != nil {
@@ -212,13 +328,35 @@ func (m *CreateStatementResponse) GetMetadata() *RpcMetadata {
 
 // Response to CloseStatementRequest
 type CloseStatementResponse struct {
-	Metadata *RpcMetadata `protobuf:"bytes,1,opt,name=metadata" json:"metadata,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *CloseStatementResponse) Reset()                    { *m = CloseStatementResponse{} }
-func (m *CloseStatementResponse) String() string            { return proto.CompactTextString(m) }
-func (*CloseStatementResponse) ProtoMessage()               {}
-func (*CloseStatementResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{5} }
+func (m *CloseStatementResponse) Reset()         { *m = CloseStatementResponse{} }
+func (m *CloseStatementResponse) String() string { return proto.CompactTextString(m) }
+func (*CloseStatementResponse) ProtoMessage()    {}
+func (*CloseStatementResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{5}
+}
+func (m *CloseStatementResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CloseStatementResponse.Unmarshal(m, b)
+}
+func (m *CloseStatementResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CloseStatementResponse.Marshal(b, m, deterministic)
+}
+func (dst *CloseStatementResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseStatementResponse.Merge(dst, src)
+}
+func (m *CloseStatementResponse) XXX_Size() int {
+	return xxx_messageInfo_CloseStatementResponse.Size(m)
+}
+func (m *CloseStatementResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CloseStatementResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CloseStatementResponse proto.InternalMessageInfo
 
 func (m *CloseStatementResponse) GetMetadata() *RpcMetadata {
 	if m != nil {
@@ -229,13 +367,35 @@ func (m *CloseStatementResponse) GetMetadata() *RpcMetadata {
 
 // Response to OpenConnectionRequest {
 type OpenConnectionResponse struct {
-	Metadata *RpcMetadata `protobuf:"bytes,1,opt,name=metadata" json:"metadata,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *OpenConnectionResponse) Reset()                    { *m = OpenConnectionResponse{} }
-func (m *OpenConnectionResponse) String() string            { return proto.CompactTextString(m) }
-func (*OpenConnectionResponse) ProtoMessage()               {}
-func (*OpenConnectionResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{6} }
+func (m *OpenConnectionResponse) Reset()         { *m = OpenConnectionResponse{} }
+func (m *OpenConnectionResponse) String() string { return proto.CompactTextString(m) }
+func (*OpenConnectionResponse) ProtoMessage()    {}
+func (*OpenConnectionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{6}
+}
+func (m *OpenConnectionResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OpenConnectionResponse.Unmarshal(m, b)
+}
+func (m *OpenConnectionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OpenConnectionResponse.Marshal(b, m, deterministic)
+}
+func (dst *OpenConnectionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OpenConnectionResponse.Merge(dst, src)
+}
+func (m *OpenConnectionResponse) XXX_Size() int {
+	return xxx_messageInfo_OpenConnectionResponse.Size(m)
+}
+func (m *OpenConnectionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_OpenConnectionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OpenConnectionResponse proto.InternalMessageInfo
 
 func (m *OpenConnectionResponse) GetMetadata() *RpcMetadata {
 	if m != nil {
@@ -246,13 +406,35 @@ func (m *OpenConnectionResponse) GetMetadata() *RpcMetadata {
 
 // Response to CloseConnectionRequest {
 type CloseConnectionResponse struct {
-	Metadata *RpcMetadata `protobuf:"bytes,1,opt,name=metadata" json:"metadata,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *CloseConnectionResponse) Reset()                    { *m = CloseConnectionResponse{} }
-func (m *CloseConnectionResponse) String() string            { return proto.CompactTextString(m) }
-func (*CloseConnectionResponse) ProtoMessage()               {}
-func (*CloseConnectionResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{7} }
+func (m *CloseConnectionResponse) Reset()         { *m = CloseConnectionResponse{} }
+func (m *CloseConnectionResponse) String() string { return proto.CompactTextString(m) }
+func (*CloseConnectionResponse) ProtoMessage()    {}
+func (*CloseConnectionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{7}
+}
+func (m *CloseConnectionResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CloseConnectionResponse.Unmarshal(m, b)
+}
+func (m *CloseConnectionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CloseConnectionResponse.Marshal(b, m, deterministic)
+}
+func (dst *CloseConnectionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseConnectionResponse.Merge(dst, src)
+}
+func (m *CloseConnectionResponse) XXX_Size() int {
+	return xxx_messageInfo_CloseConnectionResponse.Size(m)
+}
+func (m *CloseConnectionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CloseConnectionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CloseConnectionResponse proto.InternalMessageInfo
 
 func (m *CloseConnectionResponse) GetMetadata() *RpcMetadata {
 	if m != nil {
@@ -263,14 +445,36 @@ func (m *CloseConnectionResponse) GetMetadata() *RpcMetadata {
 
 // Response to ConnectionSyncRequest
 type ConnectionSyncResponse struct {
-	ConnProps *ConnectionProperties `protobuf:"bytes,1,opt,name=conn_props,json=connProps" json:"conn_props,omitempty"`
-	Metadata  *RpcMetadata          `protobuf:"bytes,2,opt,name=metadata" json:"metadata,omitempty"`
+	ConnProps            *ConnectionProperties `protobuf:"bytes,1,opt,name=conn_props,json=connProps,proto3" json:"conn_props,omitempty"`
+	Metadata             *RpcMetadata          `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *ConnectionSyncResponse) Reset()                    { *m = ConnectionSyncResponse{} }
-func (m *ConnectionSyncResponse) String() string            { return proto.CompactTextString(m) }
-func (*ConnectionSyncResponse) ProtoMessage()               {}
-func (*ConnectionSyncResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{8} }
+func (m *ConnectionSyncResponse) Reset()         { *m = ConnectionSyncResponse{} }
+func (m *ConnectionSyncResponse) String() string { return proto.CompactTextString(m) }
+func (*ConnectionSyncResponse) ProtoMessage()    {}
+func (*ConnectionSyncResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{8}
+}
+func (m *ConnectionSyncResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConnectionSyncResponse.Unmarshal(m, b)
+}
+func (m *ConnectionSyncResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConnectionSyncResponse.Marshal(b, m, deterministic)
+}
+func (dst *ConnectionSyncResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectionSyncResponse.Merge(dst, src)
+}
+func (m *ConnectionSyncResponse) XXX_Size() int {
+	return xxx_messageInfo_ConnectionSyncResponse.Size(m)
+}
+func (m *ConnectionSyncResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConnectionSyncResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConnectionSyncResponse proto.InternalMessageInfo
 
 func (m *ConnectionSyncResponse) GetConnProps() *ConnectionProperties {
 	if m != nil {
@@ -287,15 +491,37 @@ func (m *ConnectionSyncResponse) GetMetadata() *RpcMetadata {
 }
 
 type DatabasePropertyElement struct {
-	Key      *DatabaseProperty `protobuf:"bytes,1,opt,name=key" json:"key,omitempty"`
-	Value    *TypedValue       `protobuf:"bytes,2,opt,name=value" json:"value,omitempty"`
-	Metadata *RpcMetadata      `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"`
+	Key                  *DatabaseProperty `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Value                *TypedValue       `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
+	Metadata             *RpcMetadata      `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *DatabasePropertyElement) Reset()                    { *m = DatabasePropertyElement{} }
-func (m *DatabasePropertyElement) String() string            { return proto.CompactTextString(m) }
-func (*DatabasePropertyElement) ProtoMessage()               {}
-func (*DatabasePropertyElement) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{9} }
+func (m *DatabasePropertyElement) Reset()         { *m = DatabasePropertyElement{} }
+func (m *DatabasePropertyElement) String() string { return proto.CompactTextString(m) }
+func (*DatabasePropertyElement) ProtoMessage()    {}
+func (*DatabasePropertyElement) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{9}
+}
+func (m *DatabasePropertyElement) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DatabasePropertyElement.Unmarshal(m, b)
+}
+func (m *DatabasePropertyElement) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DatabasePropertyElement.Marshal(b, m, deterministic)
+}
+func (dst *DatabasePropertyElement) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabasePropertyElement.Merge(dst, src)
+}
+func (m *DatabasePropertyElement) XXX_Size() int {
+	return xxx_messageInfo_DatabasePropertyElement.Size(m)
+}
+func (m *DatabasePropertyElement) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabasePropertyElement.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabasePropertyElement proto.InternalMessageInfo
 
 func (m *DatabasePropertyElement) GetKey() *DatabaseProperty {
 	if m != nil {
@@ -320,14 +546,36 @@ func (m *DatabasePropertyElement) GetMetadata() *RpcMetadata {
 
 // Response for Meta#getDatabaseProperties()
 type DatabasePropertyResponse struct {
-	Props    []*DatabasePropertyElement `protobuf:"bytes,1,rep,name=props" json:"props,omitempty"`
-	Metadata *RpcMetadata               `protobuf:"bytes,2,opt,name=metadata" json:"metadata,omitempty"`
+	Props                []*DatabasePropertyElement `protobuf:"bytes,1,rep,name=props,proto3" json:"props,omitempty"`
+	Metadata             *RpcMetadata               `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                   `json:"-"`
+	XXX_unrecognized     []byte                     `json:"-"`
+	XXX_sizecache        int32                      `json:"-"`
 }
 
-func (m *DatabasePropertyResponse) Reset()                    { *m = DatabasePropertyResponse{} }
-func (m *DatabasePropertyResponse) String() string            { return proto.CompactTextString(m) }
-func (*DatabasePropertyResponse) ProtoMessage()               {}
-func (*DatabasePropertyResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{10} }
+func (m *DatabasePropertyResponse) Reset()         { *m = DatabasePropertyResponse{} }
+func (m *DatabasePropertyResponse) String() string { return proto.CompactTextString(m) }
+func (*DatabasePropertyResponse) ProtoMessage()    {}
+func (*DatabasePropertyResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{10}
+}
+func (m *DatabasePropertyResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DatabasePropertyResponse.Unmarshal(m, b)
+}
+func (m *DatabasePropertyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DatabasePropertyResponse.Marshal(b, m, deterministic)
+}
+func (dst *DatabasePropertyResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabasePropertyResponse.Merge(dst, src)
+}
+func (m *DatabasePropertyResponse) XXX_Size() int {
+	return xxx_messageInfo_DatabasePropertyResponse.Size(m)
+}
+func (m *DatabasePropertyResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DatabasePropertyResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DatabasePropertyResponse proto.InternalMessageInfo
 
 func (m *DatabasePropertyResponse) GetProps() []*DatabasePropertyElement {
 	if m != nil {
@@ -345,19 +593,41 @@ func (m *DatabasePropertyResponse) GetMetadata() *RpcMetadata {
 
 // Send contextual information about some error over the wire from the server.
 type ErrorResponse struct {
-	Exceptions    []string     `protobuf:"bytes,1,rep,name=exceptions" json:"exceptions,omitempty"`
-	HasExceptions bool         `protobuf:"varint,7,opt,name=has_exceptions,json=hasExceptions" json:"has_exceptions,omitempty"`
-	ErrorMessage  string       `protobuf:"bytes,2,opt,name=error_message,json=errorMessage" json:"error_message,omitempty"`
-	Severity      Severity     `protobuf:"varint,3,opt,name=severity,enum=Severity" json:"severity,omitempty"`
-	ErrorCode     uint32       `protobuf:"varint,4,opt,name=error_code,json=errorCode" json:"error_code,omitempty"`
-	SqlState      string       `protobuf:"bytes,5,opt,name=sql_state,json=sqlState" json:"sql_state,omitempty"`
-	Metadata      *RpcMetadata `protobuf:"bytes,6,opt,name=metadata" json:"metadata,omitempty"`
+	Exceptions           []string     `protobuf:"bytes,1,rep,name=exceptions,proto3" json:"exceptions,omitempty"`
+	HasExceptions        bool         `protobuf:"varint,7,opt,name=has_exceptions,json=hasExceptions,proto3" json:"has_exceptions,omitempty"`
+	ErrorMessage         string       `protobuf:"bytes,2,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	Severity             Severity     `protobuf:"varint,3,opt,name=severity,proto3,enum=Severity" json:"severity,omitempty"`
+	ErrorCode            uint32       `protobuf:"varint,4,opt,name=error_code,json=errorCode,proto3" json:"error_code,omitempty"`
+	SqlState             string       `protobuf:"bytes,5,opt,name=sql_state,json=sqlState,proto3" json:"sql_state,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ErrorResponse) Reset()                    { *m = ErrorResponse{} }
-func (m *ErrorResponse) String() string            { return proto.CompactTextString(m) }
-func (*ErrorResponse) ProtoMessage()               {}
-func (*ErrorResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{11} }
+func (m *ErrorResponse) Reset()         { *m = ErrorResponse{} }
+func (m *ErrorResponse) String() string { return proto.CompactTextString(m) }
+func (*ErrorResponse) ProtoMessage()    {}
+func (*ErrorResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{11}
+}
+func (m *ErrorResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ErrorResponse.Unmarshal(m, b)
+}
+func (m *ErrorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ErrorResponse.Marshal(b, m, deterministic)
+}
+func (dst *ErrorResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ErrorResponse.Merge(dst, src)
+}
+func (m *ErrorResponse) XXX_Size() int {
+	return xxx_messageInfo_ErrorResponse.Size(m)
+}
+func (m *ErrorResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ErrorResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ErrorResponse proto.InternalMessageInfo
 
 func (m *ErrorResponse) GetExceptions() []string {
 	if m != nil {
@@ -409,15 +679,37 @@ func (m *ErrorResponse) GetMetadata() *RpcMetadata {
 }
 
 type SyncResultsResponse struct {
-	MissingStatement bool         `protobuf:"varint,1,opt,name=missing_statement,json=missingStatement" json:"missing_statement,omitempty"`
-	MoreResults      bool         `protobuf:"varint,2,opt,name=more_results,json=moreResults" json:"more_results,omitempty"`
-	Metadata         *RpcMetadata `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"`
+	MissingStatement     bool         `protobuf:"varint,1,opt,name=missing_statement,json=missingStatement,proto3" json:"missing_statement,omitempty"`
+	MoreResults          bool         `protobuf:"varint,2,opt,name=more_results,json=moreResults,proto3" json:"more_results,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *SyncResultsResponse) Reset()                    { *m = SyncResultsResponse{} }
-func (m *SyncResultsResponse) String() string            { return proto.CompactTextString(m) }
-func (*SyncResultsResponse) ProtoMessage()               {}
-func (*SyncResultsResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{12} }
+func (m *SyncResultsResponse) Reset()         { *m = SyncResultsResponse{} }
+func (m *SyncResultsResponse) String() string { return proto.CompactTextString(m) }
+func (*SyncResultsResponse) ProtoMessage()    {}
+func (*SyncResultsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{12}
+}
+func (m *SyncResultsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SyncResultsResponse.Unmarshal(m, b)
+}
+func (m *SyncResultsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SyncResultsResponse.Marshal(b, m, deterministic)
+}
+func (dst *SyncResultsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SyncResultsResponse.Merge(dst, src)
+}
+func (m *SyncResultsResponse) XXX_Size() int {
+	return xxx_messageInfo_SyncResultsResponse.Size(m)
+}
+func (m *SyncResultsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SyncResultsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SyncResultsResponse proto.InternalMessageInfo
 
 func (m *SyncResultsResponse) GetMissingStatement() bool {
 	if m != nil {
@@ -442,13 +734,35 @@ func (m *SyncResultsResponse) GetMetadata() *RpcMetadata {
 
 // Generic metadata for the server to return with each response.
 type RpcMetadata struct {
-	ServerAddress string `protobuf:"bytes,1,opt,name=server_address,json=serverAddress" json:"server_address,omitempty"`
+	ServerAddress        string   `protobuf:"bytes,1,opt,name=server_address,json=serverAddress,proto3" json:"server_address,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RpcMetadata) Reset()                    { *m = RpcMetadata{} }
-func (m *RpcMetadata) String() string            { return proto.CompactTextString(m) }
-func (*RpcMetadata) ProtoMessage()               {}
-func (*RpcMetadata) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{13} }
+func (m *RpcMetadata) Reset()         { *m = RpcMetadata{} }
+func (m *RpcMetadata) String() string { return proto.CompactTextString(m) }
+func (*RpcMetadata) ProtoMessage()    {}
+func (*RpcMetadata) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{13}
+}
+func (m *RpcMetadata) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RpcMetadata.Unmarshal(m, b)
+}
+func (m *RpcMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RpcMetadata.Marshal(b, m, deterministic)
+}
+func (dst *RpcMetadata) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RpcMetadata.Merge(dst, src)
+}
+func (m *RpcMetadata) XXX_Size() int {
+	return xxx_messageInfo_RpcMetadata.Size(m)
+}
+func (m *RpcMetadata) XXX_DiscardUnknown() {
+	xxx_messageInfo_RpcMetadata.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RpcMetadata proto.InternalMessageInfo
 
 func (m *RpcMetadata) GetServerAddress() string {
 	if m != nil {
@@ -459,35 +773,101 @@ func (m *RpcMetadata) GetServerAddress() string {
 
 // Response to a commit request
 type CommitResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CommitResponse) Reset()                    { *m = CommitResponse{} }
-func (m *CommitResponse) String() string            { return proto.CompactTextString(m) }
-func (*CommitResponse) ProtoMessage()               {}
-func (*CommitResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{14} }
+func (m *CommitResponse) Reset()         { *m = CommitResponse{} }
+func (m *CommitResponse) String() string { return proto.CompactTextString(m) }
+func (*CommitResponse) ProtoMessage()    {}
+func (*CommitResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{14}
+}
+func (m *CommitResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CommitResponse.Unmarshal(m, b)
+}
+func (m *CommitResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CommitResponse.Marshal(b, m, deterministic)
+}
+func (dst *CommitResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommitResponse.Merge(dst, src)
+}
+func (m *CommitResponse) XXX_Size() int {
+	return xxx_messageInfo_CommitResponse.Size(m)
+}
+func (m *CommitResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CommitResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CommitResponse proto.InternalMessageInfo
 
 // Response to a rollback request
 type RollbackResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RollbackResponse) Reset()                    { *m = RollbackResponse{} }
-func (m *RollbackResponse) String() string            { return proto.CompactTextString(m) }
-func (*RollbackResponse) ProtoMessage()               {}
-func (*RollbackResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{15} }
+func (m *RollbackResponse) Reset()         { *m = RollbackResponse{} }
+func (m *RollbackResponse) String() string { return proto.CompactTextString(m) }
+func (*RollbackResponse) ProtoMessage()    {}
+func (*RollbackResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{15}
+}
+func (m *RollbackResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RollbackResponse.Unmarshal(m, b)
+}
+func (m *RollbackResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RollbackResponse.Marshal(b, m, deterministic)
+}
+func (dst *RollbackResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RollbackResponse.Merge(dst, src)
+}
+func (m *RollbackResponse) XXX_Size() int {
+	return xxx_messageInfo_RollbackResponse.Size(m)
+}
+func (m *RollbackResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_RollbackResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RollbackResponse proto.InternalMessageInfo
 
 // Response to a batch update request
 type ExecuteBatchResponse struct {
-	ConnectionId     string       `protobuf:"bytes,1,opt,name=connection_id,json=connectionId" json:"connection_id,omitempty"`
-	StatementId      uint32       `protobuf:"varint,2,opt,name=statement_id,json=statementId" json:"statement_id,omitempty"`
-	UpdateCounts     []uint64     `protobuf:"varint,3,rep,packed,name=update_counts,json=updateCounts" json:"update_counts,omitempty"`
-	MissingStatement bool         `protobuf:"varint,4,opt,name=missing_statement,json=missingStatement" json:"missing_statement,omitempty"`
-	Metadata         *RpcMetadata `protobuf:"bytes,5,opt,name=metadata" json:"metadata,omitempty"`
+	ConnectionId         string       `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	StatementId          uint32       `protobuf:"varint,2,opt,name=statement_id,json=statementId,proto3" json:"statement_id,omitempty"`
+	UpdateCounts         []uint64     `protobuf:"varint,3,rep,packed,name=update_counts,json=updateCounts,proto3" json:"update_counts,omitempty"`
+	MissingStatement     bool         `protobuf:"varint,4,opt,name=missing_statement,json=missingStatement,proto3" json:"missing_statement,omitempty"`
+	Metadata             *RpcMetadata `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ExecuteBatchResponse) Reset()                    { *m = ExecuteBatchResponse{} }
-func (m *ExecuteBatchResponse) String() string            { return proto.CompactTextString(m) }
-func (*ExecuteBatchResponse) ProtoMessage()               {}
-func (*ExecuteBatchResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{16} }
+func (m *ExecuteBatchResponse) Reset()         { *m = ExecuteBatchResponse{} }
+func (m *ExecuteBatchResponse) String() string { return proto.CompactTextString(m) }
+func (*ExecuteBatchResponse) ProtoMessage()    {}
+func (*ExecuteBatchResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_responses_d38978c60cf7d175, []int{16}
+}
+func (m *ExecuteBatchResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ExecuteBatchResponse.Unmarshal(m, b)
+}
+func (m *ExecuteBatchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ExecuteBatchResponse.Marshal(b, m, deterministic)
+}
+func (dst *ExecuteBatchResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteBatchResponse.Merge(dst, src)
+}
+func (m *ExecuteBatchResponse) XXX_Size() int {
+	return xxx_messageInfo_ExecuteBatchResponse.Size(m)
+}
+func (m *ExecuteBatchResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ExecuteBatchResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ExecuteBatchResponse proto.InternalMessageInfo
 
 func (m *ExecuteBatchResponse) GetConnectionId() string {
 	if m != nil {
@@ -544,9 +924,9 @@ func init() {
 	proto.RegisterType((*ExecuteBatchResponse)(nil), "ExecuteBatchResponse")
 }
 
-func init() { proto.RegisterFile("responses.proto", fileDescriptor2) }
+func init() { proto.RegisterFile("responses.proto", fileDescriptor_responses_d38978c60cf7d175) }
 
-var fileDescriptor2 = []byte{
+var fileDescriptor_responses_d38978c60cf7d175 = []byte{
 	// 802 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0xcd, 0x6e, 0xdb, 0x46,
 	0x10, 0xc6, 0xea, 0xc7, 0x36, 0x87, 0xa4, 0x2d, 0xb3, 0x6d, 0x42, 0xf4, 0x0f, 0xb2, 0x8c, 0x20,
