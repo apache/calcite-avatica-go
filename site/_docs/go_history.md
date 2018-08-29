@@ -28,6 +28,40 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-04-27
+{: #v3-1-0}
+
+Apache Calcite Avatica Go 3.1.0 is a minor release of Avatica Go with support for Go modules.
+We recommend using the latest stable version of Go.
+
+Go 1.11 along with Go modules support was released at the end of August 2018. Go modules will become the
+official package management solution for Go projects. As the Go team currently supports both Go 1.11 and Go 1.10,
+the Gopkg.toml and Gopkg.lock files are still available for those using dep for package management. We plan to
+remove support for dep when Go 1.12 is released in early 2019, so we encourage users to upgrade to Go 1.11 and use
+Go modules where possible.
+
+Features and bug fixes
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2333">CALCITE-2333</a>]
+  Stop releasing zip archives
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2367">CALCITE-2367</a>]
+  Remove the satori/go.uuid package as it is unmaintained and replace it with hashicorp/go-uuid which is already
+  a transitive dependency (Kenneth Shaw)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2372">CALCITE-2372</a>]
+  Test against Apache Phoenix 4.14.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2493">CALCITE-2493</a>]
+  Update all dependencies to their latest versions
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2335">CALCITE-2335</a>]
+  Add support for Go modules (available since Go 1.11) and test against Go 1.11
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2500">CALCITE-2500</a>]
+  Test against Avatica 1.12.0 and Apache Phoenix 5.0.0 and regenerate protobuf definitions
+* Fix release script
+
+Web site and documentation
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2335">CALCITE-2335</a>]
+  Update documentation and release instructions to include support for Go modules.
+
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/3.0.0">3.0.0</a> / 2018-04-27
 {: #v3-0-0}
 
