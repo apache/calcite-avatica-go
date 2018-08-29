@@ -49,7 +49,7 @@ for i in $(git ls-files); do
    esac
 done
 
-tagWithoutRC=$(echo $tag | sed -e 's/-rc[0-9][0-9]*//')
+tagWithoutRC=$(echo $tag | sed -e 's/-rc[0-9][0-9]*//' | sed -e 's/v//')
 product=apache-calcite-avatica-go
 tarFile=$product-src-$tagWithoutRC.tar.gz
 releaseDir=dist/$product-$tag
