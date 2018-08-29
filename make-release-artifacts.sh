@@ -49,7 +49,8 @@ for i in $(git ls-files); do
    esac
 done
 
-tagWithoutRC=$(echo $tag | sed -e 's/-rc[0-9][0-9]*//' | sed -e 's/v//')
+tagWithoutV=$(echo $tag | sed -e 's/v//')
+tagWithoutRC=$(echo $tagWithoutV | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
 tarFile=$product-src-$tagWithoutRC.tar.gz
 releaseDir=dist/$product-$tag
@@ -58,7 +59,7 @@ releaseDir=dist/$product-$tag
 mkdir -p $releaseDir
 
 # Checkout tag
-if ! git checkout $tag; then
+if ! git checkout $tagWithoutV; then
     echo "Could not check out tag $tag. Does it exist?"
     exit 1
 fi
