@@ -35,11 +35,18 @@ hood.
 {:toc}
 
 ## Getting Started
-Install using your dependency management tool (we recommend [dep](https://github.com/golang/dep)!):
+If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
 
 {% highlight shell %}
 $ dep ensure -add github.com/apache/calcite-avatica-go
 {% endhighlight %}
+
+If you are using Go 1.11 and above, install using Go modules:
+
+{% highlight shell %}
+$ go get github.com/apache/calcite-avatica-go
+{% endhighlight %}
+
 
 ## Usage
 

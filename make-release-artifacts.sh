@@ -40,7 +40,7 @@ for i in $(git ls-files); do
    (LICENSE|NOTICE);;
 
    # Generated files
-   (message/common.pb.go|message/requests.pb.go|message/responses.pb.go|Gopkg.lock|Gopkg.toml);;
+   (message/common.pb.go|message/requests.pb.go|message/responses.pb.go|Gopkg.lock|Gopkg.toml|go.mod|go.sum);;
 
    # Binaries
    (test-fixtures/calcite.png);;

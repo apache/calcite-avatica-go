@@ -69,6 +69,11 @@ PHOENIX_HOST: http://phoenix:8765
 ## Releasing
 If you have not set up a GPG signing key, set one up by following these [instructions](https://www.apache.org/dev/openpgp.html#generate-key).
 
+If this release is a new major version (we are releasing 4.0.0 vs the current version 3.0.0), update the version in the
+import path in `go.mod`.
+
+Since we need to support Go modules, tags must be prefixed with a `v`. For example, tag as `v3.1.0` rather than `3.1.0`.
+
 From the root of the repository, run `./make-release-artifacts.sh`.
 
 You will be asked to select the tag to build release artifacts for. The latest tag is automatically selected if no tag is selected.
