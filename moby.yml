@@ -15,10 +15,10 @@
 #
 services:
   - id: phoenix
-    image: boostport/hbase-phoenix-all-in-one:1.4-4.14
+    image: boostport/hbase-phoenix-all-in-one:2.0-5.0
 
   - id: hsqldb
-    image: f21global/calcite-avatica:1.11.0-hypersql
+    image: f21global/calcite-avatica:1.12.0-hypersql
     command: -u jdbc:hsqldb:mem:public
     ports:
       - "8765"

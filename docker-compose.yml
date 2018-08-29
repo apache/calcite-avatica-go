@@ -22,7 +22,7 @@ services:
       HSQLDB_HOST: http://hsqldb:8765
     command: sh -c "export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
   phoenix:
-    image: boostport/hbase-phoenix-all-in-one:1.4-4.14
+    image: boostport/hbase-phoenix-all-in-one:2.0-5.0
   hsqldb:
-    image: f21global/calcite-avatica:1.11.0-hypersql
+    image: f21global/calcite-avatica:1.12.0-hypersql
     command: -u jdbc:hsqldb:mem:public
