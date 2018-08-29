@@ -53,13 +53,13 @@ tagWithoutV=$(echo $tag | sed -e 's/v//')
 tagWithoutRC=$(echo $tagWithoutV | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
 tarFile=$product-src-$tagWithoutRC.tar.gz
-releaseDir=dist/$product-$tag
+releaseDir=dist/$product-$tagWithoutV
 
 #Make release dir
 mkdir -p $releaseDir
 
 # Checkout tag
-if ! git checkout $tagWithoutV; then
+if ! git checkout $tag; then
     echo "Could not check out tag $tag. Does it exist?"
     exit 1
 fi
