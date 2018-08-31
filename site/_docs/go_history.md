@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-04-27
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-09-05
 {: #v3-1-0}
 
 Apache Calcite Avatica Go 3.1.0 is a minor release of Avatica Go with support for Go modules.
@@ -56,6 +56,8 @@ Features and bug fixes
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-2500">CALCITE-2500</a>]
   Test against Avatica 1.12.0 and Apache Phoenix 5.0.0 and regenerate protobuf definitions
 * Fix release script
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2513">CALCITE-2513</a>]
+  Fix dockerfile so that Go modules work correctly when running tests using docker-compose
 
 Web site and documentation
 
