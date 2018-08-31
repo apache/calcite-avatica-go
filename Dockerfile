@@ -15,6 +15,6 @@
 
 FROM golang:1.11-alpine
 
-WORKDIR /go/src/github.com/apache/calcite-avatica-go
+WORKDIR /source
 COPY . .
 RUN apk --no-cache --no-progress add build-base git
