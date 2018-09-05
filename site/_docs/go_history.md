@@ -66,6 +66,7 @@ Features and bug fixes
   Update release script to check ending copyright year in NOTICE file
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-2534">CALCITE-2534</a>]
   Update release script to check that AVATICA_VER are the same in both gen-protobuf.sh and gen-protobuf.bat
+* Fix 3.1.0 release annoucement filename
 
 Web site and documentation
 
