@@ -49,6 +49,12 @@ for i in $(git ls-files); do
    esac
 done
 
+# Check copyright year in NOTICE
+if ! grep -Fq "Copyright 2012-$(date +%Y)" NOTICE; then
+    echo "Ending copyright year in NOTICE is not $(date +%Y)"
+    exit 1
+fi
+
 tagWithoutV=$(echo $tag | sed -e 's/v//')
 tagWithoutRC=$(echo $tagWithoutV | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
