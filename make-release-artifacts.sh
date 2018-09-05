@@ -72,8 +72,69 @@ cd $releaseDir
 # Calculate SHA256
 gpg --print-md SHA256 $tarFile > $tarFile.sha256
 
+# Select GPG key for signing
+KEYS=()
+
+GPG_COMMAND="gpg2"
+
+get_gpg_keys (){
+    GPG_KEYS=$($GPG_COMMAND --list-keys --with-colons --keyid-format LONG)
+
+    KEY_NUM=1
+
+    KEY_DETAILS=""
+
+    while read -r line; do
+
+        IFS=':' read -ra PART <<< "$line"
+
+        if [ ${PART[0]} == "pub" ]; then
+
+            if [ -n "$KEY_DETAILS" ]; then
+                KEYS[$KEY_NUM]=$KEY_DETAILS
+                KEY_DETAILS=""
+                ((KEY_NUM++))
+
+            fi
+
+            KEY_DETAILS=${PART[4]}
+        fi
+
+        if [ ${PART[0]} == "uid" ]; then
+            KEY_DETAILS="$KEY_DETAILS - ${PART[9]}"
+        fi
+
+    done <<< "$GPG_KEYS"
+
+    if [ -n "$KEY_DETAILS" ]; then
+        KEYS[$KEY_NUM]=$KEY_DETAILS
+    fi
+}
+
+get_gpg_keys
+
+if [ "${#KEYS[@]}" -le 0 ]; then
+    echo "You do not have any GPG keys available. Exiting..."
+    exit 1
+fi
+
+echo "You have the following GPG keys:"
+
+for i in "${!KEYS[@]}"; do
+        echo "$i) ${KEYS[$i]}"
+done
+
+read -p "Select your GPG key for signing: " KEY_INDEX
+
+GPG_KEY=$(sed 's/ -.*//' <<< ${KEYS[$KEY_INDEX]})
+
+if [ -z $GPG_KEY ]; then
+    echo "Selected key is invalid. Exiting..."
+    exit 1
+fi
+
 # Sign
-gpg --armor --output $tarFile.asc --detach-sig $tarFile
+gpg -u $GPG_KEY --armor --output $tarFile.asc --detach-sig $tarFile
 
 echo "Release created!"
 # End
