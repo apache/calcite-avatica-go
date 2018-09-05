@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-09-05
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-09-10
 {: #v3-1-0}
 
 Apache Calcite Avatica Go 3.1.0 is a minor release of Avatica Go with support for Go modules.
@@ -58,6 +58,14 @@ Features and bug fixes
 * Fix release script
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-2513">CALCITE-2513</a>]
   Fix dockerfile so that Go modules work correctly when running tests using docker-compose
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2513">CALCITE-2531</a>]
+  Update release script to only include files in source control
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2533">CALCITE-2533</a>]
+  Allow user to select signing key when signing releases using release script
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2532">CALCITE-2532</a>]
+  Update release script to check ending copyright year in NOTICE file
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2534">CALCITE-2534</a>]
+  Update release script to check that AVATICA_VER are the same in both gen-protobuf.sh and gen-protobuf.bat
 
 Web site and documentation
 

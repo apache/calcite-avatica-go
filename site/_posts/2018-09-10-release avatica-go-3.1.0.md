@@ -1,6 +1,6 @@
 ---
 layout: news_item
-date: "2018-09-04 00:00:00 +0000"
+date: "2018-09-10 00:00:00 +0000"
 author: francischuang
 version: 3.1.0
 categories: [release]
