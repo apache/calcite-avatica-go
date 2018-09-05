@@ -5,7 +5,7 @@ author: francischuang
 version: 3.1.0
 categories: [release]
 tag: v3-1-0
-sha: d328101
+sha: 0e1ae23
 component: avatica-go
 ---
 <!--
