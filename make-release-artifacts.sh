@@ -55,6 +55,14 @@ if ! grep -Fq "Copyright 2012-$(date +%Y)" NOTICE; then
     exit 1
 fi
 
+# Check that Avatica versions in both gen-protobuf.bat and gen-protobuf.sh match
+EXPECTED_AVATICA_VERSION=$(grep -oP '^export AVATICA_VER="\K[^"]+' gen-protobuf.sh)
+
+if ! grep -Fq "SET AVATICA_VER=$EXPECTED_AVATICA_VERSION" gen-protobuf.bat; then
+    echo "AVATICA_VER in gen-protobuf.sh and gen-protobuf.bat does not match. Expected: $EXPECTED_AVATICA_VERSION"
+    exit 1
+fi
+
 tagWithoutV=$(echo $tag | sed -e 's/v//')
 tagWithoutRC=$(echo $tagWithoutV | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
