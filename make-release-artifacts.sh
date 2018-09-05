@@ -65,7 +65,7 @@ if ! git checkout $tag; then
 fi
 
 # Make tar
-tar -zcvf $releaseDir/$tarFile --transform "s/^\./$product-src-$tagWithoutRC/g" --exclude "dist" --exclude ".git" --exclude "vendor" .
+tar -zcf $releaseDir/$tarFile --transform "s/^/$product-src-$tagWithoutRC\//g" $(git ls-files)
 
 cd $releaseDir
 
@@ -75,4 +75,5 @@ gpg --print-md SHA256 $tarFile > $tarFile.sha256
 # Sign
 gpg --armor --output $tarFile.asc --detach-sig $tarFile
 
+echo "Release created!"
 # End
