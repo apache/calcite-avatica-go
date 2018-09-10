@@ -10,12 +10,12 @@
   version = "v1.2.0"
 
 [[projects]]
-  branch = "master"
   digest = "1:12ed7dcca9531e58c65cdadb8af0052724bef7fa1581380523fb9cb1215faf0d"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
   pruneopts = "UT"
   revision = "de160f5c59f693fed329e73e291bb751fe4ea4dc"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -64,8 +64,8 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:653c1ef9be253f28c38612cc0fb0571dd440a3d61a97f82e6205d53942a7b4a9"
-  name = "gopkg.in/jcmturner/gokrb5.v5"
+  digest = "1:310dfc2c375c2bd4cfcf0e0603403ac8a5d9448116ade9309c691c54f78ac9df"
+  name = "gopkg.in/jcmturner/gokrb5.v6"
   packages = [
     "asn1tools",
     "client",
@@ -95,21 +95,23 @@
     "keytab",
     "krberror",
     "messages",
-    "mstypes",
     "pac",
     "types",
   ]
   pruneopts = "UT"
-  revision = "32ba44ca5b42f17a4a9f33ff4305e70665a1bc0f"
-  version = "v5.3.0"
+  revision = "c01bd1a96a4147499899e47bfba0d8482f42dcd0"
+  version = "v6.0.1"
 
 [[projects]]
-  digest = "1:917e312d1c83bac01db5771433a141f7e4754df0ebe83d2e8edc821320aff849"
-  name = "gopkg.in/jcmturner/rpc.v0"
-  packages = ["ndr"]
+  digest = "1:0f16d9c577198e3b8d3209f5a89aabe679525b2aba2a7548714e973035c0e232"
+  name = "gopkg.in/jcmturner/rpc.v1"
+  packages = [
+    "mstypes",
+    "ndr",
+  ]
   pruneopts = "UT"
-  revision = "4480c480c9cd343b54b0acb5b62261cbd33d7adf"
-  version = "v0.0.2"
+  revision = "99a8ce2fbf8b8087b6ed12a37c61b10f04070043"
+  version = "v1.1.0"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -118,10 +120,10 @@
     "github.com/golang/protobuf/proto",
     "github.com/hashicorp/go-uuid",
     "github.com/xinsnake/go-http-digest-auth-client",
-    "gopkg.in/jcmturner/gokrb5.v5/client",
-    "gopkg.in/jcmturner/gokrb5.v5/config",
-    "gopkg.in/jcmturner/gokrb5.v5/credentials",
-    "gopkg.in/jcmturner/gokrb5.v5/keytab",
+    "gopkg.in/jcmturner/gokrb5.v6/client",
+    "gopkg.in/jcmturner/gokrb5.v6/config",
+    "gopkg.in/jcmturner/gokrb5.v6/credentials",
+    "gopkg.in/jcmturner/gokrb5.v6/keytab",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

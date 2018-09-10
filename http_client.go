@@ -32,10 +32,10 @@ import (
 	avaticaMessage "github.com/apache/calcite-avatica-go/v3/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/xinsnake/go-http-digest-auth-client"
-	"gopkg.in/jcmturner/gokrb5.v5/client"
-	"gopkg.in/jcmturner/gokrb5.v5/config"
-	"gopkg.in/jcmturner/gokrb5.v5/credentials"
-	"gopkg.in/jcmturner/gokrb5.v5/keytab"
+	"gopkg.in/jcmturner/gokrb5.v6/client"
+	"gopkg.in/jcmturner/gokrb5.v6/config"
+	"gopkg.in/jcmturner/gokrb5.v6/credentials"
+	"gopkg.in/jcmturner/gokrb5.v6/keytab"
 )
 
 var (
