@@ -18,13 +18,13 @@
 package avatica
 
 import (
+	"context"
 	"database/sql/driver"
 	"errors"
 	"math"
 	"time"
 
 	"github.com/apache/calcite-avatica-go/v3/message"
-	"golang.org/x/net/context"
 )
 
 type stmt struct {

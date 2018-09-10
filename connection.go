@@ -18,11 +18,11 @@
 package avatica
 
 import (
+	"context"
 	"database/sql/driver"
 
 	"github.com/apache/calcite-avatica-go/v3/errors"
 	"github.com/apache/calcite-avatica-go/v3/message"
-	"golang.org/x/net/context"
 )
 
 type conn struct {

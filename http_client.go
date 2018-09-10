@@ -19,6 +19,7 @@ package avatica
 
 import (
 	"bytes"
+	"context"
 	"database/sql/driver"
 	"fmt"
 	"io/ioutil"
@@ -31,8 +32,6 @@ import (
 	avaticaMessage "github.com/apache/calcite-avatica-go/v3/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/xinsnake/go-http-digest-auth-client"
-	"golang.org/x/net/context"
-	"golang.org/x/net/context/ctxhttp"
 	"gopkg.in/jcmturner/gokrb5.v5/client"
 	"gopkg.in/jcmturner/gokrb5.v5/config"
 	"gopkg.in/jcmturner/gokrb5.v5/credentials"
@@ -180,7 +179,9 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 		c.kerberosClient.SetSPNEGOHeader(req, "")
 	}
 
-	res, err := ctxhttp.Do(ctx, c.httpClient, req)
+	req = req.WithContext(ctx)
+
+	res, err := c.httpClient.Do(req)
 
 	if err != nil {
 		return nil, err

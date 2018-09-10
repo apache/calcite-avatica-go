@@ -18,8 +18,9 @@
 package avatica
 
 import (
+	"context"
+
 	"github.com/apache/calcite-avatica-go/v3/message"
-	"golang.org/x/net/context"
 )
 
 type tx struct {

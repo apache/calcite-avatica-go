@@ -11,11 +11,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:354978aad16c56c27f57e5b152224806d87902e4935da3b03e18263d82ae77aa"
+  digest = "1:12ed7dcca9531e58c65cdadb8af0052724bef7fa1581380523fb9cb1215faf0d"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
   pruneopts = "UT"
-  revision = "27454136f0364f2d44b1276c552d69105cf8c498"
+  revision = "de160f5c59f693fed329e73e291bb751fe4ea4dc"
 
 [[projects]]
   branch = "master"
@@ -45,18 +45,7 @@
     "pbkdf2",
   ]
   pruneopts = "UT"
-  revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
-
-[[projects]]
-  branch = "master"
-  digest = "1:d6b719875cf8091fbab38527d81d34e71f4521b9ee9ccfbd4a32cff2ac5af96e"
-  name = "golang.org/x/net"
-  packages = [
-    "context",
-    "context/ctxhttp",
-  ]
-  pruneopts = "UT"
-  revision = "8a410e7b638dca158bf9e766925842f6651ff828"
+  revision = "0709b304e793a5edb4a2c0145f281ecdc20838a4"
 
 [[projects]]
   digest = "1:c902038ee2d6f964d3b9f2c718126571410c5d81251cbab9fe58abd37803513c"
@@ -129,8 +118,6 @@
     "github.com/golang/protobuf/proto",
     "github.com/hashicorp/go-uuid",
     "github.com/xinsnake/go-http-digest-auth-client",
-    "golang.org/x/net/context",
-    "golang.org/x/net/context/ctxhttp",
     "gopkg.in/jcmturner/gokrb5.v5/client",
     "gopkg.in/jcmturner/gokrb5.v5/config",
     "gopkg.in/jcmturner/gokrb5.v5/credentials",

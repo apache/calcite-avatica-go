@@ -18,13 +18,13 @@
 package avatica
 
 import (
+	"context"
 	"database/sql/driver"
 	"io"
 	"time"
 
 	"github.com/apache/calcite-avatica-go/v3/internal"
 	"github.com/apache/calcite-avatica-go/v3/message"
-	"golang.org/x/net/context"
 )
 
 type resultSet struct {

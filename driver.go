@@ -32,6 +32,7 @@ See https://calcite.apache.org/avatica/go_client_reference.html for more details
 package avatica
 
 import (
+	"context"
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
@@ -41,7 +42,6 @@ import (
 	"github.com/apache/calcite-avatica-go/v3/message"
 	"github.com/apache/calcite-avatica-go/v3/phoenix"
 	"github.com/hashicorp/go-uuid"
-	"golang.org/x/net/context"
 )
 
 // Driver is exported to allow it to be used directly.
