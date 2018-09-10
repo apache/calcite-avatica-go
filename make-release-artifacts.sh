@@ -55,6 +55,39 @@ if ! grep -Fq "Copyright 2012-$(date +%Y)" NOTICE; then
     exit 1
 fi
 
+tagMajorVersion=$(echo $tag | sed -e 's/\..*//')
+
+# Check that go.mod's module path contains the right version
+if ! grep -Fq "module github.com/apache/calcite-avatica-go/$tagMajorVersion" go.mod; then
+    echo "module declaration in go.mod does not contain the correct version. Expected: $tagMajorVersion"
+    exit 1
+fi
+
+# Make sure import paths contain the correct version
+badImportPaths=false
+
+for i in $(git ls-files); do
+
+    if [[ "$i" == "make-release-artifacts.sh" ]]; then
+        continue
+    fi
+
+    lines=$(grep -F '"github.com/apache/calcite-avatica-go' $i)
+
+    if ! [[ -z "$lines" ]]; then
+        while read -r line; do
+            if ! grep -q "github.com/apache/calcite-avatica-go/$tagMajorVersion" <<< "$line" ; then
+            badImportPaths=true
+                echo "import for github.com/apache/calcite-avatica-go in $i does not have the correct version ($tagMajorVersion) in its path"
+            fi
+        done <<< "$lines"
+    fi
+done
+
+if "$badImportPaths" == true; then
+    exit 1
+fi
+
 # Check that Avatica versions in both gen-protobuf.bat and gen-protobuf.sh match
 EXPECTED_AVATICA_VERSION=$(grep -oP '^export AVATICA_VER="\K[^"]+' gen-protobuf.sh)
 
