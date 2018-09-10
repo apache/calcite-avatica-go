@@ -23,9 +23,9 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/errors"
-	"github.com/apache/calcite-avatica-go/internal"
-	"github.com/apache/calcite-avatica-go/message"
+	"github.com/apache/calcite-avatica-go/v3/errors"
+	"github.com/apache/calcite-avatica-go/v3/internal"
+	"github.com/apache/calcite-avatica-go/v3/message"
 )
 
 type Adapter struct {

@@ -1,7 +1,6 @@
 module github.com/apache/calcite-avatica-go/v3
 
 require (
-	github.com/apache/calcite-avatica-go v0.0.0-20180828061053-334bc15f92dd
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/protobuf v1.2.0
 	github.com/hashicorp/go-uuid v0.0.0-20180228145832-27454136f036

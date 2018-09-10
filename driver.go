@@ -23,7 +23,7 @@ Quickstart
 Import the database/sql package along with the avatica driver.
 
 	import "database/sql"
-	import _ "github.com/apache/calcite-avatica-go"
+	import _ "github.com/apache/calcite-avatica-go/v3"
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
@@ -36,10 +36,10 @@ import (
 	"database/sql/driver"
 	"fmt"
 
-	"github.com/apache/calcite-avatica-go/generic"
-	"github.com/apache/calcite-avatica-go/hsqldb"
-	"github.com/apache/calcite-avatica-go/message"
-	"github.com/apache/calcite-avatica-go/phoenix"
+	"github.com/apache/calcite-avatica-go/v3/generic"
+	"github.com/apache/calcite-avatica-go/v3/hsqldb"
+	"github.com/apache/calcite-avatica-go/v3/message"
+	"github.com/apache/calcite-avatica-go/v3/phoenix"
 	"github.com/hashicorp/go-uuid"
 	"golang.org/x/net/context"
 )

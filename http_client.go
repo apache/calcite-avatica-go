@@ -28,7 +28,7 @@ import (
 	"runtime"
 	"time"
 
-	avaticaMessage "github.com/apache/calcite-avatica-go/message"
+	avaticaMessage "github.com/apache/calcite-avatica-go/v3/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/net/context"

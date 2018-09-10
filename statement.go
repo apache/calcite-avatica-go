@@ -23,7 +23,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/message"
+	"github.com/apache/calcite-avatica-go/v3/message"
 	"golang.org/x/net/context"
 )
 

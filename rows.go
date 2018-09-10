@@ -22,8 +22,8 @@ import (
 	"io"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/internal"
-	"github.com/apache/calcite-avatica-go/message"
+	"github.com/apache/calcite-avatica-go/v3/internal"
+	"github.com/apache/calcite-avatica-go/v3/message"
 	"golang.org/x/net/context"
 )
 

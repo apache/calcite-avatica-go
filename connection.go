@@ -20,8 +20,8 @@ package avatica
 import (
 	"database/sql/driver"
 
-	"github.com/apache/calcite-avatica-go/errors"
-	"github.com/apache/calcite-avatica-go/message"
+	"github.com/apache/calcite-avatica-go/v3/errors"
+	"github.com/apache/calcite-avatica-go/v3/message"
 	"golang.org/x/net/context"
 )
 
