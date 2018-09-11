@@ -28,6 +28,32 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.2.0">3.2.0</a> / 2018-09-14
+{: #v3-2-0}
+
+Apache Calcite Avatica Go 3.2.0 is a minor release of Avatica Go with fixes to the import paths after enabling
+support for Go modules.
+
+The 3.1.0 release contained a bug where packages within the library used the `"github.com/apache/calcite-avatica-go"`
+import path rather than the `"github.com/apache/calcite-avatica-go/v3"` import path. This resulted in an issue where
+2 versions of the library are being used at the same time, causing some programs to not build.
+
+The Calcite team recommends consumers of the Avatica Go library to not use the 3.1.0 release and ensure that the
+3.2.0 release is being used.
+
+Features and bug fixes
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2536">CALCITE-2536</a>]
+  Update release script to check that import paths within the library point to the correct version
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2545">CALCITE-2545</a>]
+  Fix incorrect import paths within the library to point to the correct version: github.com/apache/calcite-avatica-go/v3
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2544">CALCITE-2544</a>]
+  Replace the golang.org/x/net/context package with the context package in the standard library
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2547">CALCITE-2547</a>]
+  Update all dependencies to their latest versions
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2550">CALCITE-2550</a>]
+  Update release script to build tarballs with filenames in the format: apache-calcite-avatica-go-x.x.x-src.tar.gz
+
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.1.0">3.1.0</a> / 2018-09-10
 {: #v3-1-0}
 
