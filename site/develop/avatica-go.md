@@ -88,13 +88,13 @@ The files inside the release folder must have any release candidate identifiers 
 release is a release candidate. `src` must also be added to the filename.
 
 For example, if we are uploading the `apache-calcite-avatica-go-3.0.0-rc1` folder, the files must be named 
-`apache-calcite-acatica-go-src-3.0.0.tar.gz`. Note the inclusion of `src` in the filename.
+`apache-calcite-acatica-go-3.0.0.-srctar.gz`. Note the inclusion of `src` in the filename.
 
-The tar.gz must be named `apache-calcite-avatica-go-src-$version.tar.gz`. 
+The tar.gz must be named `apache-calcite-avatica-go-$version-src.tar.gz`. 
 
-There must be a GPG signature for the tar.gz named: `apache-calcite-avatica-go-src-$version.tar.gz.asc`
+There must be a GPG signature for the tar.gz named: `apache-calcite-avatica-go-$version-src.tar.gz.asc`
 
-There must be a SHA256 hash for the tar.gz named: `apache-calcite-avatica-go-src-$version.tar.gz.sha256`
+There must be a SHA256 hash for the tar.gz named: `apache-calcite-avatica-go-$version-src.tar.gz.sha256`
 
 ## Uploading release artifacts to dev for voting
 `svn` must be installed in order to upload release artifacts.

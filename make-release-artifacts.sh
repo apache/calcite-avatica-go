@@ -99,7 +99,7 @@ fi
 tagWithoutV=$(echo $tag | sed -e 's/v//')
 tagWithoutRC=$(echo $tagWithoutV | sed -e 's/-rc[0-9][0-9]*//')
 product=apache-calcite-avatica-go
-tarFile=$product-src-$tagWithoutRC.tar.gz
+tarFile=$product-$tagWithoutRC-src.tar.gz
 releaseDir=dist/$product-$tagWithoutV
 
 #Make release dir
@@ -112,7 +112,7 @@ if ! git checkout $tag; then
 fi
 
 # Make tar
-tar -zcf $releaseDir/$tarFile --transform "s/^/$product-src-$tagWithoutRC\//g" $(git ls-files)
+tar -zcf $releaseDir/$tarFile --transform "s/^/$product-$tagWithoutRC-src\//g" $(git ls-files)
 
 cd $releaseDir
 
