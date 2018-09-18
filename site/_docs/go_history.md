@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.2.0">3.2.0</a> / 2018-09-14
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.2.0">3.2.0</a> / 2018-09-18
 {: #v3-2-0}
 
 Apache Calcite Avatica Go 3.2.0 is a minor release of Avatica Go with fixes to the import paths after enabling
@@ -38,8 +38,8 @@ The 3.1.0 release contained a bug where packages within the library used the `"g
 import path rather than the `"github.com/apache/calcite-avatica-go/v3"` import path. This resulted in an issue where
 2 versions of the library are being used at the same time, causing some programs to not build.
 
-The Calcite team recommends consumers of the Avatica Go library to not use the 3.1.0 release and ensure that the
-3.2.0 release is being used.
+**The Calcite team recommends consumers of the Avatica Go library to not use the 3.1.0 release and ensure that the
+3.2.0 release is being used.**
 
 Features and bug fixes
 
