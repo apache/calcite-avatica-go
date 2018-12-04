@@ -68,7 +68,7 @@ badImportPaths=false
 
 for i in $(git ls-files); do
 
-    if [[ "$i" == "make-release-artifacts.sh" ]]; then
+    if [[ "$i" == "make-release-artifacts.sh" || "$i" =~ \.md$ ]]; then
         continue
     fi
 
