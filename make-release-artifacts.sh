@@ -77,7 +77,7 @@ for i in $(git ls-files); do
     if ! [[ -z "$lines" ]]; then
         while read -r line; do
             if ! grep -q "github.com/apache/calcite-avatica-go/$tagMajorVersion" <<< "$line" ; then
-            badImportPaths=true
+                badImportPaths=true
                 echo "import for github.com/apache/calcite-avatica-go in $i does not have the correct version ($tagMajorVersion) in its path"
             fi
         done <<< "$lines"
@@ -116,8 +116,8 @@ tar -zcf $releaseDir/$tarFile --transform "s/^/$product-$tagWithoutRC-src\//g" $
 
 cd $releaseDir
 
-# Calculate SHA256
-gpg --print-md SHA256 $tarFile > $tarFile.sha256
+# Calculate SHA512
+gpg --print-md SHA512 $tarFile > $tarFile.sha512
 
 # Select GPG key for signing
 KEYS=()
