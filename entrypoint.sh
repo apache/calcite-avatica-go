@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -12,32 +14,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-services:
-  - id: phoenix
-    image: boostport/hbase-phoenix-all-in-one:2.0-5.0
 
-  - id: hsqldb
-    image: f21global/calcite-avatica:1.12.0-hypersql
-    command: -u jdbc:hsqldb:mem:public
-    ports:
-      - "8765"
+TEST_COMMAND="export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
 
-dev:
-  image: golang:1.11-alpine
-  env:
-    PHOENIX_HOST: http://phoenix:8765
-    HSQLDB_HOST: http://hsqldb:8765
-
-  steps:
-    - type: script
-      name: Install build tools and git
-      options:
-        command: apk --no-cache --no-progress add build-base git
-
-  reload:
-    - type: script
-      name: Run tests
-      cwd: /source
-      options:
-        command: export AVATICA_FLAVOR=HSQLDB && go test -v ./... && export AVATICA_FLAVOR=PHOENIX && go test -v ./...
+if [[ -z "${DEV}" ]]; then
+  sh -c "$TEST_COMMAND"
+else
+  witch --cmd="$TEST_COMMAND" --watch="*.mod,**/*.go"
+fi
