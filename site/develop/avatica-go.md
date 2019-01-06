@@ -36,6 +36,17 @@ as the component.
 To update the procotol buffer definitions, update `AVATICA_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
 the version you want to generate protobufs for and then run the appropriate script for your platform.
 
+## Live reload during development
+
+It is possible to reload the code in real-time during development. This executes the test suite every time a `.go` or
+`.mod` file is updated. The test suite takes a while to run, so the tests will not complete instantly, but live-reloading
+during development allows us to not have to manually execute the test suite on save.
+
+### Set up
+1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+
+2. From the root of the repository, run `DEV=true docker-compose up --build`.
+
 ## Testing
 
 The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB and Apache Phoenix tests.
@@ -43,7 +54,7 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 ### Easy way
 1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `docker-compose up --build`.
+2. From the root of the repository, run `docker-compose up --build --abort-on-container-exit`.
 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).

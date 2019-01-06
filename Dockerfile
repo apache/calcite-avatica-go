@@ -13,8 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.11-alpine
+FROM golang:1.11-alpine as base
 
-WORKDIR /source
-COPY . .
+ENV DEV ""
+
 RUN apk --no-cache --no-progress add build-base git
+RUN go get github.com/unchartedsoftware/witch
+WORKDIR /source
+ENTRYPOINT ["sh", "./entrypoint.sh"]
