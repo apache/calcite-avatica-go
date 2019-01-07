@@ -286,6 +286,270 @@ func TestHSQLDBDataTypes(t *testing.T) {
 	})
 }
 
+func TestHSQLDBSQLNullTypes(t *testing.T) {
+
+	skipTestIfNotHSQLDB(t)
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				id INTEGER PRIMARY KEY,
+				int INTEGER,
+				tint TINYINT,
+				sint SMALLINT,
+				bint BIGINT,
+				num NUMERIC(10,3),
+				dec DECIMAL(10,3),
+				re REAL,
+				flt FLOAT,
+				dbl DOUBLE,
+				bool BOOLEAN,
+				ch CHAR(3),
+				var VARCHAR(128),
+				bin BINARY(20),
+				varbin VARBINARY(128),
+				dt DATE,
+				tmstmp TIMESTAMP,
+			    )`)
+
+		var (
+			idValue                 = time.Now().Unix()
+			integerValue            = sql.NullInt64{}
+			tintValue               = sql.NullInt64{}
+			sintValue               = sql.NullInt64{}
+			bintValue               = sql.NullInt64{}
+			numValue                = sql.NullString{}
+			decValue                = sql.NullString{}
+			reValue                 = sql.NullFloat64{}
+			fltValue                = sql.NullFloat64{}
+			dblValue                = sql.NullFloat64{}
+			booleanValue            = sql.NullBool{}
+			chValue                 = sql.NullString{}
+			varcharValue            = sql.NullString{}
+			binValue     *[]byte    = nil
+			varbinValue  *[]byte    = nil
+			dtValue      *time.Time = nil
+			tmstmpValue  *time.Time = nil
+		)
+
+		dbt.mustExec(`INSERT INTO `+dbt.tableName+` (id, int, tint, sint, bint, num, dec, re, flt, dbl, bool, ch, var, bin, varbin, dt, tmstmp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			idValue,
+			integerValue,
+			tintValue,
+			sintValue,
+			bintValue,
+			numValue,
+			decValue,
+			reValue,
+			fltValue,
+			dblValue,
+			booleanValue,
+			chValue,
+			varcharValue,
+			binValue,
+			varbinValue,
+			dtValue,
+			tmstmpValue,
+		)
+
+		rows := dbt.mustQuery("SELECT * FROM "+dbt.tableName+" WHERE id = ?", idValue)
+		defer rows.Close()
+
+		var (
+			id      int64
+			integer sql.NullInt64
+			tint    sql.NullInt64
+			sint    sql.NullInt64
+			bint    sql.NullInt64
+			num     sql.NullString
+			dec     sql.NullString
+			re      sql.NullFloat64
+			flt     sql.NullFloat64
+			dbl     sql.NullFloat64
+			boolean sql.NullBool
+			ch      sql.NullString
+			varchar sql.NullString
+			bin     *[]byte
+			varbin  *[]byte
+			dt      *time.Time
+			tmstmp  *time.Time
+		)
+
+		for rows.Next() {
+			err := rows.Scan(&id, &integer, &tint, &sint, &bint, &num, &dec, &re, &flt, &dbl, &boolean, &ch, &varchar, &bin, &varbin, &dt, &tmstmp)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		comparisons := []struct {
+			result   interface{}
+			expected interface{}
+		}{
+			{integer, integerValue},
+			{tint, tintValue},
+			{sint, sintValue},
+			{bint, bintValue},
+			{num, numValue},
+			{dec, decValue},
+			{re, reValue},
+			{flt, fltValue},
+			{dbl, dblValue},
+			{boolean, booleanValue},
+			{ch, chValue},
+			{varchar, varcharValue},
+			{bin, binValue},
+			{varbin, varbinValue},
+			{dt, dtValue},
+			{tmstmp, tmstmpValue},
+		}
+
+		for i, tt := range comparisons {
+
+			if v, ok := tt.expected.(time.Time); ok {
+
+				if !v.Equal(tt.result.(time.Time)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if v, ok := tt.expected.([]byte); ok {
+
+				if !bytes.Equal(v, tt.result.([]byte)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if tt.expected != tt.result {
+				dbt.Errorf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+			}
+		}
+	})
+}
+
+func TestHSQLDBNulls(t *testing.T) {
+
+	skipTestIfNotHSQLDB(t)
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				id INTEGER PRIMARY KEY,
+				int INTEGER,
+				tint TINYINT,
+				sint SMALLINT,
+				bint BIGINT,
+				num NUMERIC(10,3),
+				dec DECIMAL(10,3),
+				re REAL,
+				flt FLOAT,
+				dbl DOUBLE,
+				bool BOOLEAN,
+				ch CHAR(3),
+				var VARCHAR(128),
+				bin BINARY(20),
+				varbin VARBINARY(128),
+				dt DATE,
+				tmstmp TIMESTAMP,
+			    )`)
+
+		idValue := time.Now().Unix()
+
+		dbt.mustExec(`INSERT INTO `+dbt.tableName+` (id, int, tint, sint, bint, num, dec, re, flt, dbl, bool, ch, var, bin, varbin, dt, tmstmp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			idValue,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+		)
+
+		rows := dbt.mustQuery("SELECT * FROM "+dbt.tableName+" WHERE id = ?", idValue)
+		defer rows.Close()
+
+		var (
+			id      int64
+			integer sql.NullInt64
+			tint    sql.NullInt64
+			sint    sql.NullInt64
+			bint    sql.NullInt64
+			num     sql.NullString
+			dec     sql.NullString
+			re      sql.NullFloat64
+			flt     sql.NullFloat64
+			dbl     sql.NullFloat64
+			boolean sql.NullBool
+			ch      sql.NullString
+			varchar sql.NullString
+			bin     *[]byte
+			varbin  *[]byte
+			dt      *time.Time
+			tmstmp  *time.Time
+		)
+
+		for rows.Next() {
+			err := rows.Scan(&id, &integer, &tint, &sint, &bint, &num, &dec, &re, &flt, &dbl, &boolean, &ch, &varchar, &bin, &varbin, &dt, &tmstmp)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		comparisons := []struct {
+			result   interface{}
+			expected interface{}
+		}{
+			{integer, sql.NullInt64{}},
+			{tint, sql.NullInt64{}},
+			{sint, sql.NullInt64{}},
+			{bint, sql.NullInt64{}},
+			{num, sql.NullString{}},
+			{dec, sql.NullString{}},
+			{re, sql.NullFloat64{}},
+			{flt, sql.NullFloat64{}},
+			{dbl, sql.NullFloat64{}},
+			{boolean, sql.NullBool{}},
+			{ch, sql.NullString{}},
+			{varchar, sql.NullString{}},
+			{bin, (*[]byte)(nil)},
+			{varbin, (*[]byte)(nil)},
+			{dt, (*time.Time)(nil)},
+			{tmstmp, (*time.Time)(nil)},
+		}
+
+		for i, tt := range comparisons {
+
+			if v, ok := tt.expected.(time.Time); ok {
+
+				if !v.Equal(tt.result.(time.Time)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if v, ok := tt.expected.([]byte); ok {
+
+				if !bytes.Equal(v, tt.result.([]byte)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if tt.expected != tt.result {
+				dbt.Errorf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+			}
+		}
+	})
+}
+
 // TODO: Test case commented out due to CALCITE-1951
 /*func TestHSQLDBLocations(t *testing.T) {
 

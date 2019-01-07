@@ -93,7 +93,7 @@ func TestPhoenixZeroValues(t *testing.T) {
 			var i int
 			var flt float64
 			var b bool
-			var s string
+			var s sql.NullString
 
 			err := rows.Scan(&i, &flt, &b, &s)
 
@@ -113,8 +113,8 @@ func TestPhoenixZeroValues(t *testing.T) {
 				dbt.Fatalf("Boolean should be false, got %v", b)
 			}
 
-			if s != "" {
-				dbt.Fatalf("String should be \"\", got %v", s)
+			if val, _ := s.Value(); val != nil {
+				dbt.Fatalf("String should be nil, got %v", s)
 			}
 		}
 
@@ -296,6 +296,344 @@ func TestPhoenixDataTypes(t *testing.T) {
 
 			} else if tt.expected != tt.result {
 				dbt.Errorf("Expected %v, got %v.", tt.expected, tt.result)
+			}
+		}
+	})
+}
+
+func TestPhoenixSQLNullTypes(t *testing.T) {
+
+	skipTestIfNotPhoenix(t)
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				id INTEGER PRIMARY KEY,
+				int INTEGER,
+				uint UNSIGNED_INT,
+				bint BIGINT,
+				ulong UNSIGNED_LONG,
+				tint TINYINT,
+				utint UNSIGNED_TINYINT,
+				sint SMALLINT,
+				usint UNSIGNED_SMALLINT,
+				flt FLOAT,
+				uflt UNSIGNED_FLOAT,
+				dbl DOUBLE,
+				udbl UNSIGNED_DOUBLE,
+				dec DECIMAL,
+				bool BOOLEAN,
+				tm TIME,
+				dt DATE,
+				tmstmp TIMESTAMP,
+				utm UNSIGNED_TIME,
+				udt UNSIGNED_DATE,
+				utmstmp UNSIGNED_TIMESTAMP,
+				var VARCHAR,
+				ch CHAR(3),
+				bin BINARY(20),
+				varbin VARBINARY
+			    ) TRANSACTIONAL=false`)
+
+		var (
+			idValue                  = time.Now().Unix()
+			integerValue             = sql.NullInt64{}
+			uintegerValue            = sql.NullInt64{}
+			bintValue                = sql.NullInt64{}
+			ulongValue               = sql.NullInt64{}
+			tintValue                = sql.NullInt64{}
+			utintValue               = sql.NullInt64{}
+			sintValue                = sql.NullInt64{}
+			usintValue               = sql.NullInt64{}
+			fltValue                 = sql.NullFloat64{}
+			ufltValue                = sql.NullFloat64{}
+			dblValue                 = sql.NullFloat64{}
+			udblValue                = sql.NullFloat64{}
+			decValue                 = sql.NullString{}
+			booleanValue             = sql.NullBool{}
+			tmValue       *time.Time = nil
+			dtValue       *time.Time = nil
+			tmstmpValue   *time.Time = nil
+			utmValue      *time.Time = nil
+			udtValue      *time.Time = nil
+			utmstmpValue  *time.Time = nil
+			varcharValue             = sql.NullString{}
+			chValue                  = sql.NullString{}
+			binValue      *[]byte    = nil
+			varbinValue   *[]byte    = nil
+		)
+
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			idValue,
+			integerValue,
+			uintegerValue,
+			bintValue,
+			ulongValue,
+			tintValue,
+			utintValue,
+			sintValue,
+			usintValue,
+			fltValue,
+			ufltValue,
+			dblValue,
+			udblValue,
+			decValue,
+			booleanValue,
+			tmValue,
+			dtValue,
+			tmstmpValue,
+			utmValue,
+			udtValue,
+			utmstmpValue,
+			varcharValue,
+			chValue,
+			binValue,
+			varbinValue,
+		)
+
+		rows := dbt.mustQuery("SELECT * FROM "+dbt.tableName+" WHERE id = ?", idValue)
+		defer rows.Close()
+
+		var (
+			id       int64
+			integer  sql.NullInt64
+			uinteger sql.NullInt64
+			bint     sql.NullInt64
+			ulong    sql.NullInt64
+			tint     sql.NullInt64
+			utint    sql.NullInt64
+			sint     sql.NullInt64
+			usint    sql.NullInt64
+			flt      sql.NullFloat64
+			uflt     sql.NullFloat64
+			dbl      sql.NullFloat64
+			udbl     sql.NullFloat64
+			dec      sql.NullString
+			boolean  sql.NullBool
+			tm       *time.Time
+			dt       *time.Time
+			tmstmp   *time.Time
+			utm      *time.Time
+			udt      *time.Time
+			utmstmp  *time.Time
+			varchar  sql.NullString
+			ch       sql.NullString
+			bin      *[]byte
+			varbin   *[]byte
+		)
+
+		for rows.Next() {
+
+			err := rows.Scan(&id, &integer, &uinteger, &bint, &ulong, &tint, &utint, &sint, &usint, &flt, &uflt, &dbl, &udbl, &dec, &boolean, &tm, &dt, &tmstmp, &utm, &udt, &utmstmp, &varchar, &ch, &bin, &varbin)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		comparisons := []struct {
+			result   interface{}
+			expected interface{}
+		}{
+			{integer, integerValue},
+			{uinteger, uintegerValue},
+			{bint, bintValue},
+			{ulong, ulongValue},
+			{tint, tintValue},
+			{utint, utintValue},
+			{sint, sintValue},
+			{usint, usintValue},
+			{flt, fltValue},
+			{uflt, ufltValue},
+			{dbl, dblValue},
+			{udbl, udblValue},
+			{dec, decValue},
+			{boolean, booleanValue},
+			{tm, tmValue},
+			{dt, dtValue},
+			{tmstmp, tmstmpValue},
+			{utm, utmValue},
+			{udt, udtValue},
+			{utmstmp, utmstmpValue},
+			{varchar, varcharValue},
+			{ch, chValue},
+			{*bin, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+			{varbin, varbinValue},
+		}
+
+		for i, tt := range comparisons {
+
+			if v, ok := tt.expected.(time.Time); ok {
+
+				if !v.Equal(tt.result.(time.Time)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if v, ok := tt.expected.([]byte); ok {
+
+				if !bytes.Equal(v, tt.result.([]byte)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if tt.expected != tt.result {
+				dbt.Errorf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+			}
+		}
+	})
+}
+
+func TestPhoenixNulls(t *testing.T) {
+
+	skipTestIfNotPhoenix(t)
+
+	runTests(t, dsn, func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				id INTEGER PRIMARY KEY,
+				int INTEGER,
+				uint UNSIGNED_INT,
+				bint BIGINT,
+				ulong UNSIGNED_LONG,
+				tint TINYINT,
+				utint UNSIGNED_TINYINT,
+				sint SMALLINT,
+				usint UNSIGNED_SMALLINT,
+				flt FLOAT,
+				uflt UNSIGNED_FLOAT,
+				dbl DOUBLE,
+				udbl UNSIGNED_DOUBLE,
+				dec DECIMAL,
+				bool BOOLEAN,
+				tm TIME,
+				dt DATE,
+				tmstmp TIMESTAMP,
+				utm UNSIGNED_TIME,
+				udt UNSIGNED_DATE,
+				utmstmp UNSIGNED_TIMESTAMP,
+				var VARCHAR,
+				ch CHAR(3),
+				bin BINARY(20),
+				varbin VARBINARY
+			    ) TRANSACTIONAL=false`)
+
+		idValue := time.Now().Unix()
+
+		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+			idValue,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+		)
+
+		rows := dbt.mustQuery("SELECT * FROM "+dbt.tableName+" WHERE id = ?", idValue)
+		defer rows.Close()
+
+		var (
+			id       int64
+			integer  sql.NullInt64
+			uinteger sql.NullInt64
+			bint     sql.NullInt64
+			ulong    sql.NullInt64
+			tint     sql.NullInt64
+			utint    sql.NullInt64
+			sint     sql.NullInt64
+			usint    sql.NullInt64
+			flt      sql.NullFloat64
+			uflt     sql.NullFloat64
+			dbl      sql.NullFloat64
+			udbl     sql.NullFloat64
+			dec      sql.NullString
+			boolean  sql.NullBool
+			tm       *time.Time
+			dt       *time.Time
+			tmstmp   *time.Time
+			utm      *time.Time
+			udt      *time.Time
+			utmstmp  *time.Time
+			varchar  sql.NullString
+			ch       sql.NullString
+			bin      *[]byte
+			varbin   *[]byte
+		)
+
+		for rows.Next() {
+
+			err := rows.Scan(&id, &integer, &uinteger, &bint, &ulong, &tint, &utint, &sint, &usint, &flt, &uflt, &dbl, &udbl, &dec, &boolean, &tm, &dt, &tmstmp, &utm, &udt, &utmstmp, &varchar, &ch, &bin, &varbin)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		comparisons := []struct {
+			result   interface{}
+			expected interface{}
+		}{
+			{integer, sql.NullInt64{}},
+			{uinteger, sql.NullInt64{}},
+			{bint, sql.NullInt64{}},
+			{ulong, sql.NullInt64{}},
+			{tint, sql.NullInt64{}},
+			{utint, sql.NullInt64{}},
+			{sint, sql.NullInt64{}},
+			{usint, sql.NullInt64{}},
+			{flt, sql.NullFloat64{}},
+			{uflt, sql.NullFloat64{}},
+			{dbl, sql.NullFloat64{}},
+			{udbl, sql.NullFloat64{}},
+			{dec, sql.NullString{}},
+			{boolean, sql.NullBool{}},
+			{tm, (*time.Time)(nil)},
+			{dt, (*time.Time)(nil)},
+			{tmstmp, (*time.Time)(nil)},
+			{utm, (*time.Time)(nil)},
+			{udt, (*time.Time)(nil)},
+			{utmstmp, (*time.Time)(nil)},
+			{varchar, sql.NullString{}},
+			{ch, sql.NullString{}},
+			{*bin, []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+			{varbin, (*[]byte)(nil)},
+		}
+
+		for i, tt := range comparisons {
+
+			if v, ok := tt.expected.(time.Time); ok {
+
+				if !v.Equal(tt.result.(time.Time)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if v, ok := tt.expected.([]byte); ok {
+
+				if !bytes.Equal(v, tt.result.([]byte)) {
+					dbt.Fatalf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
+				}
+
+			} else if tt.expected != tt.result {
+				dbt.Errorf("Expected %v for case %d, got %v.", tt.expected, i, tt.result)
 			}
 		}
 	})
