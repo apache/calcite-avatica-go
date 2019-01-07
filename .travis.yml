@@ -44,6 +44,7 @@ env:
     - AVATICA_FLAVOR=PHOENIX IMAGE=boostport/hbase-phoenix-all-in-one:2.0-5.0
     - AVATICA_FLAVOR=HSQLDB IMAGE=f21global/calcite-avatica:1.11.0-hypersql
     - AVATICA_FLAVOR=HSQLDB IMAGE=f21global/calcite-avatica:1.12.0-hypersql
+    - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.13.0
 
 before_install:
   - if [ $TRAVIS_GO_VERSION == "1.10.x" ]; then
