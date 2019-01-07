@@ -180,7 +180,13 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 
 // typedValueToNative converts values from avatica's types to Go's native types
 func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) interface{} {
+
+	if v.Type == message.Rep_NULL {
+		return nil
+	}
+
 	switch rep {
+
 	case message.Rep_BOOLEAN, message.Rep_PRIMITIVE_BOOLEAN:
 		return v.BoolValue
 

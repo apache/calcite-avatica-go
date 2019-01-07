@@ -156,6 +156,7 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 		typed := message.TypedValue{}
 		if val.Value == nil {
 			typed.Null = true
+			typed.Type = message.Rep_NULL
 		} else {
 
 			switch v := val.Value.(type) {
