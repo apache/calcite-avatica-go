@@ -2,20 +2,20 @@
 
 
 [[projects]]
-  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
+  digest = "1:318f1c959a8a740366fce4b1e1eb2fd914036b4af58fbd0a003349b305f118ad"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   pruneopts = "UT"
-  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
-  version = "v1.2.0"
+  revision = "b5d812f8a3706043e23a9cd5babf2e5423744d30"
+  version = "v1.3.1"
 
 [[projects]]
-  digest = "1:12ed7dcca9531e58c65cdadb8af0052724bef7fa1581380523fb9cb1215faf0d"
+  digest = "1:f14364057165381ea296e49f8870a9ffce2b8a95e34d6ae06c759106aaef428c"
   name = "github.com/hashicorp/go-uuid"
   packages = ["."]
   pruneopts = "UT"
-  revision = "de160f5c59f693fed329e73e291bb751fe4ea4dc"
-  version = "v1.0.0"
+  revision = "4f571afc59f3043a65f8fe6bf46d887b10a01d43"
+  version = "v1.0.1"
 
 [[projects]]
   branch = "master"
@@ -26,7 +26,7 @@
     "x/crypto/pbkdf2",
   ]
   pruneopts = "UT"
-  revision = "2aebee971930cd0dd525873330952ab7df5ac95c"
+  revision = "dc7c13fece037a4a36e2b3c69db4991498d30692"
 
 [[projects]]
   digest = "1:220454f22582ee261c09b310a14e6979886069808a696005c5ca998f80eca0cf"
@@ -38,14 +38,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:706aaf5e43c7dc00fe3fe91015cf8ef07e50736356c8acf924a061ccb1845237"
+  digest = "1:04b43fe96213ea69cfa6e6b8be218a43a375035ea09d9bdda9fed2691f5a7e76"
   name = "golang.org/x/crypto"
   packages = [
     "md4",
     "pbkdf2",
   ]
   pruneopts = "UT"
-  revision = "0709b304e793a5edb4a2c0145f281ecdc20838a4"
+  revision = "c05e17bb3b2dca130fc919668a96b4bec9eb9442"
 
 [[projects]]
   digest = "1:c902038ee2d6f964d3b9f2c718126571410c5d81251cbab9fe58abd37803513c"
@@ -64,8 +64,8 @@
   version = "v1.0.1"
 
 [[projects]]
-  digest = "1:310dfc2c375c2bd4cfcf0e0603403ac8a5d9448116ade9309c691c54f78ac9df"
-  name = "gopkg.in/jcmturner/gokrb5.v6"
+  digest = "1:5842913724551997c82539fc690ea003cc88cffc0122fd797bd3d08a55a14dd6"
+  name = "gopkg.in/jcmturner/gokrb5.v7"
   packages = [
     "asn1tools",
     "client",
@@ -78,7 +78,6 @@
     "crypto/rfc3962",
     "crypto/rfc4757",
     "crypto/rfc8009",
-    "gssapi",
     "iana",
     "iana/addrtype",
     "iana/adtype",
@@ -99,8 +98,8 @@
     "types",
   ]
   pruneopts = "UT"
-  revision = "c01bd1a96a4147499899e47bfba0d8482f42dcd0"
-  version = "v6.0.1"
+  revision = "7b6b2f54b7fda31a47cd7e68ca8485dedeb0e1ed"
+  version = "v7.2.3"
 
 [[projects]]
   digest = "1:0f16d9c577198e3b8d3209f5a89aabe679525b2aba2a7548714e973035c0e232"
@@ -120,10 +119,10 @@
     "github.com/golang/protobuf/proto",
     "github.com/hashicorp/go-uuid",
     "github.com/xinsnake/go-http-digest-auth-client",
-    "gopkg.in/jcmturner/gokrb5.v6/client",
-    "gopkg.in/jcmturner/gokrb5.v6/config",
-    "gopkg.in/jcmturner/gokrb5.v6/credentials",
-    "gopkg.in/jcmturner/gokrb5.v6/keytab",
+    "gopkg.in/jcmturner/gokrb5.v7/client",
+    "gopkg.in/jcmturner/gokrb5.v7/config",
+    "gopkg.in/jcmturner/gokrb5.v7/credentials",
+    "gopkg.in/jcmturner/gokrb5.v7/keytab",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
