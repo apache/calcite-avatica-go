@@ -32,10 +32,11 @@ import (
 	avaticaMessage "github.com/apache/calcite-avatica-go/v3/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/xinsnake/go-http-digest-auth-client"
-	"gopkg.in/jcmturner/gokrb5.v6/client"
-	"gopkg.in/jcmturner/gokrb5.v6/config"
-	"gopkg.in/jcmturner/gokrb5.v6/credentials"
-	"gopkg.in/jcmturner/gokrb5.v6/keytab"
+	"gopkg.in/jcmturner/gokrb5.v7/client"
+	"gopkg.in/jcmturner/gokrb5.v7/config"
+	"gopkg.in/jcmturner/gokrb5.v7/credentials"
+	"gopkg.in/jcmturner/gokrb5.v7/keytab"
+	gokrbSPNEGO "gopkg.in/jcmturner/gokrb5.v7/spnego"
 )
 
 var (
@@ -59,7 +60,7 @@ type httpClient struct {
 	host           string
 	authConfig     httpClientAuthConfig
 	httpClient     *http.Client
-	kerberosClient client.Client
+	kerberosClient *client.Client
 }
 
 type avaticaError struct {
@@ -108,7 +109,7 @@ func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) (*httpC
 				return nil, fmt.Errorf("error reading kerberos ticket cache: %s", err)
 			}
 
-			kc, err := client.NewClientFromCCache(tc)
+			kc, err := client.NewClientFromCCache(tc, config.NewConfig())
 			if err != nil {
 				return nil, fmt.Errorf("error creating kerberos client: %s", err)
 			}
@@ -129,8 +130,7 @@ func NewHTTPClient(host string, authenticationConf httpClientAuthConfig) (*httpC
 				return nil, fmt.Errorf("error reading kerberos keytab: %s", err)
 			}
 
-			kc := client.NewClientWithKeytab(authenticationConf.principal.username, authenticationConf.principal.realm, kt)
-			kc.WithConfig(cfg)
+			kc := client.NewClientWithKeytab(authenticationConf.principal.username, authenticationConf.principal.realm, kt, cfg)
 
 			err = kc.Login()
 
@@ -176,7 +176,11 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	if c.authConfig.authenticationType == basic {
 		req.SetBasicAuth(c.authConfig.username, c.authConfig.password)
 	} else if c.authConfig.authenticationType == spnego {
-		c.kerberosClient.SetSPNEGOHeader(req, "")
+		err := gokrbSPNEGO.SetSPNEGOHeader(c.kerberosClient, req, "")
+
+		if err != nil{
+			return nil, err
+		}
 	}
 
 	req = req.WithContext(ctx)
