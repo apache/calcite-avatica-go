@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.11-alpine as base
+FROM golang:1.12-alpine as base
 
 ENV DEV ""
 
