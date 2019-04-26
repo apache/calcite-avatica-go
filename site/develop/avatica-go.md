@@ -32,12 +32,10 @@ To file issues, please use the [Calcite JIRA](https://issues.apache.org/jira/pro
 as the component.
 
 ## Updating protobuf definitions
-
-To update the procotol buffer definitions, update `AVATICA_VER` in `gen-protobuf.bat` and `gen-protobuf.sh` to match
-the version you want to generate protobufs for and then run the appropriate script for your platform.
+1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+2. From the root of the repository, run `docker-compose run compile-protobuf`
 
 ## Live reload during development
-
 It is possible to reload the code in real-time during development. This executes the test suite every time a `.go` or
 `.mod` file is updated. The test suite takes a while to run, so the tests will not complete instantly, but live-reloading
 during development allows us to not have to manually execute the test suite on save.
@@ -45,16 +43,19 @@ during development allows us to not have to manually execute the test suite on s
 ### Set up
 1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `DEV=true docker-compose up --build`.
+2. From the root of the repository, run `docker-compose run dev`.
+
+3. After terminating the container, stop all the containers and remove them using: `docker-compose down`
 
 ## Testing
-
 The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB and Apache Phoenix tests.
 
 ### Easy way
 1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `docker-compose up --build --abort-on-container-exit`.
+2. From the root of the repository, run `docker-compose run test`.
+
+3. After the tests complete, stop all the containers and remove them using: `docker-compose down`
 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).
@@ -80,21 +81,50 @@ PHOENIX_HOST: http://phoenix:8765
 ## Releasing
 
 ### Preparing for release
-1. If you have not set up a GPG signing key, set one up by following these [instructions](https://www.apache.org/dev/openpgp.html#generate-key).
+1. You will need to have [docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
-2. If this release is a new major version (we are releasing 4.0.0 vs the current version 3.0.0), update the version in the
+2. If you have not set up a GPG signing key, set one up by following these [instructions](https://www.apache.org/dev/openpgp.html#generate-key).
+
+3. If this release is a new major version (we are releasing 4.0.0 vs the current version 3.0.0), update the version in the
 import path in `go.mod`. The import paths in the various sample code snippets should also be updated.
 
-3. Since we need to support Go modules, tags must be prefixed with a `v`. For example, tag as `v3.1.0` rather than `3.1.0`.
+4. Since we need to support Go modules, tags must be prefixed with a `v`. For example, tag as `v3.1.0` rather than `3.1.0`.
+
+5. Check that `NOTICE` has the current copyright year.
+
+### Perform a dry-run
+* The script expects you to mount your `~/.gnupg` directory into the `/.gnupg` directory in the container. Once mounted into the container,
+the script will make a copy of the contents and move it to a different location, so that it will not modify the contents of your original
+`~/.gnupg` directory during the build.
+
+{% highlight bash %}
+# On Linux:
+docker-compose run -v ~/.gnupg:/.gnupg dry-run
+
+# On Windows
+docker-compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg dry-run
+{% endhighlight %}
 
 ### Build the release
-1. Tag the release. For example, if releasing `vX.Y.Z` and this is `rc0`, execute: `git tag vX.Y.Z-rcN` on the master branch.
+{% highlight bash %}
+# On Linux:
+docker-compose run -v ~/.gnupg:/.gnupg release
 
-2. Push the tag to git: `git push origin vX.Y.Z-rcN`
+# On Windows
+docker-compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg release
+{% endhighlight %}
 
-2. From the root of the repository, run `./make-release-artifacts.sh`. You will be asked to select the tag to build release
-artifacts for. The latest tag is automatically selected if no tag is selected. The release artifacts will be placed in a
-folder named for the release within the `dist/` folder.
+If the build fails, perform a clean:
+1. Remove the git tag locally and remotely:
+{% highlight bash %}
+git tag -d vX.Y.Z-rcA
+git push origin :refs/tags/vX.Y.Z-rcA
+{% endhighlight %}
+
+2. Clean the local repository
+{% highlight bash %}
+docker-compose run clean
+{% endhighlight %}
 
 ### Check the release before uploading
 The name of the release folder must be in the following format: `apache-calcite-avatica-go-X.Y.Z-rcN`. The version must 
@@ -110,9 +140,10 @@ The tar.gz must be named `apache-calcite-avatica-go-X.Y.Z-src.tar.gz`.
 
 There must be a GPG signature for the tar.gz named: `apache-calcite-avatica-go-X.Y.Z-src.tar.gz.asc`
 
-There must be a SHA256 hash for the tar.gz named: `apache-calcite-avatica-go-X.Y.Z-src.tar.gz.sha256`
+There must be a SHA256 hash for the tar.gz named: `apache-calcite-avatica-go-X.Y.Z-src.tar.gz.sha512`
 
 ### Uploading release artifacts to dev for voting
+#### Manually
 `svn` must be installed in order to upload release artifacts.
 
 1. Check out the Calcite dev release subdirectory: `svn co "https://dist.apache.org/repos/dist/dev/calcite/" calcite-dev`.
@@ -125,6 +156,16 @@ correct release in the command.
 4. Commit to upload the artifacts: `svn commit -m "apache-calcite-avatica-go-X.Y.Z-rcN" --username yourapacheusername --force-log`
 Note the use of `--force-log` to suppress the svn warning, because the commit message is the same as the name of the directory.
 
+#### Using docker
+This assumes that a release was built and the artifacts are in the `dist/` folder.
+
+{% highlight bash %}
+docker-compose run publish-release-for-voting
+{% endhighlight %}
+
+The script will also generate a vote email to send to the dev list. You can use this email, but make sure to check that
+all the details are correct.
+
 ### Send an email to the Dev list for voting:
 
 Send out the email for voting:
@@ -136,14 +177,13 @@ Hi all,
 
 I have created a build for Apache Calcite Avatica Go X.Y.Z, release candidate N.
 
-Thanks to everyone who has contributed to this release.
-<Further details about release.> You can read the release notes here:
+Thanks to everyone who has contributed to this release. The release notes are available here:
 https://github.com/apache/calcite-avatica-go/blob/XXXX/site/_docs/go_history.md
 
 The commit to be voted upon:
-https://gitbox.apache.org/repos/asf/calcite-avatica-go/commit/NNNNNN
+https://gitbox.apache.org/repos/asf?p=calcite-avatica-go.git;a=commit;h=NNNNNN
 
-Its hash is XXXX.
+The hash is XXXX.
 
 The artifacts to be voted on are located here:
 https://dist.apache.org/repos/dist/dev/calcite/apache-calcite-avatica-go-X.Y.Z-rcN/
@@ -154,7 +194,15 @@ src.tar.gz.sha256 XXXX
 Release artifacts are signed with the following key:
 https://people.apache.org/keys/committer/francischuang.asc
 
+Instructions for running the test suite is located here:
+https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/develop/avatica-go.md#testing
+
 Please vote on releasing this package as Apache Calcite Avatica Go X.Y.Z.
+
+To run the tests without a Go environment, install docker and docker-compose. Then, in the root of the release's directory, run:
+docker-compose run test
+
+When the test suite completes, run \"docker-compose down\" to remove and shutdown all the containers.
 
 The vote is open for the next 72 hours and passes if a majority of
 at least three +1 PMC votes are cast.
@@ -198,6 +246,7 @@ Francis
 {% endhighlight %}
 
 ### Promoting a release after voting
+#### Manually
 `svn` must be installed in order to upload release artifacts.
 
 NOTE: Only official releases that has passed a vote may be uploaded to the release directory.
@@ -219,7 +268,15 @@ git tag vX.Y.Z X.Y.Z-rcN
 git push origin vX.Y.Z
 {% endhighlight %}
 
-6. After 24 hours, announce the release by sending an announcement to the [dev list](https://mail-archives.apache.org/mod_mbox/calcite-dev/)
+#### Using docker
+This assumes that a rc release was tagged and pushed to the git repository.
+
+{% highlight bash %}
+docker-compose run promote-release
+{% endhighlight %}
+
+### Announce the release
+After 24 hours, announce the release by sending an announcement to the [dev list](https://mail-archives.apache.org/mod_mbox/calcite-dev/)
 and [announce@apache.org](https://mail-archives.apache.org/mod_mbox/www-announce/).
 
 An example of the announcement could look like:
