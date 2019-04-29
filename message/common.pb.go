@@ -3,9 +3,11 @@
 
 package message
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -16,7 +18,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Has to be consistent with Meta.StatementType
 type StatementType int32
@@ -50,6 +52,7 @@ var StatementType_name = map[int32]string{
 	10: "OTHER_DDL",
 	11: "CALL",
 }
+
 var StatementType_value = map[string]int32{
 	"SELECT":    0,
 	"INSERT":    1,
@@ -68,8 +71,9 @@ var StatementType_value = map[string]int32{
 func (x StatementType) String() string {
 	return proto.EnumName(StatementType_name, int32(x))
 }
+
 func (StatementType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{0}
+	return fileDescriptor_555bd8c177793206, []int{0}
 }
 
 type Rep int32
@@ -139,6 +143,7 @@ var Rep_name = map[int32]string{
 	28: "STRUCT",
 	29: "MULTISET",
 }
+
 var Rep_value = map[string]int32{
 	"PRIMITIVE_BOOLEAN":  0,
 	"PRIMITIVE_BYTE":     1,
@@ -175,8 +180,9 @@ var Rep_value = map[string]int32{
 func (x Rep) String() string {
 	return proto.EnumName(Rep_name, int32(x))
 }
+
 func (Rep) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{1}
+	return fileDescriptor_555bd8c177793206, []int{1}
 }
 
 // The severity of some unexpected outcome to an operation.
@@ -196,6 +202,7 @@ var Severity_name = map[int32]string{
 	2: "ERROR_SEVERITY",
 	3: "WARNING_SEVERITY",
 }
+
 var Severity_value = map[string]int32{
 	"UNKNOWN_SEVERITY": 0,
 	"FATAL_SEVERITY":   1,
@@ -206,8 +213,9 @@ var Severity_value = map[string]int32{
 func (x Severity) String() string {
 	return proto.EnumName(Severity_name, int32(x))
 }
+
 func (Severity) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{2}
+	return fileDescriptor_555bd8c177793206, []int{2}
 }
 
 // Enumeration corresponding to DatabaseMetaData operations
@@ -270,6 +278,7 @@ var MetaDataOperation_name = map[int32]string{
 	24: "GET_UDTS",
 	25: "GET_VERSION_COLUMNS",
 }
+
 var MetaDataOperation_value = map[string]int32{
 	"GET_ATTRIBUTES":             0,
 	"GET_BEST_ROW_IDENTIFIER":    1,
@@ -302,8 +311,9 @@ var MetaDataOperation_value = map[string]int32{
 func (x MetaDataOperation) String() string {
 	return proto.EnumName(MetaDataOperation_name, int32(x))
 }
+
 func (MetaDataOperation) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{3}
+	return fileDescriptor_555bd8c177793206, []int{3}
 }
 
 type StateType int32
@@ -317,6 +327,7 @@ var StateType_name = map[int32]string{
 	0: "SQL",
 	1: "METADATA",
 }
+
 var StateType_value = map[string]int32{
 	"SQL":      0,
 	"METADATA": 1,
@@ -325,8 +336,9 @@ var StateType_value = map[string]int32{
 func (x StateType) String() string {
 	return proto.EnumName(StateType_name, int32(x))
 }
+
 func (StateType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{4}
+	return fileDescriptor_555bd8c177793206, []int{4}
 }
 
 type CursorFactory_Style int32
@@ -348,6 +360,7 @@ var CursorFactory_Style_name = map[int32]string{
 	4: "LIST",
 	5: "MAP",
 }
+
 var CursorFactory_Style_value = map[string]int32{
 	"OBJECT":            0,
 	"RECORD":            1,
@@ -360,8 +373,9 @@ var CursorFactory_Style_value = map[string]int32{
 func (x CursorFactory_Style) String() string {
 	return proto.EnumName(CursorFactory_Style_name, int32(x))
 }
+
 func (CursorFactory_Style) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{6, 0}
+	return fileDescriptor_555bd8c177793206, []int{6, 0}
 }
 
 type MetaDataOperationArgument_ArgumentType int32
@@ -383,6 +397,7 @@ var MetaDataOperationArgument_ArgumentType_name = map[int32]string{
 	4: "REPEATED_INT",
 	5: "NULL",
 }
+
 var MetaDataOperationArgument_ArgumentType_value = map[string]int32{
 	"STRING":          0,
 	"BOOL":            1,
@@ -395,8 +410,9 @@ var MetaDataOperationArgument_ArgumentType_value = map[string]int32{
 func (x MetaDataOperationArgument_ArgumentType) String() string {
 	return proto.EnumName(MetaDataOperationArgument_ArgumentType_name, int32(x))
 }
+
 func (MetaDataOperationArgument_ArgumentType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{13, 0}
+	return fileDescriptor_555bd8c177793206, []int{13, 0}
 }
 
 // Details about a connection
@@ -418,16 +434,17 @@ func (m *ConnectionProperties) Reset()         { *m = ConnectionProperties{} }
 func (m *ConnectionProperties) String() string { return proto.CompactTextString(m) }
 func (*ConnectionProperties) ProtoMessage()    {}
 func (*ConnectionProperties) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{0}
+	return fileDescriptor_555bd8c177793206, []int{0}
 }
+
 func (m *ConnectionProperties) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConnectionProperties.Unmarshal(m, b)
 }
 func (m *ConnectionProperties) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConnectionProperties.Marshal(b, m, deterministic)
 }
-func (dst *ConnectionProperties) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConnectionProperties.Merge(dst, src)
+func (m *ConnectionProperties) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectionProperties.Merge(m, src)
 }
 func (m *ConnectionProperties) XXX_Size() int {
 	return xxx_messageInfo_ConnectionProperties.Size(m)
@@ -508,16 +525,17 @@ func (m *StatementHandle) Reset()         { *m = StatementHandle{} }
 func (m *StatementHandle) String() string { return proto.CompactTextString(m) }
 func (*StatementHandle) ProtoMessage()    {}
 func (*StatementHandle) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{1}
+	return fileDescriptor_555bd8c177793206, []int{1}
 }
+
 func (m *StatementHandle) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_StatementHandle.Unmarshal(m, b)
 }
 func (m *StatementHandle) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_StatementHandle.Marshal(b, m, deterministic)
 }
-func (dst *StatementHandle) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_StatementHandle.Merge(dst, src)
+func (m *StatementHandle) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StatementHandle.Merge(m, src)
 }
 func (m *StatementHandle) XXX_Size() int {
 	return xxx_messageInfo_StatementHandle.Size(m)
@@ -565,16 +583,17 @@ func (m *Signature) Reset()         { *m = Signature{} }
 func (m *Signature) String() string { return proto.CompactTextString(m) }
 func (*Signature) ProtoMessage()    {}
 func (*Signature) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{2}
+	return fileDescriptor_555bd8c177793206, []int{2}
 }
+
 func (m *Signature) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Signature.Unmarshal(m, b)
 }
 func (m *Signature) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Signature.Marshal(b, m, deterministic)
 }
-func (dst *Signature) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Signature.Merge(dst, src)
+func (m *Signature) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Signature.Merge(m, src)
 }
 func (m *Signature) XXX_Size() int {
 	return xxx_messageInfo_Signature.Size(m)
@@ -650,16 +669,17 @@ func (m *ColumnMetaData) Reset()         { *m = ColumnMetaData{} }
 func (m *ColumnMetaData) String() string { return proto.CompactTextString(m) }
 func (*ColumnMetaData) ProtoMessage()    {}
 func (*ColumnMetaData) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{3}
+	return fileDescriptor_555bd8c177793206, []int{3}
 }
+
 func (m *ColumnMetaData) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ColumnMetaData.Unmarshal(m, b)
 }
 func (m *ColumnMetaData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ColumnMetaData.Marshal(b, m, deterministic)
 }
-func (dst *ColumnMetaData) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ColumnMetaData.Merge(dst, src)
+func (m *ColumnMetaData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ColumnMetaData.Merge(m, src)
 }
 func (m *ColumnMetaData) XXX_Size() int {
 	return xxx_messageInfo_ColumnMetaData.Size(m)
@@ -826,16 +846,17 @@ func (m *AvaticaType) Reset()         { *m = AvaticaType{} }
 func (m *AvaticaType) String() string { return proto.CompactTextString(m) }
 func (*AvaticaType) ProtoMessage()    {}
 func (*AvaticaType) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{4}
+	return fileDescriptor_555bd8c177793206, []int{4}
 }
+
 func (m *AvaticaType) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AvaticaType.Unmarshal(m, b)
 }
 func (m *AvaticaType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AvaticaType.Marshal(b, m, deterministic)
 }
-func (dst *AvaticaType) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AvaticaType.Merge(dst, src)
+func (m *AvaticaType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AvaticaType.Merge(m, src)
 }
 func (m *AvaticaType) XXX_Size() int {
 	return xxx_messageInfo_AvaticaType.Size(m)
@@ -899,16 +920,17 @@ func (m *AvaticaParameter) Reset()         { *m = AvaticaParameter{} }
 func (m *AvaticaParameter) String() string { return proto.CompactTextString(m) }
 func (*AvaticaParameter) ProtoMessage()    {}
 func (*AvaticaParameter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{5}
+	return fileDescriptor_555bd8c177793206, []int{5}
 }
+
 func (m *AvaticaParameter) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AvaticaParameter.Unmarshal(m, b)
 }
 func (m *AvaticaParameter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_AvaticaParameter.Marshal(b, m, deterministic)
 }
-func (dst *AvaticaParameter) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AvaticaParameter.Merge(dst, src)
+func (m *AvaticaParameter) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AvaticaParameter.Merge(m, src)
 }
 func (m *AvaticaParameter) XXX_Size() int {
 	return xxx_messageInfo_AvaticaParameter.Size(m)
@@ -982,16 +1004,17 @@ func (m *CursorFactory) Reset()         { *m = CursorFactory{} }
 func (m *CursorFactory) String() string { return proto.CompactTextString(m) }
 func (*CursorFactory) ProtoMessage()    {}
 func (*CursorFactory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{6}
+	return fileDescriptor_555bd8c177793206, []int{6}
 }
+
 func (m *CursorFactory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CursorFactory.Unmarshal(m, b)
 }
 func (m *CursorFactory) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CursorFactory.Marshal(b, m, deterministic)
 }
-func (dst *CursorFactory) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CursorFactory.Merge(dst, src)
+func (m *CursorFactory) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CursorFactory.Merge(m, src)
 }
 func (m *CursorFactory) XXX_Size() int {
 	return xxx_messageInfo_CursorFactory.Size(m)
@@ -1037,16 +1060,17 @@ func (m *Frame) Reset()         { *m = Frame{} }
 func (m *Frame) String() string { return proto.CompactTextString(m) }
 func (*Frame) ProtoMessage()    {}
 func (*Frame) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{7}
+	return fileDescriptor_555bd8c177793206, []int{7}
 }
+
 func (m *Frame) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Frame.Unmarshal(m, b)
 }
 func (m *Frame) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Frame.Marshal(b, m, deterministic)
 }
-func (dst *Frame) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Frame.Merge(dst, src)
+func (m *Frame) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Frame.Merge(m, src)
 }
 func (m *Frame) XXX_Size() int {
 	return xxx_messageInfo_Frame.Size(m)
@@ -1090,16 +1114,17 @@ func (m *Row) Reset()         { *m = Row{} }
 func (m *Row) String() string { return proto.CompactTextString(m) }
 func (*Row) ProtoMessage()    {}
 func (*Row) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{8}
+	return fileDescriptor_555bd8c177793206, []int{8}
 }
+
 func (m *Row) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Row.Unmarshal(m, b)
 }
 func (m *Row) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Row.Marshal(b, m, deterministic)
 }
-func (dst *Row) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Row.Merge(dst, src)
+func (m *Row) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Row.Merge(m, src)
 }
 func (m *Row) XXX_Size() int {
 	return xxx_messageInfo_Row.Size(m)
@@ -1130,16 +1155,17 @@ func (m *DatabaseProperty) Reset()         { *m = DatabaseProperty{} }
 func (m *DatabaseProperty) String() string { return proto.CompactTextString(m) }
 func (*DatabaseProperty) ProtoMessage()    {}
 func (*DatabaseProperty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{9}
+	return fileDescriptor_555bd8c177793206, []int{9}
 }
+
 func (m *DatabaseProperty) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DatabaseProperty.Unmarshal(m, b)
 }
 func (m *DatabaseProperty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DatabaseProperty.Marshal(b, m, deterministic)
 }
-func (dst *DatabaseProperty) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DatabaseProperty.Merge(dst, src)
+func (m *DatabaseProperty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabaseProperty.Merge(m, src)
 }
 func (m *DatabaseProperty) XXX_Size() int {
 	return xxx_messageInfo_DatabaseProperty.Size(m)
@@ -1177,16 +1203,17 @@ func (m *WireMessage) Reset()         { *m = WireMessage{} }
 func (m *WireMessage) String() string { return proto.CompactTextString(m) }
 func (*WireMessage) ProtoMessage()    {}
 func (*WireMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{10}
+	return fileDescriptor_555bd8c177793206, []int{10}
 }
+
 func (m *WireMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_WireMessage.Unmarshal(m, b)
 }
 func (m *WireMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_WireMessage.Marshal(b, m, deterministic)
 }
-func (dst *WireMessage) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WireMessage.Merge(dst, src)
+func (m *WireMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WireMessage.Merge(m, src)
 }
 func (m *WireMessage) XXX_Size() int {
 	return xxx_messageInfo_WireMessage.Size(m)
@@ -1226,16 +1253,17 @@ func (m *ColumnValue) Reset()         { *m = ColumnValue{} }
 func (m *ColumnValue) String() string { return proto.CompactTextString(m) }
 func (*ColumnValue) ProtoMessage()    {}
 func (*ColumnValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{11}
+	return fileDescriptor_555bd8c177793206, []int{11}
 }
+
 func (m *ColumnValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ColumnValue.Unmarshal(m, b)
 }
 func (m *ColumnValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ColumnValue.Marshal(b, m, deterministic)
 }
-func (dst *ColumnValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ColumnValue.Merge(dst, src)
+func (m *ColumnValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ColumnValue.Merge(m, src)
 }
 func (m *ColumnValue) XXX_Size() int {
 	return xxx_messageInfo_ColumnValue.Size(m)
@@ -1296,16 +1324,17 @@ func (m *TypedValue) Reset()         { *m = TypedValue{} }
 func (m *TypedValue) String() string { return proto.CompactTextString(m) }
 func (*TypedValue) ProtoMessage()    {}
 func (*TypedValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{12}
+	return fileDescriptor_555bd8c177793206, []int{12}
 }
+
 func (m *TypedValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TypedValue.Unmarshal(m, b)
 }
 func (m *TypedValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TypedValue.Marshal(b, m, deterministic)
 }
-func (dst *TypedValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TypedValue.Merge(dst, src)
+func (m *TypedValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TypedValue.Merge(m, src)
 }
 func (m *TypedValue) XXX_Size() int {
 	return xxx_messageInfo_TypedValue.Size(m)
@@ -1403,16 +1432,17 @@ func (m *MetaDataOperationArgument) Reset()         { *m = MetaDataOperationArgu
 func (m *MetaDataOperationArgument) String() string { return proto.CompactTextString(m) }
 func (*MetaDataOperationArgument) ProtoMessage()    {}
 func (*MetaDataOperationArgument) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{13}
+	return fileDescriptor_555bd8c177793206, []int{13}
 }
+
 func (m *MetaDataOperationArgument) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MetaDataOperationArgument.Unmarshal(m, b)
 }
 func (m *MetaDataOperationArgument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_MetaDataOperationArgument.Marshal(b, m, deterministic)
 }
-func (dst *MetaDataOperationArgument) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MetaDataOperationArgument.Merge(dst, src)
+func (m *MetaDataOperationArgument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MetaDataOperationArgument.Merge(m, src)
 }
 func (m *MetaDataOperationArgument) XXX_Size() int {
 	return xxx_messageInfo_MetaDataOperationArgument.Size(m)
@@ -1482,16 +1512,17 @@ func (m *QueryState) Reset()         { *m = QueryState{} }
 func (m *QueryState) String() string { return proto.CompactTextString(m) }
 func (*QueryState) ProtoMessage()    {}
 func (*QueryState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_common_84e383fbabed0a31, []int{14}
+	return fileDescriptor_555bd8c177793206, []int{14}
 }
+
 func (m *QueryState) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_QueryState.Unmarshal(m, b)
 }
 func (m *QueryState) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_QueryState.Marshal(b, m, deterministic)
 }
-func (dst *QueryState) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryState.Merge(dst, src)
+func (m *QueryState) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryState.Merge(m, src)
 }
 func (m *QueryState) XXX_Size() int {
 	return xxx_messageInfo_QueryState.Size(m)
@@ -1552,6 +1583,13 @@ func (m *QueryState) GetHasOp() bool {
 }
 
 func init() {
+	proto.RegisterEnum("StatementType", StatementType_name, StatementType_value)
+	proto.RegisterEnum("Rep", Rep_name, Rep_value)
+	proto.RegisterEnum("Severity", Severity_name, Severity_value)
+	proto.RegisterEnum("MetaDataOperation", MetaDataOperation_name, MetaDataOperation_value)
+	proto.RegisterEnum("StateType", StateType_name, StateType_value)
+	proto.RegisterEnum("CursorFactory_Style", CursorFactory_Style_name, CursorFactory_Style_value)
+	proto.RegisterEnum("MetaDataOperationArgument_ArgumentType", MetaDataOperationArgument_ArgumentType_name, MetaDataOperationArgument_ArgumentType_value)
 	proto.RegisterType((*ConnectionProperties)(nil), "ConnectionProperties")
 	proto.RegisterType((*StatementHandle)(nil), "StatementHandle")
 	proto.RegisterType((*Signature)(nil), "Signature")
@@ -1567,18 +1605,11 @@ func init() {
 	proto.RegisterType((*TypedValue)(nil), "TypedValue")
 	proto.RegisterType((*MetaDataOperationArgument)(nil), "MetaDataOperationArgument")
 	proto.RegisterType((*QueryState)(nil), "QueryState")
-	proto.RegisterEnum("StatementType", StatementType_name, StatementType_value)
-	proto.RegisterEnum("Rep", Rep_name, Rep_value)
-	proto.RegisterEnum("Severity", Severity_name, Severity_value)
-	proto.RegisterEnum("MetaDataOperation", MetaDataOperation_name, MetaDataOperation_value)
-	proto.RegisterEnum("StateType", StateType_name, StateType_value)
-	proto.RegisterEnum("CursorFactory_Style", CursorFactory_Style_name, CursorFactory_Style_value)
-	proto.RegisterEnum("MetaDataOperationArgument_ArgumentType", MetaDataOperationArgument_ArgumentType_name, MetaDataOperationArgument_ArgumentType_value)
 }
 
-func init() { proto.RegisterFile("common.proto", fileDescriptor_common_84e383fbabed0a31) }
+func init() { proto.RegisterFile("common.proto", fileDescriptor_555bd8c177793206) }
 
-var fileDescriptor_common_84e383fbabed0a31 = []byte{
+var fileDescriptor_555bd8c177793206 = []byte{
 	// 2227 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x58, 0xcb, 0x72, 0xe3, 0xc6,
 	0x15, 0x1d, 0xf0, 0x21, 0x11, 0x17, 0x24, 0xd5, 0x6a, 0x49, 0x33, 0x9c, 0x19, 0x3f, 0x64, 0xa6,

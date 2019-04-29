@@ -3,9 +3,11 @@
 
 package message
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -16,7 +18,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // Request for Meta#getCatalogs()
 type CatalogsRequest struct {
@@ -30,16 +32,17 @@ func (m *CatalogsRequest) Reset()         { *m = CatalogsRequest{} }
 func (m *CatalogsRequest) String() string { return proto.CompactTextString(m) }
 func (*CatalogsRequest) ProtoMessage()    {}
 func (*CatalogsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{0}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{0}
 }
+
 func (m *CatalogsRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CatalogsRequest.Unmarshal(m, b)
 }
 func (m *CatalogsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CatalogsRequest.Marshal(b, m, deterministic)
 }
-func (dst *CatalogsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CatalogsRequest.Merge(dst, src)
+func (m *CatalogsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CatalogsRequest.Merge(m, src)
 }
 func (m *CatalogsRequest) XXX_Size() int {
 	return xxx_messageInfo_CatalogsRequest.Size(m)
@@ -69,16 +72,17 @@ func (m *DatabasePropertyRequest) Reset()         { *m = DatabasePropertyRequest
 func (m *DatabasePropertyRequest) String() string { return proto.CompactTextString(m) }
 func (*DatabasePropertyRequest) ProtoMessage()    {}
 func (*DatabasePropertyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{1}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{1}
 }
+
 func (m *DatabasePropertyRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DatabasePropertyRequest.Unmarshal(m, b)
 }
 func (m *DatabasePropertyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_DatabasePropertyRequest.Marshal(b, m, deterministic)
 }
-func (dst *DatabasePropertyRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DatabasePropertyRequest.Merge(dst, src)
+func (m *DatabasePropertyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DatabasePropertyRequest.Merge(m, src)
 }
 func (m *DatabasePropertyRequest) XXX_Size() int {
 	return xxx_messageInfo_DatabasePropertyRequest.Size(m)
@@ -110,16 +114,17 @@ func (m *SchemasRequest) Reset()         { *m = SchemasRequest{} }
 func (m *SchemasRequest) String() string { return proto.CompactTextString(m) }
 func (*SchemasRequest) ProtoMessage()    {}
 func (*SchemasRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{2}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{2}
 }
+
 func (m *SchemasRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SchemasRequest.Unmarshal(m, b)
 }
 func (m *SchemasRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SchemasRequest.Marshal(b, m, deterministic)
 }
-func (dst *SchemasRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SchemasRequest.Merge(dst, src)
+func (m *SchemasRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SchemasRequest.Merge(m, src)
 }
 func (m *SchemasRequest) XXX_Size() int {
 	return xxx_messageInfo_SchemasRequest.Size(m)
@@ -169,16 +174,17 @@ func (m *TablesRequest) Reset()         { *m = TablesRequest{} }
 func (m *TablesRequest) String() string { return proto.CompactTextString(m) }
 func (*TablesRequest) ProtoMessage()    {}
 func (*TablesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{3}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{3}
 }
+
 func (m *TablesRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TablesRequest.Unmarshal(m, b)
 }
 func (m *TablesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TablesRequest.Marshal(b, m, deterministic)
 }
-func (dst *TablesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TablesRequest.Merge(dst, src)
+func (m *TablesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TablesRequest.Merge(m, src)
 }
 func (m *TablesRequest) XXX_Size() int {
 	return xxx_messageInfo_TablesRequest.Size(m)
@@ -243,16 +249,17 @@ func (m *TableTypesRequest) Reset()         { *m = TableTypesRequest{} }
 func (m *TableTypesRequest) String() string { return proto.CompactTextString(m) }
 func (*TableTypesRequest) ProtoMessage()    {}
 func (*TableTypesRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{4}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{4}
 }
+
 func (m *TableTypesRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TableTypesRequest.Unmarshal(m, b)
 }
 func (m *TableTypesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TableTypesRequest.Marshal(b, m, deterministic)
 }
-func (dst *TableTypesRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TableTypesRequest.Merge(dst, src)
+func (m *TableTypesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TableTypesRequest.Merge(m, src)
 }
 func (m *TableTypesRequest) XXX_Size() int {
 	return xxx_messageInfo_TableTypesRequest.Size(m)
@@ -287,16 +294,17 @@ func (m *ColumnsRequest) Reset()         { *m = ColumnsRequest{} }
 func (m *ColumnsRequest) String() string { return proto.CompactTextString(m) }
 func (*ColumnsRequest) ProtoMessage()    {}
 func (*ColumnsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{5}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{5}
 }
+
 func (m *ColumnsRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ColumnsRequest.Unmarshal(m, b)
 }
 func (m *ColumnsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ColumnsRequest.Marshal(b, m, deterministic)
 }
-func (dst *ColumnsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ColumnsRequest.Merge(dst, src)
+func (m *ColumnsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ColumnsRequest.Merge(m, src)
 }
 func (m *ColumnsRequest) XXX_Size() int {
 	return xxx_messageInfo_ColumnsRequest.Size(m)
@@ -354,16 +362,17 @@ func (m *TypeInfoRequest) Reset()         { *m = TypeInfoRequest{} }
 func (m *TypeInfoRequest) String() string { return proto.CompactTextString(m) }
 func (*TypeInfoRequest) ProtoMessage()    {}
 func (*TypeInfoRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{6}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{6}
 }
+
 func (m *TypeInfoRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TypeInfoRequest.Unmarshal(m, b)
 }
 func (m *TypeInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TypeInfoRequest.Marshal(b, m, deterministic)
 }
-func (dst *TypeInfoRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TypeInfoRequest.Merge(dst, src)
+func (m *TypeInfoRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TypeInfoRequest.Merge(m, src)
 }
 func (m *TypeInfoRequest) XXX_Size() int {
 	return xxx_messageInfo_TypeInfoRequest.Size(m)
@@ -398,16 +407,17 @@ func (m *PrepareAndExecuteRequest) Reset()         { *m = PrepareAndExecuteReque
 func (m *PrepareAndExecuteRequest) String() string { return proto.CompactTextString(m) }
 func (*PrepareAndExecuteRequest) ProtoMessage()    {}
 func (*PrepareAndExecuteRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{7}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{7}
 }
+
 func (m *PrepareAndExecuteRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PrepareAndExecuteRequest.Unmarshal(m, b)
 }
 func (m *PrepareAndExecuteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PrepareAndExecuteRequest.Marshal(b, m, deterministic)
 }
-func (dst *PrepareAndExecuteRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PrepareAndExecuteRequest.Merge(dst, src)
+func (m *PrepareAndExecuteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareAndExecuteRequest.Merge(m, src)
 }
 func (m *PrepareAndExecuteRequest) XXX_Size() int {
 	return xxx_messageInfo_PrepareAndExecuteRequest.Size(m)
@@ -475,16 +485,17 @@ func (m *PrepareRequest) Reset()         { *m = PrepareRequest{} }
 func (m *PrepareRequest) String() string { return proto.CompactTextString(m) }
 func (*PrepareRequest) ProtoMessage()    {}
 func (*PrepareRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{8}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{8}
 }
+
 func (m *PrepareRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PrepareRequest.Unmarshal(m, b)
 }
 func (m *PrepareRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PrepareRequest.Marshal(b, m, deterministic)
 }
-func (dst *PrepareRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PrepareRequest.Merge(dst, src)
+func (m *PrepareRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareRequest.Merge(m, src)
 }
 func (m *PrepareRequest) XXX_Size() int {
 	return xxx_messageInfo_PrepareRequest.Size(m)
@@ -539,16 +550,17 @@ func (m *FetchRequest) Reset()         { *m = FetchRequest{} }
 func (m *FetchRequest) String() string { return proto.CompactTextString(m) }
 func (*FetchRequest) ProtoMessage()    {}
 func (*FetchRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{9}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{9}
 }
+
 func (m *FetchRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_FetchRequest.Unmarshal(m, b)
 }
 func (m *FetchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_FetchRequest.Marshal(b, m, deterministic)
 }
-func (dst *FetchRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FetchRequest.Merge(dst, src)
+func (m *FetchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FetchRequest.Merge(m, src)
 }
 func (m *FetchRequest) XXX_Size() int {
 	return xxx_messageInfo_FetchRequest.Size(m)
@@ -606,16 +618,17 @@ func (m *CreateStatementRequest) Reset()         { *m = CreateStatementRequest{}
 func (m *CreateStatementRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateStatementRequest) ProtoMessage()    {}
 func (*CreateStatementRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{10}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{10}
 }
+
 func (m *CreateStatementRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CreateStatementRequest.Unmarshal(m, b)
 }
 func (m *CreateStatementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CreateStatementRequest.Marshal(b, m, deterministic)
 }
-func (dst *CreateStatementRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateStatementRequest.Merge(dst, src)
+func (m *CreateStatementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateStatementRequest.Merge(m, src)
 }
 func (m *CreateStatementRequest) XXX_Size() int {
 	return xxx_messageInfo_CreateStatementRequest.Size(m)
@@ -646,16 +659,17 @@ func (m *CloseStatementRequest) Reset()         { *m = CloseStatementRequest{} }
 func (m *CloseStatementRequest) String() string { return proto.CompactTextString(m) }
 func (*CloseStatementRequest) ProtoMessage()    {}
 func (*CloseStatementRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{11}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{11}
 }
+
 func (m *CloseStatementRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CloseStatementRequest.Unmarshal(m, b)
 }
 func (m *CloseStatementRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CloseStatementRequest.Marshal(b, m, deterministic)
 }
-func (dst *CloseStatementRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CloseStatementRequest.Merge(dst, src)
+func (m *CloseStatementRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseStatementRequest.Merge(m, src)
 }
 func (m *CloseStatementRequest) XXX_Size() int {
 	return xxx_messageInfo_CloseStatementRequest.Size(m)
@@ -693,16 +707,17 @@ func (m *OpenConnectionRequest) Reset()         { *m = OpenConnectionRequest{} }
 func (m *OpenConnectionRequest) String() string { return proto.CompactTextString(m) }
 func (*OpenConnectionRequest) ProtoMessage()    {}
 func (*OpenConnectionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{12}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{12}
 }
+
 func (m *OpenConnectionRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_OpenConnectionRequest.Unmarshal(m, b)
 }
 func (m *OpenConnectionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_OpenConnectionRequest.Marshal(b, m, deterministic)
 }
-func (dst *OpenConnectionRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_OpenConnectionRequest.Merge(dst, src)
+func (m *OpenConnectionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OpenConnectionRequest.Merge(m, src)
 }
 func (m *OpenConnectionRequest) XXX_Size() int {
 	return xxx_messageInfo_OpenConnectionRequest.Size(m)
@@ -739,16 +754,17 @@ func (m *CloseConnectionRequest) Reset()         { *m = CloseConnectionRequest{}
 func (m *CloseConnectionRequest) String() string { return proto.CompactTextString(m) }
 func (*CloseConnectionRequest) ProtoMessage()    {}
 func (*CloseConnectionRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{13}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{13}
 }
+
 func (m *CloseConnectionRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CloseConnectionRequest.Unmarshal(m, b)
 }
 func (m *CloseConnectionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CloseConnectionRequest.Marshal(b, m, deterministic)
 }
-func (dst *CloseConnectionRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CloseConnectionRequest.Merge(dst, src)
+func (m *CloseConnectionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseConnectionRequest.Merge(m, src)
 }
 func (m *CloseConnectionRequest) XXX_Size() int {
 	return xxx_messageInfo_CloseConnectionRequest.Size(m)
@@ -778,16 +794,17 @@ func (m *ConnectionSyncRequest) Reset()         { *m = ConnectionSyncRequest{} }
 func (m *ConnectionSyncRequest) String() string { return proto.CompactTextString(m) }
 func (*ConnectionSyncRequest) ProtoMessage()    {}
 func (*ConnectionSyncRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{14}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{14}
 }
+
 func (m *ConnectionSyncRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConnectionSyncRequest.Unmarshal(m, b)
 }
 func (m *ConnectionSyncRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConnectionSyncRequest.Marshal(b, m, deterministic)
 }
-func (dst *ConnectionSyncRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConnectionSyncRequest.Merge(dst, src)
+func (m *ConnectionSyncRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConnectionSyncRequest.Merge(m, src)
 }
 func (m *ConnectionSyncRequest) XXX_Size() int {
 	return xxx_messageInfo_ConnectionSyncRequest.Size(m)
@@ -828,16 +845,17 @@ func (m *ExecuteRequest) Reset()         { *m = ExecuteRequest{} }
 func (m *ExecuteRequest) String() string { return proto.CompactTextString(m) }
 func (*ExecuteRequest) ProtoMessage()    {}
 func (*ExecuteRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{15}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{15}
 }
+
 func (m *ExecuteRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ExecuteRequest.Unmarshal(m, b)
 }
 func (m *ExecuteRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ExecuteRequest.Marshal(b, m, deterministic)
 }
-func (dst *ExecuteRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ExecuteRequest.Merge(dst, src)
+func (m *ExecuteRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteRequest.Merge(m, src)
 }
 func (m *ExecuteRequest) XXX_Size() int {
 	return xxx_messageInfo_ExecuteRequest.Size(m)
@@ -897,16 +915,17 @@ func (m *SyncResultsRequest) Reset()         { *m = SyncResultsRequest{} }
 func (m *SyncResultsRequest) String() string { return proto.CompactTextString(m) }
 func (*SyncResultsRequest) ProtoMessage()    {}
 func (*SyncResultsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{16}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{16}
 }
+
 func (m *SyncResultsRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SyncResultsRequest.Unmarshal(m, b)
 }
 func (m *SyncResultsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SyncResultsRequest.Marshal(b, m, deterministic)
 }
-func (dst *SyncResultsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SyncResultsRequest.Merge(dst, src)
+func (m *SyncResultsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SyncResultsRequest.Merge(m, src)
 }
 func (m *SyncResultsRequest) XXX_Size() int {
 	return xxx_messageInfo_SyncResultsRequest.Size(m)
@@ -957,16 +976,17 @@ func (m *CommitRequest) Reset()         { *m = CommitRequest{} }
 func (m *CommitRequest) String() string { return proto.CompactTextString(m) }
 func (*CommitRequest) ProtoMessage()    {}
 func (*CommitRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{17}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{17}
 }
+
 func (m *CommitRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_CommitRequest.Unmarshal(m, b)
 }
 func (m *CommitRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_CommitRequest.Marshal(b, m, deterministic)
 }
-func (dst *CommitRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CommitRequest.Merge(dst, src)
+func (m *CommitRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CommitRequest.Merge(m, src)
 }
 func (m *CommitRequest) XXX_Size() int {
 	return xxx_messageInfo_CommitRequest.Size(m)
@@ -996,16 +1016,17 @@ func (m *RollbackRequest) Reset()         { *m = RollbackRequest{} }
 func (m *RollbackRequest) String() string { return proto.CompactTextString(m) }
 func (*RollbackRequest) ProtoMessage()    {}
 func (*RollbackRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{18}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{18}
 }
+
 func (m *RollbackRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RollbackRequest.Unmarshal(m, b)
 }
 func (m *RollbackRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_RollbackRequest.Marshal(b, m, deterministic)
 }
-func (dst *RollbackRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RollbackRequest.Merge(dst, src)
+func (m *RollbackRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RollbackRequest.Merge(m, src)
 }
 func (m *RollbackRequest) XXX_Size() int {
 	return xxx_messageInfo_RollbackRequest.Size(m)
@@ -1037,16 +1058,17 @@ func (m *PrepareAndExecuteBatchRequest) Reset()         { *m = PrepareAndExecute
 func (m *PrepareAndExecuteBatchRequest) String() string { return proto.CompactTextString(m) }
 func (*PrepareAndExecuteBatchRequest) ProtoMessage()    {}
 func (*PrepareAndExecuteBatchRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{19}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{19}
 }
+
 func (m *PrepareAndExecuteBatchRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Unmarshal(m, b)
 }
 func (m *PrepareAndExecuteBatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Marshal(b, m, deterministic)
 }
-func (dst *PrepareAndExecuteBatchRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PrepareAndExecuteBatchRequest.Merge(dst, src)
+func (m *PrepareAndExecuteBatchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PrepareAndExecuteBatchRequest.Merge(m, src)
 }
 func (m *PrepareAndExecuteBatchRequest) XXX_Size() int {
 	return xxx_messageInfo_PrepareAndExecuteBatchRequest.Size(m)
@@ -1090,16 +1112,17 @@ func (m *UpdateBatch) Reset()         { *m = UpdateBatch{} }
 func (m *UpdateBatch) String() string { return proto.CompactTextString(m) }
 func (*UpdateBatch) ProtoMessage()    {}
 func (*UpdateBatch) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{20}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{20}
 }
+
 func (m *UpdateBatch) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UpdateBatch.Unmarshal(m, b)
 }
 func (m *UpdateBatch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_UpdateBatch.Marshal(b, m, deterministic)
 }
-func (dst *UpdateBatch) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateBatch.Merge(dst, src)
+func (m *UpdateBatch) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateBatch.Merge(m, src)
 }
 func (m *UpdateBatch) XXX_Size() int {
 	return xxx_messageInfo_UpdateBatch.Size(m)
@@ -1130,16 +1153,17 @@ func (m *ExecuteBatchRequest) Reset()         { *m = ExecuteBatchRequest{} }
 func (m *ExecuteBatchRequest) String() string { return proto.CompactTextString(m) }
 func (*ExecuteBatchRequest) ProtoMessage()    {}
 func (*ExecuteBatchRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_requests_f149f33d924311f5, []int{21}
+	return fileDescriptor_9c9ccec99da7c9b4, []int{21}
 }
+
 func (m *ExecuteBatchRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ExecuteBatchRequest.Unmarshal(m, b)
 }
 func (m *ExecuteBatchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ExecuteBatchRequest.Marshal(b, m, deterministic)
 }
-func (dst *ExecuteBatchRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ExecuteBatchRequest.Merge(dst, src)
+func (m *ExecuteBatchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ExecuteBatchRequest.Merge(m, src)
 }
 func (m *ExecuteBatchRequest) XXX_Size() int {
 	return xxx_messageInfo_ExecuteBatchRequest.Size(m)
@@ -1197,9 +1221,9 @@ func init() {
 	proto.RegisterType((*ExecuteBatchRequest)(nil), "ExecuteBatchRequest")
 }
 
-func init() { proto.RegisterFile("requests.proto", fileDescriptor_requests_f149f33d924311f5) }
+func init() { proto.RegisterFile("requests.proto", fileDescriptor_9c9ccec99da7c9b4) }
 
-var fileDescriptor_requests_f149f33d924311f5 = []byte{
+var fileDescriptor_9c9ccec99da7c9b4 = []byte{
 	// 904 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0xdd, 0x6e, 0x1b, 0x45,
 	0x14, 0xd6, 0xfa, 0x27, 0xa9, 0xcf, 0xfa, 0x2f, 0x9b, 0xa4, 0x58, 0xad, 0x10, 0xee, 0xf2, 0xa3,
