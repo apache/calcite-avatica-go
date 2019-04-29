@@ -29,7 +29,7 @@ import (
 	"runtime"
 	"time"
 
-	avaticaMessage "github.com/apache/calcite-avatica-go/v3/message"
+	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
 	"github.com/golang/protobuf/proto"
 	"github.com/xinsnake/go-http-digest-auth-client"
 	"gopkg.in/jcmturner/gokrb5.v7/client"

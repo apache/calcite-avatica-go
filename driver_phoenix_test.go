@@ -28,7 +28,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v3/errors"
+	"github.com/apache/calcite-avatica-go/v4/errors"
 )
 
 func skipTestIfNotPhoenix(t *testing.T) {

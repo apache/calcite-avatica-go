@@ -25,9 +25,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v3/errors"
-	"github.com/apache/calcite-avatica-go/v3/internal"
-	"github.com/apache/calcite-avatica-go/v3/message"
+	"github.com/apache/calcite-avatica-go/v4/errors"
+	"github.com/apache/calcite-avatica-go/v4/internal"
+	"github.com/apache/calcite-avatica-go/v4/message"
 )
 
 type Adapter struct {
