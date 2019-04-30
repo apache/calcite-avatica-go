@@ -28,6 +28,57 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v4.0.0">4.0.0</a> / 2019-05-XX
+{: #v4-0-0}
+
+Apache Calcite Avatica Go 4.0.0 is a major release of Avatica Go with a number of improvements and a breaking change.
+This release supports using both [dep](https://github.com/golang/dep) and Go modules for package management. As Go modules
+will be turned on by default in Go 1.13.0 (estimated to be released in September/October 2019), it is highly recommended
+that users of this package start migrating to using Go modules to ease the transition.
+
+**Breaking change for Phoenix ([CALCITE-2763](https://issues.apache.org/jira/browse/CALCITE-2724)):** 
+In Apache Phoenix, null and empty strings are equivalent. For some background on why this is the case, see
+[PHOENIX-947](https://issues.apache.org/jira/browse/PHOENIX-947). In version 3 of Avatica-Go and below, null and empty
+strings are returned as an empty string `""` to the client. This prevented database/sql's built in NullString type from
+working correctly. From 4.0.0 onwards, null and empty strings will be returned as a `nil`. This allows the usage of the
+`sql.NullString` type.
+
+Features and bug fixes
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2723">CALCITE-2723</a>]
+  Generate SHA512 digest for releases
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2724">CALCITE-2724</a>]
+  Exclude .md files from import path check in release script to avoid false positives
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2579">CALCITE-2579</a>]
+  Implement live reloading of tests when source files change during development
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2763">CALCITE-2763</a>]
+  Fix handling of nils (nulls) when executing queries and scanning query results with empty strings and other null types
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2775">CALCITE-2775</a>]
+  Update dependencies and regenerate protobufs
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3024">CALCITE-3024</a>]
+  Update dependencies (April 26 2019)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3032">CALCITE-3032</a>]
+  Simplify docker-compose.yml for running tests and development mode, change release process to use a docker container
+  to build in a clean environment and include automation for uploading and promoting releases
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3026">CALCITE-3026</a>]
+  Move import paths from v3 to v4 to prepare for 4.0.0 release
+
+Tests
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2771">CALCITE-2771</a>]
+  Test against Avatica HSQLDB 1.13.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3025">CALCITE-3025</a>]
+  Update travis configuration and docker-compose to test against Go 1.12 and run tests using dep in Go 1.11 and Go 1.12
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3035">CALCITE-3035</a>]
+  Test against Avatica HSQLDB 1.14.0
+
+Web site and documentation:
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2774">CALCITE-2774</a>]
+  Improve release documentation and explicitly include all steps for making a release
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3033">CALCITE-3033</a>]
+  Move release process to separate HOWTO document so that it's consistent with how the avatica docs are structured
+ 
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v3.2.0">3.2.0</a> / 2018-09-18
 {: #v3-2-0}
 
