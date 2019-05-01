@@ -15,9 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#set -e
+set -e
 
 GITBOX_URL=https://gitbox.apache.org/repos/asf/calcite-avatica-go.git
+RELEASE_REPO=https://dist.apache.org/repos/dist/release/calcite/
+DEV_REPO=https://dist.apache.org/repos/dist/dev/calcite/
 PRODUCT=apache-calcite-avatica-go
 
 function terminate() {
@@ -230,7 +232,7 @@ check_import_paths(){
             continue
         fi
 
-        lines=$(grep -F -s '"github.com/apache/calcite-avatica-go' $i)
+        lines=$(grep -F -s '"github.com/apache/calcite-avatica-go' $i) || true
 
         if ! [[ -z "$lines" ]]; then
             while read -r line; do
@@ -392,7 +394,7 @@ publish_release_for_voting(){
     fi
 
     if [ ! -f "dist/$PRODUCT-$TAG_WITHOUT_V/$SHA512" ]; then
-        echo "Did not find SHA512($SHA512) in dist folder."
+        echo "Did not find SHA512 ($SHA512) in dist folder."
         MISSING_FILES=true
     fi
 
@@ -423,7 +425,7 @@ publish_release_for_voting(){
 
     get_asf_credentials
 
-    svn checkout https://dist.apache.org/repos/dist/dev/calcite/ /tmp/calcite --depth empty
+    svn checkout $DEV_REPO /tmp/calcite --depth empty
     cp -R dist/$PRODUCT-$TAG_WITHOUT_V /tmp/calcite/
 
     cd /tmp/calcite
@@ -443,11 +445,11 @@ publish_release_for_voting(){
     echo "Email the following message to dev@calcite.apache.org. Please check the message before sending."
     printf "\n"
     echo "To: dev@calcite.apache.org"
-    echo "Subject: [VOTE] Release $PRODUCT-$TAG_WITHOUT_V (release candidate $RC_NUMBER)"
+    echo "Subject: [VOTE] Release $PRODUCT-$TAG_WITHOUT_RC (release candidate $RC_NUMBER)"
     echo "Message:
 Hi all,
 
-I have created a release for Apache Calcite Avatica Go $TAG_WITHOUT_V, release candidate $RC_NUMBER.
+I have created a release for Apache Calcite Avatica Go $TAG_WITHOUT_RC, release candidate $RC_NUMBER.
 
 Thanks to everyone who has contributed to this release. The release notes are available here:
 https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/_docs/go_history.md
@@ -458,7 +460,7 @@ https://gitbox.apache.org/repos/asf?p=calcite-avatica-go.git;a=commit;h=$COMMIT
 The hash is $COMMIT
 
 The artifacts to be voted on are located here:
-https://dist.apache.org/repos/dist/dev/calcite/$PRODUCT-$TAG_WITHOUT_V/
+$DEV_REPO$PRODUCT-$TAG_WITHOUT_V/
 
 The hashes of the artifacts are as follows:
 src.tar.gz $HASH
@@ -471,13 +473,11 @@ https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/develop/avatica-g
 
 Please vote on releasing this package as Apache Calcite Avatica Go $TAG_WITHOUT_RC.
 
-To run the tests without a Go environment, install docker and docker-compose. Then, in the root of the release's directory, run:
-docker-compose run test
+To run the tests without a Go environment, install docker and docker-compose. Then, in the root of the release's directory, run: docker-compose run test
 
 When the test suite completes, run \"docker-compose down\" to remove and shutdown all the containers.
 
-The vote is open for the next 72 hours and passes if a majority of
-at least three +1 PMC votes are cast.
+The vote is open for the next 72 hours and passes if a majority of at least three +1 PMC votes are cast.
 
 [ ] +1 Release this package as Apache Calcite Avatica Go $TAG_WITHOUT_RC
 [ ]  0 I don't feel strongly about it, but I'm okay with the release
@@ -493,10 +493,6 @@ $FIRST_NAME
 }
 
 promote_release(){
-
-    RELEASE_REPO=https://dist.apache.org/repos/dist/release/calcite/
-    DEV_REPO=https://dist.apache.org/repos/dist/dev/calcite/
-
     LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
 
     if [[ ! $LATEST_TAG =~ .+-rc[[:digit:]]+$ ]]; then
@@ -524,7 +520,7 @@ promote_release(){
     rm -rf /tmp/release/$PRODUCT-$TAG_WITHOUT_RC
     mkdir -p /tmp/release/$PRODUCT-$TAG_WITHOUT_RC
 
-    svn checkout $DEV_REPO/$PRODUCT-$TAG_WITHOUT_V /tmp/
+    svn checkout $DEV_REPO/$PRODUCT-$TAG_WITHOUT_V /tmp/rc
     cp -rp /tmp/rc/* /tmp/release/$PRODUCT-$TAG_WITHOUT_RC
 
     cd /tmp/release
@@ -551,7 +547,7 @@ promote_release(){
         RELEASE_COUNT=$((RELEASE_COUNT+1))
     done <<< "$CURRENT_RELEASES"
 
-    svn commit -m "Release $PRODUCT-$TAG_WITHOUT_V" --force-log --username $ASF_USERNAME --password $ASF_PASSWORD
+    svn commit -m "Release $PRODUCT-$TAG_WITHOUT_RC" --force-log --username $ASF_USERNAME --password $ASF_PASSWORD
 
     echo "Release $PRODUCT-$LATEST_TAG successfully promoted to $PRODUCT-$TAG_WITHOUT_RC"
 }
