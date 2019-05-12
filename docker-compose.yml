@@ -19,12 +19,12 @@ services:
     image: boostport/hbase-phoenix-all-in-one:2.0-5.0
 
   hsqldb:
-    image: apache/calcite-avatica-hypersql:1.14.0
+    image: apache/calcite-avatica-hypersql:1.15.0
     command: -u jdbc:hsqldb:mem:public
 
   test:
     image: golang:1.12-alpine
-    command: sh -c "apk --no-cache --no-progress add build-base git; export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
+    command: sh -c "apk --no-cache --no-progress add gcc git musl-dev; export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
     working_dir: /source
     environment:
       PHOENIX_HOST: http://phoenix:8765

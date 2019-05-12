@@ -46,7 +46,8 @@ env:
     - AVATICA_FLAVOR=HSQLDB IMAGE=f21global/calcite-avatica:1.12.0-hypersql GO111MODULE=on
     - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.13.0 GO111MODULE=on
     - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.14.0 GO111MODULE=on
-    - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.14.0 GO111MODULE=off
+    - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.15.0 GO111MODULE=on
+    - AVATICA_FLAVOR=HSQLDB IMAGE=apache/calcite-avatica-hypersql:1.15.0 GO111MODULE=off
 
 before_install:
   - if [ $GO111MODULE == "off" ]; then
