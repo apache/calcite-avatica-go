@@ -62,6 +62,9 @@ Features and bug fixes
   to build in a clean environment and include automation for uploading and promoting releases
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-3026">CALCITE-3026</a>]
   Move import paths from v3 to v4 to prepare for 4.0.0 release
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3042">CALCITE-3042</a>]
+  Fix bug in docker release script that prevents releases from being promoted correctly and incorrect variable
+  substitution in vote email
 
 Tests
 
@@ -71,6 +74,8 @@ Tests
   Update travis configuration and docker-compose to test against Go 1.12 and run tests using dep in Go 1.11 and Go 1.12
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-3035">CALCITE-3035</a>]
   Test against Avatica HSQLDB 1.14.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3044">CALCITE-3044</a>]
+  Test against Avatica HSQLDB 1.15.0 and simplify Alpine dependencies
 
 Web site and documentation:
 
