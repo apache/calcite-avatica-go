@@ -82,6 +82,12 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		"Consistency": "8",
 	}
 
+	for key, vals := range config.rawQuery {
+		if len(vals) > 0 {
+			info[key] = vals[0]
+		}
+	}
+
 	if config.user != "" {
 		info["user"] = config.user
 	}

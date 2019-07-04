@@ -53,6 +53,8 @@ type Config struct {
 	keytab              string
 	krb5Conf            string
 	krb5CredentialCache string
+
+	rawQuery url.Values
 }
 
 type krb5Principal struct {
@@ -76,6 +78,10 @@ func ParseDSN(dsn string) (*Config, error) {
 		return nil, fmt.Errorf("Unable to parse DSN: %s", err)
 	}
 
+	queries := parsed.Query()
+
+	conf.rawQuery = queries
+
 	userInfo := parsed.User
 
 	if userInfo != nil {
@@ -87,8 +93,6 @@ func ParseDSN(dsn string) (*Config, error) {
 			conf.password = pass
 		}
 	}
-
-	queries := parsed.Query()
 
 	if v := queries.Get("maxRowsTotal"); v != "" {
 
