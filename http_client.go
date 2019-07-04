@@ -31,7 +31,7 @@ import (
 
 	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
 	"github.com/golang/protobuf/proto"
-	"github.com/xinsnake/go-http-digest-auth-client"
+	digest_auth_client "github.com/xinsnake/go-http-digest-auth-client"
 	"gopkg.in/jcmturner/gokrb5.v7/client"
 	"gopkg.in/jcmturner/gokrb5.v7/config"
 	"gopkg.in/jcmturner/gokrb5.v7/credentials"
@@ -48,6 +48,7 @@ type httpClientAuthConfig struct {
 
 	username string
 	password string
+	token    string
 
 	principal           krb5Principal
 	keytab              string
@@ -173,14 +174,15 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 
 	req.Header.Set("Content-Type", "application/x-google-protobuf")
 
-	if c.authConfig.authenticationType == basic {
+	switch c.authConfig.authenticationType {
+	case basic:
 		req.SetBasicAuth(c.authConfig.username, c.authConfig.password)
-	} else if c.authConfig.authenticationType == spnego {
-		err := gokrbSPNEGO.SetSPNEGOHeader(c.kerberosClient, req, "")
-
-		if err != nil{
+	case spnego:
+		if err := gokrbSPNEGO.SetSPNEGOHeader(c.kerberosClient, req, ""); err != nil {
 			return nil, err
 		}
+	case token:
+		req.Header.Set("Authorization", "Bearer "+c.authConfig.token)
 	}
 
 	req = req.WithContext(ctx)

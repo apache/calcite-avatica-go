@@ -32,6 +32,7 @@ const (
 	basic
 	digest
 	spnego
+	token
 )
 
 // Config is a configuration parsed from a DSN string
@@ -45,6 +46,7 @@ type Config struct {
 
 	user     string
 	password string
+	token    string
 
 	authentication      authentication
 	avaticaUser         string
@@ -89,6 +91,10 @@ func ParseDSN(dsn string) (*Config, error) {
 	}
 
 	queries := parsed.Query()
+
+	if v := queries.Get("token"); v != "" {
+		conf.token = v
+	}
 
 	if v := queries.Get("maxRowsTotal"); v != "" {
 
@@ -141,73 +147,75 @@ func ParseDSN(dsn string) (*Config, error) {
 	if v := queries.Get("authentication"); v != "" {
 
 		auth := strings.ToUpper(v)
-
-		if auth == "BASIC" {
+		switch auth {
+		case "BASIC":
 			conf.authentication = basic
-		} else if auth == "DIGEST" {
+		case "DIGEST":
 			conf.authentication = digest
-		} else if auth == "SPNEGO" {
+		case "SPNEGO":
 			conf.authentication = spnego
-		} else {
-			return nil, fmt.Errorf("authentication must be either BASIC, DIGEST or SPNEGO")
+		case "TOKEN":
+			conf.authentication = token
+		default:
+			return nil, fmt.Errorf("authentication must be either BASIC, DIGEST, SPNEGO or TOKEN")
 		}
 
-		if conf.authentication == basic || conf.authentication == digest {
+		switch conf.authentication {
+		case basic, digest:
+			{
+				user := queries.Get("avaticaUser")
+				if user == "" {
+					return nil, fmt.Errorf("authentication is set to %s, but avaticaUser is empty", v)
+				}
+				conf.avaticaUser = user
+				pass := queries.Get("avaticaPassword")
+				if pass == "" {
+					return nil, fmt.Errorf("authentication is set to %s, but avaticaPassword is empty", v)
+				}
+				conf.avaticaPassword = pass
 
-			user := queries.Get("avaticaUser")
-
-			if user == "" {
-				return nil, fmt.Errorf("authentication is set to %s, but avaticaUser is empty", v)
 			}
+		case spnego:
+			{
+				principal := queries.Get("principal")
+				keytab := queries.Get("keytab")
+				krb5Conf := queries.Get("krb5Conf")
+				krb5CredentialCache := queries.Get("krb5CredentialCache")
 
-			conf.avaticaUser = user
-
-			pass := queries.Get("avaticaPassword")
-
-			if pass == "" {
-				return nil, fmt.Errorf("authentication is set to %s, but avaticaPassword is empty", v)
-			}
-
-			conf.avaticaPassword = pass
-
-		} else if conf.authentication == spnego {
-			principal := queries.Get("principal")
-
-			keytab := queries.Get("keytab")
-
-			krb5Conf := queries.Get("krb5Conf")
-
-			krb5CredentialCache := queries.Get("krb5CredentialCache")
-
-			if principal == "" && keytab == "" && krb5Conf == "" && krb5CredentialCache == "" {
-				return nil, fmt.Errorf("when using SPNEGO authetication, you must provide the principal, keytab and krb5Conf parameters or a krb5TicketCache parameter")
-			}
-
-			if !((principal != "" && keytab != "" && krb5Conf != "") || (principal == "" && keytab == "" && krb5Conf == "")) {
-				return nil, fmt.Errorf("when using SPNEGO authentication with a principal and keytab, the principal, keytab and krb5Conf parameters are required")
-			}
-
-			if (principal != "" || keytab != "" || krb5Conf != "") && krb5CredentialCache != "" {
-				return nil, fmt.Errorf("ambigious configuration for SPNEGO authentication: use either principal, keytab and krb5Conf or krb5TicketCache")
-			}
-
-			if principal != "" {
-
-				splittedPrincipal := strings.Split(principal, "@")
-
-				if len(splittedPrincipal) != 2 {
-					return nil, fmt.Errorf("invalid kerberos principal (%s): the principal should be in the format primary/instance@realm where instance is optional", principal)
+				if principal == "" && keytab == "" && krb5Conf == "" && krb5CredentialCache == "" {
+					return nil, fmt.Errorf("when using SPNEGO authetication, you must provide the principal, keytab and krb5Conf parameters or a krb5TicketCache parameter")
 				}
 
-				conf.principal = krb5Principal{
-					username: splittedPrincipal[0],
-					realm:    splittedPrincipal[1],
+				if !((principal != "" && keytab != "" && krb5Conf != "") || (principal == "" && keytab == "" && krb5Conf == "")) {
+					return nil, fmt.Errorf("when using SPNEGO authentication with a principal and keytab, the principal, keytab and krb5Conf parameters are required")
 				}
 
-				conf.keytab = keytab
-				conf.krb5Conf = krb5Conf
-			} else if krb5CredentialCache != "" {
-				conf.krb5CredentialCache = krb5CredentialCache
+				if (principal != "" || keytab != "" || krb5Conf != "") && krb5CredentialCache != "" {
+					return nil, fmt.Errorf("ambigious configuration for SPNEGO authentication: use either principal, keytab and krb5Conf or krb5TicketCache")
+				}
+
+				if principal != "" {
+					splittedPrincipal := strings.Split(principal, "@")
+					if len(splittedPrincipal) != 2 {
+						return nil, fmt.Errorf("invalid kerberos principal (%s): the principal should be in the format primary/instance@realm where instance is optional", principal)
+					}
+					conf.principal = krb5Principal{
+						username: splittedPrincipal[0],
+						realm:    splittedPrincipal[1],
+					}
+					conf.keytab = keytab
+					conf.krb5Conf = krb5Conf
+				} else if krb5CredentialCache != "" {
+					conf.krb5CredentialCache = krb5CredentialCache
+				}
+			}
+		case token:
+			{
+				if v := queries.Get("token"); v != "" {
+					conf.token = v
+				} else {
+					return nil, fmt.Errorf("need to specify token when using token auth mode")
+				}
 			}
 		}
 	}

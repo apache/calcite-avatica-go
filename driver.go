@@ -62,6 +62,7 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		authenticationType:  config.authentication,
 		username:            config.avaticaUser,
 		password:            config.avaticaPassword,
+		token:               config.token,
 		principal:           config.principal,
 		keytab:              config.keytab,
 		krb5Conf:            config.krb5Conf,
