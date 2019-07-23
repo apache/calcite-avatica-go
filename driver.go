@@ -27,7 +27,7 @@ Import the database/sql package along with the avatica driver.
 
 	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
-See https://calcite.apache.org/avatica/go_client_reference.html for more details
+See https://calcite.apache.org/avatica/docs/go_client_reference.html for more details
 */
 package avatica
 
@@ -36,6 +36,7 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"fmt"
+	"net/http"
 
 	"github.com/apache/calcite-avatica-go/v4/generic"
 	"github.com/apache/calcite-avatica-go/v4/hsqldb"
@@ -47,26 +48,28 @@ import (
 // Driver is exported to allow it to be used directly.
 type Driver struct{}
 
-// Open a Connection to the server.
-// See https://github.com/apache/calcite-avatica-go#dsn for more information
-// on how the DSN is formatted.
-func (a *Driver) Open(dsn string) (driver.Conn, error) {
+// Connector implements the driver.Connector interface
+type Connector struct {
+	Info   map[string]string
+	Client *http.Client
 
-	config, err := ParseDSN(dsn)
+	dsn string
+}
+
+// NewConnector creates a new connector
+func NewConnector(dsn string) driver.Connector {
+	return &Connector{nil, nil, dsn}
+}
+
+func (c *Connector) Connect(context.Context) (driver.Conn, error) {
+
+	config, err := ParseDSN(c.dsn)
 
 	if err != nil {
 		return nil, fmt.Errorf("Unable to open connection: %s", err)
 	}
 
-	httpClient, err := NewHTTPClient(config.endpoint, httpClientAuthConfig{
-		authenticationType:  config.authentication,
-		username:            config.avaticaUser,
-		password:            config.avaticaPassword,
-		principal:           config.principal,
-		keytab:              config.keytab,
-		krb5Conf:            config.krb5Conf,
-		krb5CredentialCache: config.krb5CredentialCache,
-	})
+	httpClient, err := NewHTTPClient(config.endpoint, c.Client, config)
 
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create HTTP client: %s", err)
@@ -82,12 +85,8 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 		"Consistency": "8",
 	}
 
-	if config.user != "" {
-		info["user"] = config.user
-	}
-
-	if config.password != "" {
-		info["password"] = config.password
+	for k, v := range c.Info {
+		info[k] = v
 	}
 
 	conn := &conn{
@@ -133,6 +132,18 @@ func (a *Driver) Open(dsn string) (driver.Conn, error) {
 	conn.adapter = getAdapter(adapter)
 
 	return conn, nil
+}
+
+// Driver returns the underlying driver
+func (c *Connector) Driver() driver.Driver {
+	return &Driver{}
+}
+
+// Open a Connection to the server.
+// See https://github.com/apache/calcite-avatica-go#dsn for more information
+// on how the DSN is formatted.
+func (a *Driver) Open(dsn string) (driver.Conn, error) {
+	return NewConnector(dsn).Connect(context.TODO())
 }
 
 func getAdapter(e string) Adapter {

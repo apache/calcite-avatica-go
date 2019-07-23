@@ -43,9 +43,6 @@ type Config struct {
 	schema               string
 	transactionIsolation uint32
 
-	user     string
-	password string
-
 	authentication      authentication
 	avaticaUser         string
 	avaticaPassword     string
@@ -74,18 +71,6 @@ func ParseDSN(dsn string) (*Config, error) {
 
 	if err != nil {
 		return nil, fmt.Errorf("Unable to parse DSN: %s", err)
-	}
-
-	userInfo := parsed.User
-
-	if userInfo != nil {
-		if userInfo.Username() != "" {
-			conf.user = userInfo.Username()
-		}
-
-		if pass, ok := userInfo.Password(); ok {
-			conf.password = pass
-		}
 	}
 
 	queries := parsed.Query()

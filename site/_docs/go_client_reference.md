@@ -71,7 +71,7 @@ rows := db.Query("SELECT COUNT(*) FROM test")
 The DSN has the following format (optional parts are marked by square brackets):
 
 {% highlight shell %}
-http://[username:password@]address:port[/schema][?parameter1=value&...parameterN=value]
+http://address:port[/schema][?parameter1=value&...parameterN=value]
 {% endhighlight %}
 
 In other words, the scheme (http), address and port are mandatory, but the schema and parameters are optional.
@@ -81,16 +81,6 @@ It's a shame that we have to embed HTML to get the anchors but the normal
 header tags from kramdown screw up the definition list. We lose the pretty
 on-hover images for the permalink, but oh well.
 {% endcomment %}
-
-<strong><a name="username" href="#username">username</a></strong>
-
-This is the JDBC username that is passed directly to the backing database. It is *NOT* used for authenticating
-against Avatica.
-
-<strong><a name="password" href="#password">password</a></strong>
-
-This is the JDBC password that is passed directly to the backing database. It is *NOT* used for authenticating
-against Avatica.
 
 <strong><a name="schema" href="#schema">schema</a></strong>
 
