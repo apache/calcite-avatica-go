@@ -216,6 +216,11 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 		return c.adapter.ErrorResponseToResponseError(avaticaErr.message)
 	}
 
+	serverAddress := "unknown"
+	md := avaticaErr.message.GetMetadata()
+	if md != nil {
+		serverAddress = md.ServerAddress
+	}
 	return errors.ResponseError{
 		Exceptions:   avaticaErr.message.Exceptions,
 		ErrorMessage: avaticaErr.message.ErrorMessage,
@@ -223,7 +228,7 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 		ErrorCode:    errors.ErrorCode(avaticaErr.message.ErrorCode),
 		SqlState:     errors.SQLState(avaticaErr.message.SqlState),
 		Metadata: &errors.RPCMetadata{
-			ServerAddress: avaticaErr.message.GetMetadata().ServerAddress,
+			ServerAddress: serverAddress,
 		},
 	}
 }
