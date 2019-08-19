@@ -18,7 +18,6 @@
 package phoenix
 
 import (
-	"fmt"
 	"math"
 	"reflect"
 	"regexp"
@@ -92,7 +91,7 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 		column.ScanType = reflect.TypeOf([]byte{})
 
 	default:
-		panic(fmt.Sprintf("scantype for %s is not implemented", col.Type.Name))
+		column.ScanType = reflect.TypeOf(new(interface{})).Elem()
 	}
 
 	// Handle rep type special cases for decimals, floats, date, time and timestamp
