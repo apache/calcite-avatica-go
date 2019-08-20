@@ -115,14 +115,14 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 	return column
 }
 
-func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) errors.ResponseError {
+func (a Adapter) ErrorResponseToResponseError(err *message.ErrorResponse) errors.ResponseError {
 	var (
 		errorCode int
 		sqlState  string
 	)
 
 	re := regexp.MustCompile(`ERROR (\d+) \(([0-9a-zA-Z]+)\)`)
-	codes := re.FindStringSubmatch(message.ErrorMessage)
+	codes := re.FindStringSubmatch(err.ErrorMessage)
 
 	if len(codes) > 1 {
 		errorCode, _ = strconv.Atoi(codes[1])
@@ -132,19 +132,18 @@ func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) er
 		sqlState = codes[2]
 	}
 
-	err := errors.ResponseError{
-		Exceptions:   message.Exceptions,
-		ErrorMessage: message.ErrorMessage,
-		Severity:     int8(message.Severity),
+	return errors.ResponseError{
+		Exceptions:   err.Exceptions,
+		ErrorMessage: err.ErrorMessage,
+		Severity:     int8(err.Severity),
 		ErrorCode:    errors.ErrorCode(errorCode),
 		SqlState:     errors.SQLState(sqlState),
 		Metadata: &errors.RPCMetadata{
-			ServerAddress: message.GetMetadata().ServerAddress,
+			ServerAddress: message.ServerAddressFromMetadata(err),
 		},
 		Name: errorCodeNames[uint32(errorCode)],
 	}
 
-	return err
 }
 
 var errorCodeNames = map[uint32]string{
