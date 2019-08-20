@@ -109,16 +109,15 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 	return column
 }
 
-func (a Adapter) ErrorResponseToResponseError(message *message.ErrorResponse) errors.ResponseError {
-
+func (a Adapter) ErrorResponseToResponseError(err *message.ErrorResponse) errors.ResponseError {
 	return errors.ResponseError{
-		Exceptions:   message.Exceptions,
-		ErrorMessage: message.ErrorMessage,
-		Severity:     int8(message.Severity),
-		ErrorCode:    errors.ErrorCode(message.ErrorCode),
-		SqlState:     errors.SQLState(message.SqlState),
+		Exceptions:   err.Exceptions,
+		ErrorMessage: err.ErrorMessage,
+		Severity:     int8(err.Severity),
+		ErrorCode:    errors.ErrorCode(err.ErrorCode),
+		SqlState:     errors.SQLState(err.SqlState),
 		Metadata: &errors.RPCMetadata{
-			ServerAddress: message.GetMetadata().ServerAddress,
+			ServerAddress: message.ServerAddressFromMetadata(err),
 		},
 	}
 }
