@@ -22,7 +22,8 @@ package avatica
 import (
 	"context"
 	"database/sql/driver"
-	"fmt"
+
+	"golang.org/x/xerrors"
 )
 
 func (s *stmt) ExecContext(ctx context.Context, args []driver.NamedValue) (driver.Result, error) {
@@ -30,7 +31,7 @@ func (s *stmt) ExecContext(ctx context.Context, args []driver.NamedValue) (drive
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error executing statement: %s", err)
+		return nil, xerrors.Errorf("error executing statement: %v", err)
 	}
 
 	return s.exec(ctx, list)
@@ -41,7 +42,7 @@ func (s *stmt) QueryContext(ctx context.Context, args []driver.NamedValue) (driv
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, fmt.Errorf("Error executing query: %s", err)
+		return nil, xerrors.Errorf("error executing query: %v", err)
 	}
 
 	return s.query(ctx, list)

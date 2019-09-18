@@ -18,11 +18,11 @@
 package avatica
 
 import (
-	"fmt"
 	"strings"
 
 	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
 	"github.com/golang/protobuf/proto"
+	"golang.org/x/xerrors"
 )
 
 const (
@@ -117,6 +117,6 @@ func responseFromClassName(className string) (proto.Message, error) {
 	case "SyncResultsResponse":
 		return &avaticaMessage.SyncResultsResponse{}, nil
 	default:
-		return nil, fmt.Errorf("Unable to create response from the string: %s", className)
+		return nil, xerrors.Errorf("unable to create response from the string: %s", className)
 	}
 }

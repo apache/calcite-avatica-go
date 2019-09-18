@@ -23,14 +23,14 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
-	"errors"
-	"fmt"
+
+	"golang.org/x/xerrors"
 )
 
 func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, error) {
 
 	if opts.ReadOnly {
-		return nil, errors.New("Read-only transactions are not supported")
+		return nil, xerrors.New("read-only transactions are not supported")
 	}
 
 	var isolation isoLevel
@@ -43,17 +43,17 @@ func (c *conn) BeginTx(ctx context.Context, opts driver.TxOptions) (driver.Tx, e
 	case sql.LevelReadCommitted:
 		isolation = isolationReadComitted
 	case sql.LevelWriteCommitted:
-		return nil, errors.New("LevelWriteCommitted isolation level is not supported")
+		return nil, xerrors.New("LevelWriteCommitted isolation level is not supported")
 	case sql.LevelRepeatableRead:
 		isolation = isolationRepeatableRead
 	case sql.LevelSnapshot:
-		return nil, errors.New("LevelSnapshot isolation level is not supported")
+		return nil, xerrors.New("LevelSnapshot isolation level is not supported")
 	case sql.LevelSerializable:
 		isolation = isolationSerializable
 	case sql.LevelLinearizable:
-		return nil, errors.New("LevelLinearizable isolation level is not supported")
+		return nil, xerrors.New("LevelLinearizable isolation level is not supported")
 	default:
-		return nil, fmt.Errorf("Unsupported transaction isolation level: %d", opts.Isolation)
+		return nil, xerrors.Errorf("unsupported transaction isolation level: %d", opts.Isolation)
 	}
 
 	return c.begin(ctx, isolation)
@@ -67,7 +67,7 @@ func (c *conn) ExecContext(ctx context.Context, query string, args []driver.Name
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, fmt.Errorf("could not execute statement: %s", err)
+		return nil, xerrors.Errorf("could not execute statement: %v", err)
 	}
 
 	return c.exec(ctx, query, list)
@@ -78,7 +78,7 @@ func (c *conn) Ping(ctx context.Context) error {
 	_, err := c.ExecContext(ctx, c.adapter.GetPingStatement(), []driver.NamedValue{})
 
 	if err != nil {
-		return fmt.Errorf("Error pinging database: %s", err)
+		return xerrors.Errorf("error pinging database: %v", err)
 	}
 
 	return nil
@@ -88,7 +88,7 @@ func (c *conn) QueryContext(ctx context.Context, query string, args []driver.Nam
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, fmt.Errorf("could not execute query: %s", err)
+		return nil, xerrors.Errorf("could not execute query: %v", err)
 	}
 
 	return c.query(ctx, query, list)
