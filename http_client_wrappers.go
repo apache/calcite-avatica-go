@@ -18,10 +18,10 @@
 package avatica
 
 import (
-	"fmt"
 	"net/http"
 
 	digest_auth_client "github.com/xinsnake/go-http-digest-auth-client"
+	"golang.org/x/xerrors"
 	"gopkg.in/jcmturner/gokrb5.v7/client"
 	"gopkg.in/jcmturner/gokrb5.v7/config"
 	"gopkg.in/jcmturner/gokrb5.v7/credentials"
@@ -49,26 +49,26 @@ func WithKerberosAuth(cli *http.Client, username, realm, keyTab, krb5Conf, krb5C
 	if krb5CredentialCache != "" {
 		tc, err := credentials.LoadCCache(krb5CredentialCache)
 		if err != nil {
-			return nil, fmt.Errorf("error reading kerberos ticket cache: %s", err)
+			return nil, xerrors.Errorf("error reading kerberos ticket cache: %v", err)
 		}
 		kc, err := client.NewClientFromCCache(tc, config.NewConfig())
 		if err != nil {
-			return nil, fmt.Errorf("error creating kerberos client: %s", err)
+			return nil, xerrors.Errorf("error creating kerberos client: %v", err)
 		}
 		kerberosClient = kc
 	} else {
 		cfg, err := config.Load(krb5Conf)
 		if err != nil {
-			return nil, fmt.Errorf("error reading kerberos config: %s", err)
+			return nil, xerrors.Errorf("error reading kerberos config: %v", err)
 		}
 		kt, err := keytab.Load(keyTab)
 		if err != nil {
-			return nil, fmt.Errorf("error reading kerberos keytab: %s", err)
+			return nil, xerrors.Errorf("error reading kerberos keytab: %v", err)
 		}
 		kc := client.NewClientWithKeytab(username, realm, kt, cfg)
 		err = kc.Login()
 		if err != nil {
-			return nil, fmt.Errorf("error performing kerberos login with keytab: %s", err)
+			return nil, xerrors.Errorf("error performing kerberos login with keytab: %v", err)
 		}
 		kerberosClient = kc
 	}
@@ -104,7 +104,7 @@ type krb5Transport struct {
 func (t *krb5Transport) RoundTrip(req *http.Request) (resp *http.Response, err error) {
 	err = gokrbSPNEGO.SetSPNEGOHeader(t.kerberosClient, req, "")
 	if err != nil {
-		return nil, err
+		return nil, xerrors.Errorf("error setting SPNEGO header: %v", err)
 	}
 	return t.baseTransport.RoundTrip(req)
 }

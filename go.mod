@@ -9,6 +9,7 @@ require (
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/xinsnake/go-http-digest-auth-client v0.4.0
 	golang.org/x/crypto v0.0.0-20190424203555-c05e17bb3b2d // indirect
+	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
 	gopkg.in/jcmturner/aescts.v1 v1.0.1 // indirect
 	gopkg.in/jcmturner/dnsutils.v1 v1.0.1 // indirect
 	gopkg.in/jcmturner/goidentity.v3 v3.0.0 // indirect

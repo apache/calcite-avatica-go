@@ -35,7 +35,6 @@ import (
 	"context"
 	"database/sql"
 	"database/sql/driver"
-	"fmt"
 	"net/http"
 
 	"github.com/apache/calcite-avatica-go/v4/generic"
@@ -43,6 +42,7 @@ import (
 	"github.com/apache/calcite-avatica-go/v4/message"
 	"github.com/apache/calcite-avatica-go/v4/phoenix"
 	"github.com/hashicorp/go-uuid"
+	"golang.org/x/xerrors"
 )
 
 // Driver is exported to allow it to be used directly.
@@ -66,18 +66,18 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	config, err := ParseDSN(c.dsn)
 
 	if err != nil {
-		return nil, fmt.Errorf("Unable to open connection: %s", err)
+		return nil, xerrors.Errorf("unable to open connection: %v", err)
 	}
 
 	httpClient, err := NewHTTPClient(config.endpoint, c.Client, config)
 
 	if err != nil {
-		return nil, fmt.Errorf("Unable to create HTTP client: %s", err)
+		return nil, xerrors.Errorf("unable to create HTTP client: %v", err)
 	}
 
 	connectionId, err := uuid.GenerateUUID()
 	if err != nil {
-		return nil, fmt.Errorf("Error generating connection id: %s", err)
+		return nil, xerrors.Errorf("error generating connection id: %v", err)
 	}
 
 	info := map[string]string{

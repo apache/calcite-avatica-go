@@ -23,6 +23,7 @@ import (
 
 	"github.com/apache/calcite-avatica-go/v4/errors"
 	"github.com/apache/calcite-avatica-go/v4/message"
+	"golang.org/x/xerrors"
 )
 
 type conn struct {
@@ -206,7 +207,9 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 
 func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 
-	avaticaErr, ok := err.(avaticaError)
+	var avaticaErr avaticaError
+
+	ok := xerrors.As(err, &avaticaErr)
 
 	if !ok {
 		return err
