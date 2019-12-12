@@ -20,6 +20,7 @@ package avatica
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"database/sql/driver"
 	"fmt"
 	"io/ioutil"
@@ -69,6 +70,7 @@ func NewHTTPClient(host string, baseClient *http.Client, config *Config) (*httpC
 				TLSHandshakeTimeout:   10 * time.Second,
 				ExpectContinueTimeout: 1 * time.Second,
 				MaxIdleConnsPerHost:   runtime.GOMAXPROCS(0) + 1,
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 			},
 		}
 		switch config.authentication {
