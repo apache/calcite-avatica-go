@@ -70,7 +70,7 @@ func NewHTTPClient(host string, baseClient *http.Client, config *Config) (*httpC
 				TLSHandshakeTimeout:   10 * time.Second,
 				ExpectContinueTimeout: 1 * time.Second,
 				MaxIdleConnsPerHost:   runtime.GOMAXPROCS(0) + 1,
-				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: config.InsecureSkipVerify},
 			},
 		}
 		switch config.authentication {

@@ -43,6 +43,7 @@ type Config struct {
 	location             *time.Location
 	schema               string
 	transactionIsolation uint32
+	InsecureSkipVerify   bool
 
 	authentication      authentication
 	avaticaUser         string
@@ -75,6 +76,11 @@ func ParseDSN(dsn string) (*Config, error) {
 	}
 
 	queries := parsed.Query()
+
+	if v := queries.Get("insecureSkipVerify"); v != "" {
+
+		conf.InsecureSkipVerify=true
+	}
 
 	if v := queries.Get("maxRowsTotal"); v != "" {
 
