@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/tls"
+	"crypto/x509"
 	"database/sql/driver"
 	"fmt"
 	"io/ioutil"
@@ -57,6 +58,14 @@ func (e avaticaError) Error() string {
 func NewHTTPClient(host string, baseClient *http.Client, config *Config) (*httpClient, error) {
 
 	if baseClient == nil {
+
+		var certs *x509.CertPool
+		if config.RootCAs != "" {
+			pemData := []byte(config.RootCAs)
+			certs = x509.NewCertPool()
+			certs.AppendCertsFromPEM(pemData)
+		}
+
 		baseClient = &http.Client{
 			Transport: &http.Transport{
 				Proxy: http.ProxyFromEnvironment,
@@ -70,7 +79,10 @@ func NewHTTPClient(host string, baseClient *http.Client, config *Config) (*httpC
 				TLSHandshakeTimeout:   10 * time.Second,
 				ExpectContinueTimeout: 1 * time.Second,
 				MaxIdleConnsPerHost:   runtime.GOMAXPROCS(0) + 1,
-				TLSClientConfig: &tls.Config{InsecureSkipVerify: config.InsecureSkipVerify},
+				TLSClientConfig: &tls.Config{
+					RootCAs: certs,
+					InsecureSkipVerify: config.InsecureSkipVerify,
+				},
 			},
 		}
 		switch config.authentication {
