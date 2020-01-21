@@ -153,6 +153,10 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 		return nil, xerrors.Errorf("error reading response body: %v", err)
 	}
 
+	if res.StatusCode < 200 || res.StatusCode > 299 {
+		return nil, xerrors.Errorf("error executing http request. Code: %d - Body:%s", res.StatusCode, response)
+	}
+
 	result := &avaticaMessage.WireMessage{}
 
 	err = proto.Unmarshal(response, result)
