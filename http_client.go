@@ -162,7 +162,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	err = proto.Unmarshal(response, result)
 
 	if err != nil {
-		return nil, xerrors.Errorf("error unmarshaling wire message: %v", err)
+		return nil, xerrors.Errorf("error unmarshaling wire message: %v. Code: %d - Body:%s", err, res.StatusCode, response)
 	}
 
 	inner, err := responseFromClassName(result.Name)
@@ -174,7 +174,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 	err = proto.Unmarshal(result.WrappedMessage, inner)
 
 	if err != nil {
-		return nil, xerrors.Errorf("error unmarshaling wrapped message: %v", err)
+		return nil, xerrors.Errorf("error unmarshaling wrapped message: %v - Content: %s", err, result.WrappedMessage)
 	}
 
 	if v, ok := inner.(*avaticaMessage.ErrorResponse); ok {
