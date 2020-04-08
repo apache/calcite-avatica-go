@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Set up go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2-beta
         with:
           go-version: ${{ matrix.go_version}}
 
       - name: Check out Avatica-Go repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Run tests
         env:
