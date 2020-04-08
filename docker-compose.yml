@@ -92,8 +92,9 @@ services:
     working_dir: /source
     command: sh -c "apk --no-cache --no-progress add bash; ./docker.sh compile-protobuf"
     environment:
-      AVATICA_VERSION: 1.14.0
-      PROTOBUF_VERSION: 3.7.1
+      AVATICA_VERSION: 1.16.0
+      PROTOBUF_VERSION: 3.11.4
+      GLIBC_VERSION: 2.31-r0
     volumes:
       - .:/source
       - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
