@@ -24,7 +24,6 @@ import (
 	"time"
 
 	"github.com/apache/calcite-avatica-go/v4/message"
-	"golang.org/x/xerrors"
 )
 
 type stmt struct {
@@ -32,6 +31,7 @@ type stmt struct {
 	conn        *conn
 	parameters  []*message.AvaticaParameter
 	handle      message.StatementHandle
+	valueCache  [][]*message.TypedValue
 }
 
 // Close closes a statement
@@ -39,6 +39,28 @@ func (s *stmt) Close() error {
 
 	if s.conn.connectionId == "" {
 		return driver.ErrBadConn
+	}
+
+	if len(s.valueCache) > 0 {
+		msg := message.ExecuteBatchRequest{
+			ConnectionId:         s.conn.connectionId,
+			StatementId:          s.statementID,
+			Updates:              make([]*message.UpdateBatch, 0, len(s.valueCache)),
+			XXX_NoUnkeyedLiteral: struct{}{},
+			XXX_unrecognized:     nil,
+			XXX_sizecache:        0,
+		}
+
+		for _, values := range s.valueCache {
+			msg.Updates = append(msg.Updates, &message.UpdateBatch{
+				ParameterValues: values,
+			})
+		}
+
+		_, err := s.conn.httpClient.post(context.Background(), &msg)
+		if err != nil {
+			return s.conn.avaticaErrorToResponseErrorOrError(err)
+		}
 	}
 
 	_, err := s.conn.httpClient.post(context.Background(), &message.CloseStatementRequest{
@@ -79,37 +101,10 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 		return nil, driver.ErrBadConn
 	}
 
-	msg := &message.ExecuteRequest{
-		StatementHandle:    &s.handle,
-		ParameterValues:    s.parametersToTypedValues(args),
-		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
-		HasParameterValues: true,
-	}
+	values := s.parametersToTypedValues(args)
+	s.valueCache = append(s.valueCache, values)
 
-	if s.conn.config.frameMaxSize <= -1 {
-		msg.DeprecatedFirstFrameMaxSize = math.MaxInt64
-	} else {
-		msg.DeprecatedFirstFrameMaxSize = uint64(s.conn.config.frameMaxSize)
-	}
-
-	res, err := s.conn.httpClient.post(ctx, msg)
-
-	if err != nil {
-		return nil, s.conn.avaticaErrorToResponseErrorOrError(err)
-	}
-
-	results := res.(*message.ExecuteResponse).Results
-
-	if len(results) <= 0 {
-		return nil, xerrors.New("empty ResultSet in ExecuteResponse")
-	}
-
-	// Currently there is only 1 ResultSet per response
-	changed := int64(results[0].UpdateCount)
-
-	return &result{
-		affectedRows: changed,
-	}, nil
+	return nil, nil
 }
 
 // Query executes a query that may return rows, such as a
