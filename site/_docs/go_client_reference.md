@@ -162,6 +162,35 @@ The supported values for `transactionIsolation` are:
 | 4     | `TRANSACTION_REPEATABLE_READ`  | Dirty reads and non-repeatable reads are prevented, but phantom reads may occur. |
 | 8     | `TRANSACTION_SERIALIZABLE`     | Dirty reads, non-repeatable reads, and phantom reads are all prevented.          |
 
+<strong><a name="batching" href="#batching">batching</a></strong>
+
+When you want to write large amounts of data more quickly, instead of consuming time on network communications.
+By using [ExecuteBatchRequest](https://calcite.apache.org/avatica/docs/protobuf_reference.html#executebatchrequest), 
+you can pack and send multiple pieces of data to reduce the confirmation of messages. When you set `batching=true`, 
+Statement will only be executed when `Close()` is called, and the statement is goroutine-safe.
+
+```go
+// when using phoenix
+stmt, _ := db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
+var wg sync.WaitGroup
+for i := 1; i <= 6; i++ {
+    wg.Add(1)
+    go func(num int) {
+        defer wg.Done()
+
+        _, err := stmt.Exec(num)
+
+        if err != nil {
+            dbt.Fatal(err)
+        }
+    }(i)
+}
+wg.Wait()
+
+// When batching=true, Statement will only be executed when Close() is called
+err = stmt.Close()
+```
+
 ## time.Time support
 
 The following datatypes are automatically converted to and from `time.Time`:
