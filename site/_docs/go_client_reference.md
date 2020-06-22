@@ -35,13 +35,7 @@ hood.
 {:toc}
 
 ## Getting Started
-If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
-
-{% highlight shell %}
-$ dep ensure -add github.com/apache/calcite-avatica-go
-{% endhighlight %}
-
-If you are using Go 1.11 and above, install using Go modules:
+Install using Go modules:
 
 {% highlight shell %}
 $ go get github.com/apache/calcite-avatica-go
@@ -164,10 +158,11 @@ The supported values for `transactionIsolation` are:
 
 <strong><a name="batching" href="#batching">batching</a></strong>
 
-When you want to write large amounts of data more quickly, instead of consuming time on network communications.
+When you want to write large amounts of data, you can enable batching rather than making a call to the server for each execution.
 By using [ExecuteBatchRequest](https://calcite.apache.org/avatica/docs/protobuf_reference.html#executebatchrequest), 
-you can pack and send multiple pieces of data to reduce the confirmation of messages. When you set `batching=true`, 
-Statement will only be executed when `Close()` is called, and the statement is goroutine-safe.
+the driver will batch up `Exec()`s and send them to the sever when a statement is closed using `Close()`. The statement object
+is thread-safe and can be used by multiple go-routines, but the changes will only be sent to the server after the
+statement has been closed.
 
 ```go
 // when using phoenix
@@ -187,7 +182,7 @@ for i := 1; i <= 6; i++ {
 }
 wg.Wait()
 
-// When batching=true, Statement will only be executed when Close() is called
+// When batching=true, the statement will only be executed when Close() is called
 err = stmt.Close()
 ```
 
