@@ -15,6 +15,7 @@ jobs:
           - apache/calcite-avatica-hypersql:1.13.0
           - apache/calcite-avatica-hypersql:1.14.0
           - apache/calcite-avatica-hypersql:1.15.0
+          - apache/calcite-avatica-hypersql:1.17.0
 
     runs-on: ubuntu-latest
 

@@ -19,7 +19,7 @@ services:
     image: boostport/hbase-phoenix-all-in-one:2.0-5.0
 
   hsqldb:
-    image: apache/calcite-avatica-hypersql:1.15.0
+    image: apache/calcite-avatica-hypersql:1.17.0
     command: -u jdbc:hsqldb:mem:public
 
   test:
@@ -92,8 +92,8 @@ services:
     working_dir: /source
     command: sh -c "apk --no-cache --no-progress add bash; ./docker.sh compile-protobuf"
     environment:
-      AVATICA_VERSION: 1.16.0
-      PROTOBUF_VERSION: 3.11.4
+      AVATICA_VERSION: 1.17.0
+      PROTOBUF_VERSION: 3.12.3
       GLIBC_VERSION: 2.31-r0
     volumes:
       - .:/source
