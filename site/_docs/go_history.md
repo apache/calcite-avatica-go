@@ -28,6 +28,67 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.0.0">5.0.0</a> / 2020-06-XX
+{: #v5-0-0}
+
+Apache Calcite Avatica Go 5.0.0 is a major release of Avatica Go with a number of improvements and a breaking change.
+As Go modules has been available since Go 1.11 (3 versions back as of writing), users of this library should
+install it using Go modules as support for dep has been removed.
+
+This release also introduces the `batching` query string parameter in the DSN, which allows updates to the server using
+a prepared statement to be batched together and executed once `Close()` is called on the statement.
+
+**Breaking change for connection metadata ([CALCITE-3248](https://issues.apache.org/jira/browse/CALCITE-3248)):** 
+Previously, it is possible to set the HTTP username and password using the `username` and `password` parameters in the
+query string of the DSN. These parameters were confusing and didn't signal the intent and effect of the parameters in addition
+to clashing with the `avaticaUser` and `avaticaPassword` parameters. The `username` and `password` parameters have now been
+removed as CALCITE-3248 implements the [Connector interface](https://golang.org/pkg/database/sql/driver/#Connector) via the
+`NewConnector()` method, which allows the driver to be instantiated with a custom HTTP client. Subsequently, it is now
+possible to set up the driver with a custom HTTP client and decorate it with the `WithDigestAuth()`, `WithBasicAuth()`,
+`WithKerberosAuth()` and `WithAdditionalHeaders()` methods.
+
+Features and bug fixes
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3248">CALCITE-3248</a>]
+  Add Connector implementation and remove `username` and `password` query string parameters from DSN (Tino Rusch)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3253">CALCITE-3253</a>]
+  Check server address exists before returning it in an Avatica response error (Tino Rusch)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3264">CALCITE-3264</a>]
+  Add catch-all type for unknown types in all adapters instead of panicking (Tino Rusch)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3275">CALCITE-3275</a>]
+  Add nil checks to error parsing (Tino Rusch)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-2499">CALCITE-2499</a>]
+  Drop support for dep
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3320">CALCITE-3320</a>]
+  Use transitional x/xerrors package when working with errors
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3903">CALCITE-3903</a>]
+  Upgrade protobuf generation dependencies and regenerate avatica protobufs
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3905">CALCITE-3905</a>]
+  Upgrade gokrb5 to v8
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3906">CALCITE-3906</a>]
+  Pin witch version in tools.go file
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-4067">CALCITE-4067</a>]
+  Add support for ExecuteBatchRequest in prepared statement (chenhualin)
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3359">CALCITE-3359</a>]
+  Update dependencies
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-4078">CALCITE-4078</a>]
+  Move import path from v4 to v5 for 5.0.0 release
+  
+Tests
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3356">CALCITE-3356</a>]
+  Use Github Actions for continuous integration
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3902">CALCITE-3902</a>]
+  Upgrade Go to 1.13 and 1.14
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-3904">CALCITE-3904</a>]
+  Upgrade Github Actions dependencies
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-4076">CALCITE-4076</a>]
+  Test against Avatica 1.17.0 and regenerate protobuf
+
+Web site and documentation:
+
+* Clean up documentation and remove references to dep
+ 
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v4.0.0">4.0.0</a> / 2019-05-16
 {: #v4-0-0}
 

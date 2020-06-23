@@ -20,7 +20,7 @@ package internal
 import (
 	"reflect"
 
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/apache/calcite-avatica-go/v5/message"
 )
 
 type Column struct {

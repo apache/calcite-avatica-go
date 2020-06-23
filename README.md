@@ -38,7 +38,7 @@ The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, 
 
 ```
 import "database/sql"
-import _ "github.com/apache/calcite-avatica-go/v4"
+import _ "github.com/apache/calcite-avatica-go/v5"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 ```
