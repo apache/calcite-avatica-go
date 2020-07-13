@@ -25,10 +25,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v4/errors"
+	"github.com/apache/calcite-avatica-go/v5/errors"
 )
 
 func skipTestIfNotPhoenix(t *testing.T) {
@@ -1377,4 +1378,123 @@ func TestPhoenixErrorCodeParsing(t *testing.T) {
 	if resErr.SqlState != "42M03" {
 		t.Errorf("Expected SQL state to be %s, got %s.", "42M03", resErr.SqlState)
 	}
+}
+
+func TestPhoenixExecBatch(t *testing.T) {
+	skipTestIfNotPhoenix(t)
+
+	runTests(t, dsn+"?batching=true", func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				int INTEGER PRIMARY KEY
+			    ) TRANSACTIONAL=false`)
+
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		totalRows := 6
+
+		for i := 1; i <= totalRows; i++ {
+			_, err := stmt.Exec(i)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+		}
+
+		// When batching=true, after exec(sql), need to close the stmt
+		err = stmt.Close()
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		queryStmt, err := dbt.db.Prepare(`SELECT * FROM ` + dbt.tableName + ` WHERE int = ?`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		var res int
+
+		for i := 1; i <= totalRows; i++ {
+
+			err := queryStmt.QueryRow(i).Scan(&res)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+
+			if res != i {
+				dbt.Fatalf("Unexpected query result. Expected %d, got %d.", i, res)
+			}
+		}
+	})
+}
+
+func TestPhoenixExecBatchConcurrency(t *testing.T) {
+	skipTestIfNotPhoenix(t)
+
+	runTests(t, dsn+"?batching=true", func(dbt *DBTest) {
+
+		// Create and seed table
+		dbt.mustExec(`CREATE TABLE ` + dbt.tableName + ` (
+				int INTEGER PRIMARY KEY
+			    ) TRANSACTIONAL=false`)
+
+		stmt, err := dbt.db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		totalRows := 6
+
+		var wg sync.WaitGroup
+		for i := 1; i <= totalRows; i++ {
+			wg.Add(1)
+			go func(num int) {
+				defer wg.Done()
+
+				_, err := stmt.Exec(num)
+
+				if err != nil {
+					dbt.Fatal(err)
+				}
+			}(i)
+		}
+		wg.Wait()
+
+		// When batching=true, after exec(sql), need to close the stmt
+		err = stmt.Close()
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		queryStmt, err := dbt.db.Prepare(`SELECT * FROM ` + dbt.tableName + ` WHERE int = ?`)
+
+		if err != nil {
+			dbt.Fatal(err)
+		}
+
+		var res int
+
+		for i := 1; i <= totalRows; i++ {
+
+			err := queryStmt.QueryRow(i).Scan(&res)
+
+			if err != nil {
+				dbt.Fatal(err)
+			}
+
+			if res != i {
+				dbt.Fatalf("Unexpected query result. Expected %d, got %d.", i, res)
+			}
+		}
+	})
 }

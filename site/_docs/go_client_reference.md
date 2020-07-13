@@ -35,13 +35,7 @@ hood.
 {:toc}
 
 ## Getting Started
-If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
-
-{% highlight shell %}
-$ dep ensure -add github.com/apache/calcite-avatica-go
-{% endhighlight %}
-
-If you are using Go 1.11 and above, install using Go modules:
+Install using Go modules:
 
 {% highlight shell %}
 $ go get github.com/apache/calcite-avatica-go
@@ -55,7 +49,7 @@ The Avatica Go driver implements Go's `database/sql/driver` interface, so, impor
 
 {% highlight go %}
 import "database/sql"
-import _ "github.com/apache/calcite-avatica-go/v4"
+import _ "github.com/apache/calcite-avatica-go/v5"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 {% endhighlight %}
@@ -161,6 +155,36 @@ The supported values for `transactionIsolation` are:
 | 2     | `TRANSACTION_READ_COMMITTED`   | Dirty reads are prevented, but non-repeatable reads and phantom reads may occur. |
 | 4     | `TRANSACTION_REPEATABLE_READ`  | Dirty reads and non-repeatable reads are prevented, but phantom reads may occur. |
 | 8     | `TRANSACTION_SERIALIZABLE`     | Dirty reads, non-repeatable reads, and phantom reads are all prevented.          |
+
+<strong><a name="batching" href="#batching">batching</a></strong>
+
+When you want to write large amounts of data, you can enable batching rather than making a call to the server for each execution.
+By using [ExecuteBatchRequest](https://calcite.apache.org/avatica/docs/protobuf_reference.html#executebatchrequest), 
+the driver will batch up `Exec()`s and send them to the sever when a statement is closed using `Close()`. The statement object
+is thread-safe and can be used by multiple go-routines, but the changes will only be sent to the server after the
+statement has been closed.
+
+```go
+// when using phoenix
+stmt, _ := db.Prepare(`UPSERT INTO ` + dbt.tableName + ` VALUES(?)`)
+var wg sync.WaitGroup
+for i := 1; i <= 6; i++ {
+    wg.Add(1)
+    go func(num int) {
+        defer wg.Done()
+
+        _, err := stmt.Exec(num)
+
+        if err != nil {
+            dbt.Fatal(err)
+        }
+    }(i)
+}
+wg.Wait()
+
+// When batching=true, the statement will only be executed when Close() is called
+err = stmt.Close()
+```
 
 ## time.Time support
 

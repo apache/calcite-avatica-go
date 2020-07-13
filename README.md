@@ -27,13 +27,7 @@ Apache Calcite's Avatica Go is a Go [database/sql](https://golang.org/pkg/databa
 Avatica is a sub-project of [Apache Calcite](https://calcite.apache.org).
 
 ## Quick Start
-If you are using Go 1.10 and below, install using [dep](https://github.com/golang/dep):
-
-```
-$ dep ensure -add github.com/apache/calcite-avatica-go
-```
-
-If you are using Go 1.11 and above, install using Go modules:
+Install using Go modules:
 
 ```
 $ go get github.com/apache/calcite-avatica-go
@@ -44,7 +38,7 @@ The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, 
 
 ```
 import "database/sql"
-import _ "github.com/apache/calcite-avatica-go/v4"
+import _ "github.com/apache/calcite-avatica-go/v5"
 
 db, err := sql.Open("avatica", "http://localhost:8765")
 ```

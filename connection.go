@@ -21,8 +21,8 @@ import (
 	"context"
 	"database/sql/driver"
 
-	"github.com/apache/calcite-avatica-go/v4/errors"
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/apache/calcite-avatica-go/v5/errors"
+	"github.com/apache/calcite-avatica-go/v5/message"
 	"golang.org/x/xerrors"
 )
 
@@ -56,10 +56,11 @@ func (c *conn) prepare(ctx context.Context, query string) (driver.Stmt, error) {
 	prepareResponse := response.(*message.PrepareResponse)
 
 	return &stmt{
-		statementID: prepareResponse.Statement.Id,
-		conn:        c,
-		parameters:  prepareResponse.Statement.Signature.Parameters,
-		handle:      *prepareResponse.Statement,
+		statementID:  prepareResponse.Statement.Id,
+		conn:         c,
+		parameters:   prepareResponse.Statement.Signature.Parameters,
+		handle:       *prepareResponse.Statement,
+		batchUpdates: make([]*message.UpdateBatch, 0),
 	}, nil
 }
 
@@ -117,9 +118,7 @@ func (c *conn) begin(ctx context.Context, isolationLevel isoLevel) (driver.Tx, e
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
-	return &tx{
-		conn: c,
-	}, nil
+	return &tx{conn: c}, nil
 }
 
 // Exec prepares and executes a query and returns the result directly.

@@ -562,11 +562,15 @@ compile_protobuf(){
         echo "The PROTOBUF_VERSION environment variable must be set to a valid protobuf version"
     fi
 
+    if [ -z "$GLIBC_VERSION" ]; then
+        echo "The GLIBC_VERSION environment variable must be set to a valid protobuf version"
+    fi
+
     apk --no-cache add ca-certificates git wget
 
     # Install glibc
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-    wget -q -O /tmp/glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk
+    wget -q -O /tmp/glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk
     apk add /tmp/glibc.apk
 
 

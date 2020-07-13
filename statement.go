@@ -21,17 +21,20 @@ import (
 	"context"
 	"database/sql/driver"
 	"math"
+	"sync"
 	"time"
 
-	"github.com/apache/calcite-avatica-go/v4/message"
+	"github.com/apache/calcite-avatica-go/v5/message"
 	"golang.org/x/xerrors"
 )
 
 type stmt struct {
-	statementID uint32
-	conn        *conn
-	parameters  []*message.AvaticaParameter
-	handle      message.StatementHandle
+	statementID  uint32
+	conn         *conn
+	parameters   []*message.AvaticaParameter
+	handle       message.StatementHandle
+	batchUpdates []*message.UpdateBatch
+	sync.Mutex
 }
 
 // Close closes a statement
@@ -39,6 +42,17 @@ func (s *stmt) Close() error {
 
 	if s.conn.connectionId == "" {
 		return driver.ErrBadConn
+	}
+
+	if s.conn.config.batching {
+		_, err := s.conn.httpClient.post(context.Background(), &message.ExecuteBatchRequest{
+			ConnectionId: s.conn.connectionId,
+			StatementId:  s.statementID,
+			Updates:      s.batchUpdates,
+		})
+		if err != nil {
+			return s.conn.avaticaErrorToResponseErrorOrError(err)
+		}
 	}
 
 	_, err := s.conn.httpClient.post(context.Background(), &message.CloseStatementRequest{
@@ -79,9 +93,23 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 		return nil, driver.ErrBadConn
 	}
 
+	values := s.parametersToTypedValues(args)
+
+	if s.conn.config.batching {
+		s.Lock()
+		defer s.Unlock()
+
+		s.batchUpdates = append(s.batchUpdates, &message.UpdateBatch{
+			ParameterValues: values,
+		})
+		return &result{
+			affectedRows: -1,
+		}, nil
+	}
+
 	msg := &message.ExecuteRequest{
 		StatementHandle:    &s.handle,
-		ParameterValues:    s.parametersToTypedValues(args),
+		ParameterValues:    values,
 		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
 	}

@@ -20,13 +20,13 @@ package avatica
 import (
 	"net/http"
 
+	"github.com/jcmturner/gokrb5/v8/client"
+	"github.com/jcmturner/gokrb5/v8/config"
+	"github.com/jcmturner/gokrb5/v8/credentials"
+	"github.com/jcmturner/gokrb5/v8/keytab"
+	gokrbSPNEGO "github.com/jcmturner/gokrb5/v8/spnego"
 	digest_auth_client "github.com/xinsnake/go-http-digest-auth-client"
 	"golang.org/x/xerrors"
-	"gopkg.in/jcmturner/gokrb5.v7/client"
-	"gopkg.in/jcmturner/gokrb5.v7/config"
-	"gopkg.in/jcmturner/gokrb5.v7/credentials"
-	"gopkg.in/jcmturner/gokrb5.v7/keytab"
-	gokrbSPNEGO "gopkg.in/jcmturner/gokrb5.v7/spnego"
 )
 
 // WithDigestAuth takes an http client and prepares it to authenticate using digest authentication
@@ -51,7 +51,7 @@ func WithKerberosAuth(cli *http.Client, username, realm, keyTab, krb5Conf, krb5C
 		if err != nil {
 			return nil, xerrors.Errorf("error reading kerberos ticket cache: %v", err)
 		}
-		kc, err := client.NewClientFromCCache(tc, config.NewConfig())
+		kc, err := client.NewFromCCache(tc, config.New())
 		if err != nil {
 			return nil, xerrors.Errorf("error creating kerberos client: %v", err)
 		}
@@ -65,7 +65,7 @@ func WithKerberosAuth(cli *http.Client, username, realm, keyTab, krb5Conf, krb5C
 		if err != nil {
 			return nil, xerrors.Errorf("error reading kerberos keytab: %v", err)
 		}
-		kc := client.NewClientWithKeytab(username, realm, kt, cfg)
+		kc := client.NewWithKeytab(username, realm, kt, cfg)
 		err = kc.Login()
 		if err != nil {
 			return nil, xerrors.Errorf("error performing kerberos login with keytab: %v", err)

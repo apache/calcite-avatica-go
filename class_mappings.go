@@ -20,7 +20,7 @@ package avatica
 import (
 	"strings"
 
-	avaticaMessage "github.com/apache/calcite-avatica-go/v4/message"
+	avaticaMessage "github.com/apache/calcite-avatica-go/v5/message"
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/xerrors"
 )
@@ -56,6 +56,8 @@ func classNameFromRequest(message interface{}) string {
 		class = "DatabasePropertyRequest"
 	case *avaticaMessage.ExecuteRequest:
 		class = "ExecuteRequest"
+	case *avaticaMessage.ExecuteBatchRequest:
+		class = "ExecuteBatchRequest"
 	case *avaticaMessage.FetchRequest:
 		class = "FetchRequest"
 	case *avaticaMessage.OpenConnectionRequest:
@@ -104,6 +106,8 @@ func responseFromClassName(className string) (proto.Message, error) {
 		return &avaticaMessage.ErrorResponse{}, nil
 	case "ExecuteResponse":
 		return &avaticaMessage.ExecuteResponse{}, nil
+	case "ExecuteBatchResponse":
+		return &avaticaMessage.ExecuteBatchResponse{}, nil
 	case "FetchResponse":
 		return &avaticaMessage.FetchResponse{}, nil
 	case "OpenConnectionResponse":

@@ -1221,7 +1221,9 @@ func init() {
 	proto.RegisterType((*ExecuteBatchRequest)(nil), "ExecuteBatchRequest")
 }
 
-func init() { proto.RegisterFile("requests.proto", fileDescriptor_9c9ccec99da7c9b4) }
+func init() {
+	proto.RegisterFile("requests.proto", fileDescriptor_9c9ccec99da7c9b4)
+}
 
 var fileDescriptor_9c9ccec99da7c9b4 = []byte{
 	// 904 bytes of a gzipped FileDescriptorProto
