@@ -81,7 +81,6 @@ func NewHTTPClient(host string, baseClient *http.Client, config *Config) (*httpC
 				MaxIdleConnsPerHost:   runtime.GOMAXPROCS(0) + 1,
 				TLSClientConfig: &tls.Config{
 					RootCAs: certs,
-					InsecureSkipVerify: config.InsecureSkipVerify,
 				},
 			},
 		}

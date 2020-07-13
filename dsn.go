@@ -44,7 +44,6 @@ type Config struct {
 	schema               string
 	transactionIsolation uint32
 	batching             bool
-	InsecureSkipVerify   bool
 	RootCAs              string
 
 	authentication      authentication
@@ -79,11 +78,6 @@ func ParseDSN(dsn string) (*Config, error) {
 	}
 
 	queries := parsed.Query()
-
-	if v := queries.Get("insecureSkipVerify"); v != "" {
-		b, _ := strconv.ParseBool(v)
-		conf.InsecureSkipVerify = b
-	}
 
 	if v := queries.Get("rootCAs"); v != "" {
 		conf.RootCAs = v
