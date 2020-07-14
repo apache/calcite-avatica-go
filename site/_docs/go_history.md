@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.0.0">5.0.0</a> / 2020-06-XX
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.0.0">5.0.0</a> / 2020-07-16
 {: #v5-0-0}
 
 Apache Calcite Avatica Go 5.0.0 is a major release of Avatica Go with a number of improvements and a breaking change.

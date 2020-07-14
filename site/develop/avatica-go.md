@@ -60,11 +60,6 @@ The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).
 
-For Go 1.10 and below, install the dependencies (skip these steps if using Go 1.11 and above):
-1a. Install [dep](https://github.com/golang/dep): `go get -u github.com/golang/dep/cmd/dep`
-
-1b. Install dependencies by running `dep ensure -v` from the root of the repository.
-
 2. The test suite requires access to an instance of Avatica running HSQLDB and an instance of Apache Phoenix running the
 Phoenix Query Server.
 

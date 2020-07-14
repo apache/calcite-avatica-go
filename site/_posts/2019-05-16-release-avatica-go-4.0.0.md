@@ -28,8 +28,8 @@ limitations under the License.
 -->
 
 Apache Calcite Avatica Go 4.0.0 is a major release with numerous improvements and a breaking change for Apache Phoenix.
-As this a a new major version, users of this package will need to upgrade their import paths to 
-`"github.com/apache/calcite-avatica-go/v5"`.
+As this is a new major version, users of this package will need to upgrade their import paths to 
+`"github.com/apache/calcite-avatica-go/v4"`.
 
 **Breaking change for Apache Phoenix ([CALCITE-2763](https://issues.apache.org/jira/browse/CALCITE-2724)):** 
 In Apache Phoenix, null and empty strings are equivalent. For some background on why this is the case, see
