@@ -207,7 +207,8 @@ func ParseDSN(dsn string) (*Config, error) {
 	}
 
 	if parsed.Path != "" {
-		conf.schema = strings.TrimPrefix(parsed.Path, "/")
+		s := strings.Split(parsed.Path, "/")
+		conf.schema = s[len(s)-1]
 	}
 
 	parsed.User = nil
