@@ -68,6 +68,35 @@ func TestParseDSN(t *testing.T) {
 	}
 }
 
+func TestParseDSNProxy(t *testing.T) {
+
+	config, err := ParseDSN("http://localhost:8765/service/proxy/myschema?authentication=BASIC&avaticaUser=someuser&avaticaPassword=somepassword")
+
+	if err != nil {
+		t.Fatalf("Unexpected error: %s", err)
+	}
+
+	if config.endpoint != "http://localhost:8765/service/proxy/myschema" {
+		t.Errorf("Expected endpoint to be %s, got %s", "http://localhost:8765/service/proxy/myschema", config.endpoint)
+	}
+
+	if config.schema != "myschema" {
+		t.Errorf("Expected schema to be %s, got %s", "myschema", config.schema)
+	}
+
+	if config.authentication != basic {
+		t.Errorf("Expected authentication to be BASIC (%d) got %d", basic, config.authentication)
+	}
+
+	if config.avaticaUser != "someuser" {
+		t.Errorf("Expected avaticaUser to be %s, got %s", "someuser", config.avaticaUser)
+	}
+
+	if config.avaticaPassword != "somepassword" {
+		t.Errorf("Expected avaticaPassword to be %s, got %s", "somepassword", config.avaticaPassword)
+	}
+}
+
 func TestParseEmptyDSN(t *testing.T) {
 
 	_, err := ParseDSN("")
@@ -80,6 +109,65 @@ func TestParseEmptyDSN(t *testing.T) {
 func TestDSNDefaults(t *testing.T) {
 
 	config, err := ParseDSN("http://localhost:8765")
+
+	if err != nil {
+		t.Fatalf("Unexpected error: %s", err)
+	}
+
+	if config.location.String() == "" {
+		t.Error("There was no timezone set.")
+	}
+
+	if config.maxRowsTotal == 0 {
+		t.Error("There was no maxRowsTotal set.")
+	}
+
+	if config.frameMaxSize == 0 {
+		t.Error("There was no fetchMaxSize set.")
+	}
+
+	if config.schema != "" {
+		t.Errorf("Unexpected schema set: %s", config.schema)
+	}
+
+	if config.transactionIsolation != 0 {
+		t.Errorf("Default transaction level should be %d, got %d.", 0, config.transactionIsolation)
+	}
+
+	if config.authentication != none {
+		t.Errorf("Default authentication should be NONE (%d), got %d", none, config.authentication)
+	}
+
+	if config.avaticaUser != "" {
+		t.Errorf("Default avaticaUser should be empty, got %s", config.avaticaUser)
+	}
+
+	if config.avaticaPassword != "" {
+		t.Errorf("Default avaticaPassword should be empty, got %s", config.avaticaPassword)
+	}
+
+	principal := krb5Principal{}
+
+	if config.principal != principal {
+		t.Errorf("Default principal should be empty, got %s", config.principal)
+	}
+
+	if config.keytab != "" {
+		t.Errorf("Default keytab should be empty, got %s", config.keytab)
+	}
+
+	if config.krb5Conf != "" {
+		t.Errorf("Default krb5Conf should be empty, got %s", config.krb5Conf)
+	}
+
+	if config.krb5CredentialCache != "" {
+		t.Errorf("Default krb5CredentialCache should be empty, got %s", config.krb5CredentialCache)
+	}
+}
+
+func TestDSNDefaultsProxy(t *testing.T) {
+
+	config, err := ParseDSN("http://localhost:8765/service/proxy/")
 
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
