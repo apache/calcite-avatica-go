@@ -205,10 +205,10 @@ check_if_tag_exists(){
 
 check_local_remote_are_even(){
     REMOTE_COMMIT=$(git ls-remote $GITBOX_URL | head -1 | sed "s/[[:space:]]HEAD//")
-    LOCAL_COMMIT=$(git rev-parse master)
+    LOCAL_COMMIT=$(git rev-parse main)
 
     if [[ $REMOTE_COMMIT != $LOCAL_COMMIT ]]; then
-        echo "Master in Apache repository is not even with local master"
+        echo "Main in Apache repository is not even with local main"
         exit 1
     fi
 }
@@ -289,8 +289,8 @@ make_release_artifacts(){
 
     CURRENT_BRANCH=$(git branch | grep \* | cut -d ' ' -f2)
 
-    if [ $CURRENT_BRANCH != "master" ]; then
-        echo "You are currently on the $CURRENT_BRANCH branch. A release must be made from the master branch. Exiting..."
+    if [ $CURRENT_BRANCH != "main" ]; then
+        echo "You are currently on the $CURRENT_BRANCH branch. A release must be made from the main branch. Exiting..."
         exit 1
     fi
 
