@@ -21,8 +21,8 @@ import (
 	"strings"
 
 	avaticaMessage "github.com/apache/calcite-avatica-go/v5/message"
-	"github.com/golang/protobuf/proto"
 	"golang.org/x/xerrors"
+	"google.golang.org/protobuf/proto"
 )
 
 const (

@@ -562,20 +562,10 @@ compile_protobuf(){
         echo "The PROTOBUF_VERSION environment variable must be set to a valid protobuf version"
     fi
 
-    if [ -z "$GLIBC_VERSION" ]; then
-        echo "The GLIBC_VERSION environment variable must be set to a valid protobuf version"
-    fi
-
-    apk --no-cache add ca-certificates git wget
-
-    # Install glibc
-    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-    wget -q -O /tmp/glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk
-    apk add /tmp/glibc.apk
-
+    apt update && apt install unzip
 
     # Install go protobuf compiler
-    go install github.com/golang/protobuf/protoc-gen-go
+    go install google.golang.org/protobuf/cmd/protoc-gen-go
 
     # Install protoc
     mkdir -p /tmp/protoc
@@ -597,7 +587,8 @@ compile_protobuf(){
     git checkout FETCH_HEAD
 
     # Compile the protobuf
-    protoc --proto_path=/tmp/avatica/core/src/main/protobuf --go_out=import_path=message:/source/message/ /tmp/avatica/core/src/main/protobuf/*.proto
+    GITHUB_PACKAGE=github.com/apache/calcite-avatica-go
+    protoc --proto_path=/tmp/avatica/core/src/main/protobuf --go_out=/source --go_opt=module=$GITHUB_PACKAGE --go_opt=Mcommon.proto=$GITHUB_PACKAGE/message --go_opt=Mrequests.proto=$GITHUB_PACKAGE/message --go_opt=Mresponses.proto=$GITHUB_PACKAGE/message /tmp/avatica/core/src/main/protobuf/*.proto
 
     echo "Protobuf compiled successfully"
 }

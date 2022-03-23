@@ -88,13 +88,12 @@ services:
       - .:/source
 
   compile-protobuf:
-    image: golang:1.18-alpine
+    image: golang:1.18
     working_dir: /source
-    command: sh -c "apk --no-cache --no-progress add bash; ./docker.sh compile-protobuf"
+    command: sh -c "./docker.sh compile-protobuf"
     environment:
       AVATICA_VERSION: 1.20.0
-      PROTOBUF_VERSION: 3.12.3
-      GLIBC_VERSION: 2.35-r0
+      PROTOBUF_VERSION: 3.19.4
     volumes:
       - .:/source
       - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
