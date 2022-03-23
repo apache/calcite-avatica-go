@@ -7,7 +7,6 @@ require (
 	github.com/jcmturner/gokrb5/v8 v8.4.2
 	github.com/unchartedsoftware/witch v0.0.0-20200617171400-4f405404126f
 	github.com/xinsnake/go-http-digest-auth-client v0.6.0
-	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 	google.golang.org/protobuf v1.28.0
 )
 

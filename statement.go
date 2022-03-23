@@ -20,12 +20,12 @@ package avatica
 import (
 	"context"
 	"database/sql/driver"
+	"errors"
 	"math"
 	"sync"
 	"time"
 
 	"github.com/apache/calcite-avatica-go/v5/message"
-	"golang.org/x/xerrors"
 )
 
 type stmt struct {
@@ -129,7 +129,7 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 	results := res.(*message.ExecuteResponse).Results
 
 	if len(results) <= 0 {
-		return nil, xerrors.New("empty ResultSet in ExecuteResponse")
+		return nil, errors.New("empty ResultSet in ExecuteResponse")
 	}
 
 	// Currently there is only 1 ResultSet per response

@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 /*
@@ -21,8 +22,7 @@ package avatica
 
 import (
 	"database/sql/driver"
-
-	"golang.org/x/xerrors"
+	"fmt"
 )
 
 func driverNamedValueToNamedValue(values []driver.NamedValue) ([]namedValue, error) {
@@ -32,7 +32,7 @@ func driverNamedValueToNamedValue(values []driver.NamedValue) ([]namedValue, err
 		list[i] = namedValue(nv)
 
 		if nv.Name != "" {
-			return list, xerrors.Errorf("named parameters are not supported: %s given", nv.Name)
+			return list, fmt.Errorf("named parameters are not supported: %s given", nv.Name)
 		}
 	}
 

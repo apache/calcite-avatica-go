@@ -20,10 +20,10 @@ package avatica
 import (
 	"context"
 	"database/sql/driver"
+	"errors"
 
-	"github.com/apache/calcite-avatica-go/v5/errors"
+	avaticaErrors "github.com/apache/calcite-avatica-go/v5/errors"
 	"github.com/apache/calcite-avatica-go/v5/message"
-	"golang.org/x/xerrors"
 )
 
 type conn struct {
@@ -208,7 +208,7 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 
 	var avaticaErr avaticaError
 
-	ok := xerrors.As(err, &avaticaErr)
+	ok := errors.As(err, &avaticaErr)
 
 	if !ok {
 		return err
@@ -218,13 +218,13 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 		return c.adapter.ErrorResponseToResponseError(avaticaErr.message)
 	}
 
-	return errors.ResponseError{
+	return avaticaErrors.ResponseError{
 		Exceptions:   avaticaErr.message.Exceptions,
 		ErrorMessage: avaticaErr.message.ErrorMessage,
 		Severity:     int8(avaticaErr.message.Severity),
-		ErrorCode:    errors.ErrorCode(avaticaErr.message.ErrorCode),
-		SqlState:     errors.SQLState(avaticaErr.message.SqlState),
-		Metadata: &errors.RPCMetadata{
+		ErrorCode:    avaticaErrors.ErrorCode(avaticaErr.message.ErrorCode),
+		SqlState:     avaticaErrors.SQLState(avaticaErr.message.SqlState),
+		Metadata: &avaticaErrors.RPCMetadata{
 			ServerAddress: message.ServerAddressFromMetadata(avaticaErr.message),
 		},
 	}

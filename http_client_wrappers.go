@@ -18,6 +18,7 @@
 package avatica
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/jcmturner/gokrb5/v8/client"
@@ -26,7 +27,6 @@ import (
 	"github.com/jcmturner/gokrb5/v8/keytab"
 	gokrbSPNEGO "github.com/jcmturner/gokrb5/v8/spnego"
 	digest_auth_client "github.com/xinsnake/go-http-digest-auth-client"
-	"golang.org/x/xerrors"
 )
 
 // WithDigestAuth takes an http client and prepares it to authenticate using digest authentication
@@ -49,26 +49,26 @@ func WithKerberosAuth(cli *http.Client, username, realm, keyTab, krb5Conf, krb5C
 	if krb5CredentialCache != "" {
 		tc, err := credentials.LoadCCache(krb5CredentialCache)
 		if err != nil {
-			return nil, xerrors.Errorf("error reading kerberos ticket cache: %v", err)
+			return nil, fmt.Errorf("error reading kerberos ticket cache: %w", err)
 		}
 		kc, err := client.NewFromCCache(tc, config.New())
 		if err != nil {
-			return nil, xerrors.Errorf("error creating kerberos client: %v", err)
+			return nil, fmt.Errorf("error creating kerberos client: %w", err)
 		}
 		kerberosClient = kc
 	} else {
 		cfg, err := config.Load(krb5Conf)
 		if err != nil {
-			return nil, xerrors.Errorf("error reading kerberos config: %v", err)
+			return nil, fmt.Errorf("error reading kerberos config: %w", err)
 		}
 		kt, err := keytab.Load(keyTab)
 		if err != nil {
-			return nil, xerrors.Errorf("error reading kerberos keytab: %v", err)
+			return nil, fmt.Errorf("error reading kerberos keytab: %w", err)
 		}
 		kc := client.NewWithKeytab(username, realm, kt, cfg)
 		err = kc.Login()
 		if err != nil {
-			return nil, xerrors.Errorf("error performing kerberos login with keytab: %v", err)
+			return nil, fmt.Errorf("error performing kerberos login with keytab: %w", err)
 		}
 		kerberosClient = kc
 	}
@@ -104,7 +104,7 @@ type krb5Transport struct {
 func (t *krb5Transport) RoundTrip(req *http.Request) (resp *http.Response, err error) {
 	err = gokrbSPNEGO.SetSPNEGOHeader(t.kerberosClient, req, "")
 	if err != nil {
-		return nil, xerrors.Errorf("error setting SPNEGO header: %v", err)
+		return nil, fmt.Errorf("error setting SPNEGO header: %w", err)
 	}
 	return t.baseTransport.RoundTrip(req)
 }

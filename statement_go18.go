@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 /*
@@ -22,8 +23,7 @@ package avatica
 import (
 	"context"
 	"database/sql/driver"
-
-	"golang.org/x/xerrors"
+	"fmt"
 )
 
 func (s *stmt) ExecContext(ctx context.Context, args []driver.NamedValue) (driver.Result, error) {
@@ -31,7 +31,7 @@ func (s *stmt) ExecContext(ctx context.Context, args []driver.NamedValue) (drive
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, xerrors.Errorf("error executing statement: %v", err)
+		return nil, fmt.Errorf("error executing statement: %w", err)
 	}
 
 	return s.exec(ctx, list)
@@ -42,7 +42,7 @@ func (s *stmt) QueryContext(ctx context.Context, args []driver.NamedValue) (driv
 	list, err := driverNamedValueToNamedValue(args)
 
 	if err != nil {
-		return nil, xerrors.Errorf("error executing query: %v", err)
+		return nil, fmt.Errorf("error executing query: %w", err)
 	}
 
 	return s.query(ctx, list)
