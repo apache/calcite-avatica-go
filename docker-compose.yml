@@ -23,8 +23,8 @@ services:
     command: -u jdbc:hsqldb:mem:public
 
   test:
-    image: golang:1.15-alpine
-    command: sh -c "apk --no-cache --no-progress add gcc git musl-dev; export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
+    image: golang:1.18
+    command: sh -c "export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
     working_dir: /source
     environment:
       PHOENIX_HOST: http://phoenix:8765
@@ -37,8 +37,8 @@ services:
       - hsqldb
 
   dev:
-    image: golang:1.15-alpine
-    command: sh -c "apk --no-cache --no-progress add build-base git; go install github.com/unchartedsoftware/witch; cd /source; witch --cmd=\"export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./...\" --watch=\"*.mod,**/*.go\""
+    image: golang:1.18
+    command: sh -c "go install github.com/unchartedsoftware/witch; cd /source; witch --cmd=\"export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./...\" --watch=\"*.mod,**/*.go\""
     environment:
       PHOENIX_HOST: http://phoenix:8765
       HSQLDB_HOST: http://hsqldb:8765
@@ -88,13 +88,13 @@ services:
       - .:/source
 
   compile-protobuf:
-    image: golang:1.15-alpine
+    image: golang:1.18-alpine
     working_dir: /source
     command: sh -c "apk --no-cache --no-progress add bash; ./docker.sh compile-protobuf"
     environment:
-      AVATICA_VERSION: 1.17.0
+      AVATICA_VERSION: 1.20.0
       PROTOBUF_VERSION: 3.12.3
-      GLIBC_VERSION: 2.31-r0
+      GLIBC_VERSION: 2.35-r0
     volumes:
       - .:/source
       - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
