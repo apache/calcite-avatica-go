@@ -28,6 +28,43 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.1.0">5.1.0</a> / 2022-04-XX
+{: #v5-1-0}
+
+Apache Calcite Avatica Go 5.1.0 is a maintenance release of Avatica Go with some dependency updates and bug fixes.
+This release supports Go 1.17 and 1.18, which are currently the versions supported and maintained by the Go team.
+
+The protobuf library [github.com/golang/protobuf](https://github.com/golang/protobuf) was replaced by
+[google.golang.org/protobuf](https://pkg.go.dev/google.golang.org/protobuf), which is the successor and replacement for
+the former. In addition, the [golang.org/x/xerrors](https://pkg.go.dev/golang.org/x/xerrors) package has been replaced with 
+the standard library's built-in [errors](https://pkg.go.dev/errors) package as the features in the experimental `xerrors`
+package have been available in the standard library's `errors` package since Go 1.13.
+
+Contributors to this release:
+Francis Chuang, Josiah Goodson
+
+Features and bug fixes
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-4174">CALCITE-4174</a>]
+  avatica-go should handle complex/long URLs
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5057">CALCITE-5057</a>]
+  Switch from github.com/golang/protobuf to google.golang.org/protobuf
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5058">CALCITE-5058</a>]
+  Upgrade dependencies and tidy go.mod
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5063">CALCITE-5063</a>]
+  Replace golang.org/x/xerrors package with errors package in stdlib
+
+Tests
+
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-4299">CALCITE-4299</a>]
+  Test against Go 1.14 and 1.15
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5055">CALCITE-5055</a>]
+  Test against Go 1.17 and 1.18
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5056">CALCITE-5056</a>]
+  Test against avatica 1.18 - 1.20
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5059">CALCITE-5059</a>]
+  Update Github Actions to latest versions
+
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.0.0">5.0.0</a> / 2020-07-16
 {: #v5-0-0}
 
