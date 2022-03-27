@@ -32,8 +32,8 @@ To file issues, please use the [Calcite JIRA](https://issues.apache.org/jira/pro
 as the component.
 
 ## Updating protobuf definitions
-1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
-2. From the root of the repository, run `docker-compose run compile-protobuf`
+1. Install [docker](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
+2. From the root of the repository, run `docker compose run compile-protobuf`
 
 ## Live reload during development
 It is possible to reload the code in real-time during development. This executes the test suite every time a `.go` or
@@ -41,21 +41,21 @@ It is possible to reload the code in real-time during development. This executes
 during development allows us to not have to manually execute the test suite on save.
 
 ### Set up
-1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+1. Install [docker](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `docker-compose run dev`.
+2. From the root of the repository, run `docker compose run dev`.
 
-3. After terminating the container, stop all the containers and remove them using: `docker-compose down`
+3. After terminating the container, stop all the containers and remove them using: `docker compose down`
 
 ## Testing
 The test suite takes around 4 minutes to run if you run both the Avatica HSQLDB and Apache Phoenix tests.
 
 ### Easy way
-1. Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+1. Install [docker](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
 
-2. From the root of the repository, run `docker-compose run test`.
+2. From the root of the repository, run `docker compose run test`.
 
-3. After the tests complete, stop all the containers and remove them using: `docker-compose down`
+3. After the tests complete, stop all the containers and remove them using: `docker compose down`
 
 ### Manual set up
 1. Install [Go](https://golang.org/doc/install).

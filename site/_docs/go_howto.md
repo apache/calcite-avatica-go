@@ -49,19 +49,19 @@ the script will make a copy of the contents and move it to a different location,
 
 {% highlight bash %}
 # On Linux:
-docker-compose run -v ~/.gnupg:/.gnupg dry-run
+docker compose run -v ~/.gnupg:/.gnupg dry-run
 
 # On Windows
-docker-compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg dry-run
+docker compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg dry-run
 {% endhighlight %}
 
 ### Build the release
 {% highlight bash %}
 # On Linux:
-docker-compose run -v ~/.gnupg:/.gnupg release
+docker compose run -v ~/.gnupg:/.gnupg release
 
 # On Windows
-docker-compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg release
+docker compose run -v /c/Users/username/AppData/Roaming/gnupg:/.gnupg release
 {% endhighlight %}
 
 If the build fails, perform a clean:
@@ -73,7 +73,7 @@ git push origin :refs/tags/vX.Y.Z-rcA
 
 2. Clean the local repository
 {% highlight bash %}
-docker-compose run clean
+docker compose run clean
 {% endhighlight %}
 
 ### Check the release before uploading
@@ -110,7 +110,7 @@ Note the use of `--force-log` to suppress the svn warning, because the commit me
 This assumes that a release was built and the artifacts are in the `dist/` folder.
 
 {% highlight bash %}
-docker-compose run publish-release-for-voting
+docker compose run publish-release-for-voting
 {% endhighlight %}
 
 The script will also generate a vote email to send to the dev list. You can use this email, but make sure to check that
@@ -149,10 +149,10 @@ https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/develop/avatica-g
 
 Please vote on releasing this package as Apache Calcite Avatica Go X.Y.Z.
 
-To run the tests without a Go environment, install docker and docker-compose. Then, in the root of the release's directory, run:
-docker-compose run test
+To run the tests without a Go environment, install docker and docker compose. Then, in the root of the release's directory, run:
+docker compose run test
 
-When the test suite completes, run \"docker-compose down\" to remove and shutdown all the containers.
+When the test suite completes, run \"docker compose down\" to remove and shutdown all the containers.
 
 The vote is open for the next 72 hours and passes if a majority of
 at least three +1 PMC votes are cast.
@@ -222,7 +222,7 @@ git push origin vX.Y.Z
 This assumes that a rc release was tagged and pushed to the git repository.
 
 {% highlight bash %}
-docker-compose run promote-release
+docker compose run promote-release
 {% endhighlight %}
 
 ### Announce the release

@@ -473,9 +473,9 @@ https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/develop/avatica-g
 
 Please vote on releasing this package as Apache Calcite Avatica Go $TAG_WITHOUT_RC.
 
-To run the tests without a Go environment, install docker and docker-compose. Then, in the root of the release's directory, run: docker-compose run test
+To run the tests without a Go environment, install docker and docker compose. Then, in the root of the release's directory, run: docker compose run test
 
-When the test suite completes, run \"docker-compose down\" to remove and shutdown all the containers.
+When the test suite completes, run \"docker compose down\" to remove and shutdown all the containers.
 
 The vote is open for the next 72 hours and passes if a majority of at least three +1 PMC votes are cast.
 

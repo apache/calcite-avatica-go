@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.1.0">5.1.0</a> / 2022-04-XX
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.1.0">5.1.0</a> / 2022-03-27
 {: #v5-1-0}
 
 Apache Calcite Avatica Go 5.1.0 is a maintenance release of Avatica Go with some dependency updates and bug fixes.
