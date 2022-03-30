@@ -1,0 +1,48 @@
+name: Publish website
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+                  # Trigger if a tag matching vX.Y.Z is pushed
+    branches:
+      - master                                 # or if there is a push to master
+    paths:
+      - 'site/**'                              # and files in the site/ folder are changed
+      - '!site/_docs/go_client_reference.md'   # except for site/_docs/go_client_reference.md
+
+jobs:
+  publish-website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: apache/calcite-avatica
+          path: calcite-avatica
+          fetch-depth: 0
+          token: ${{ secrets.CALCITE_WEBSITE_BUILD }}
+      - name: Reset avatica documentation partially to last release, except for the excluded files
+        working-directory: calcite-avatica/site
+        run: |
+          LATEST_TAG=$(git describe --exclude "*-rc*" --tags --abbrev=0)
+          git checkout tags/$LATEST_TAG $(find _docs -type f \( ! -iname "docker_images.md" ! -iname "history.md" ! -iname "howto.md" ! -iname "index.md" \))
+      - name: Build site
+        working-directory: calcite-avatica/site
+        run: |
+          docker-compose run -e JEKYLL_UID=$(id -u) -e JEKYLL_GID=$(id -g) build-site
+      - uses: actions/checkout@v3
+        with:
+          repository: apache/calcite-site
+          path: calcite-site
+          token: ${{ secrets.CALCITE_WEBSITE_BUILD }}
+      - name: Publish site
+        working-directory: calcite-site
+        run: |
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+          git config user.name ${{ github.actor }}
+          rm -rf avatica/
+          mv ../calcite-avatica/site/target/avatica/ .
+          git reset -- avatica/javadocAggregate/        # Restore the avatica javadoc
+          git checkout -- avatica/javadocAggregate/
+          git add .
+          git commit -m "Website deployed from calcite-avatica-go@$GITHUB_SHA"
+          git push origin master

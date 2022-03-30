@@ -24,7 +24,5 @@ This directory contains the code for the web pages documenting the Calcite Avati
 It is symlinked and built by the [Avatica web site](https://calcite.apache.org/avatica),
 a sub-directory of the [Apache Calcite web site](https://calcite.apache.org).
 
-## Pushing to site
-
-The web pages are pulled by the Apache Calcite Avatica project when building the Avatica site and pushes should be done
-from the Apache Calcite Avatica repository.
+The web pages are pulled by the Apache Calcite Avatica project when building the Avatica site and is automatically 
+built and published following the process outlined in the [Calcite repository](https://github.com/apache/calcite/blob/master/site/README.md).
