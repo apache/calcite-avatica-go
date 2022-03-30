@@ -79,7 +79,9 @@ func (r *rows) Close() error {
 //
 // Next should return io.EOF when there are no more rows.
 func (r *rows) Next(dest []driver.Value) error {
-
+	if len(r.resultSets) == 0 {
+		return io.EOF
+	}
 	resultSet := r.resultSets[r.currentResultSet]
 
 	if resultSet.currentRow >= len(resultSet.data) {
