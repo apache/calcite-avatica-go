@@ -52,6 +52,9 @@ func (r *rows) Columns() []string {
 		return r.columnNames
 	}
 	var cols []string
+	if len(r.resultSets) == 0 {
+		return cols
+	}
 	for _, column := range r.resultSets[r.currentResultSet].columns {
 		cols = append(cols, column.Name)
 	}
