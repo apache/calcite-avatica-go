@@ -20,6 +20,7 @@ package avatica
 import (
 	"context"
 	"database/sql/driver"
+	"errors"
 	"io"
 	"time"
 
@@ -80,7 +81,7 @@ func (r *rows) Close() error {
 // Next should return io.EOF when there are no more rows.
 func (r *rows) Next(dest []driver.Value) error {
 	if len(r.resultSets) == 0 {
-		return io.EOF
+		return errors.New("r.resultSets len == 0")
 	}
 	resultSet := r.resultSets[r.currentResultSet]
 
