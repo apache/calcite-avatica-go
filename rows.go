@@ -40,6 +40,7 @@ type rows struct {
 	statementID      uint32
 	resultSets       []*resultSet
 	currentResultSet int
+	columnNames      []string
 }
 
 // Columns returns the names of the columns. The number of
@@ -47,13 +48,17 @@ type rows struct {
 // slice.  If a particular column name isn't known, an empty
 // string should be returned for that entry.
 func (r *rows) Columns() []string {
-
+	if r.columnNames != nil {
+		return r.columnNames
+	}
 	var cols []string
-
+	if len(r.resultSets) == 0 {
+		return cols
+	}
 	for _, column := range r.resultSets[r.currentResultSet].columns {
 		cols = append(cols, column.Name)
 	}
-
+	r.columnNames = cols
 	return cols
 }
 
@@ -74,7 +79,9 @@ func (r *rows) Close() error {
 //
 // Next should return io.EOF when there are no more rows.
 func (r *rows) Next(dest []driver.Value) error {
-
+	if len(r.resultSets) == 0 {
+		return io.EOF
+	}
 	resultSet := r.resultSets[r.currentResultSet]
 
 	if resultSet.currentRow >= len(resultSet.data) {
