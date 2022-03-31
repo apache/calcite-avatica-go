@@ -239,11 +239,9 @@ func (c *conn) ResetSession(ctx context.Context) error {
 	if c.connectionId == "" {
 		return driver.ErrBadConn
 	}
-	conn, err := newConn(c.config, c.connectorBaseClient, c.connectorInfo)
+	err := registerConn(c)
 	if err != nil {
 		return err
 	}
-	c.connectionId = conn.connectionId
-	c.httpClient = conn.httpClient
 	return nil
 }

@@ -68,11 +68,25 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to open connection: %w", err)
 	}
-	conn, err := newConn(config, c.Client, c.Info)
+	connectionId, err := uuid.GenerateUUID()
+	if err != nil {
+		return nil, fmt.Errorf("error generating connection id: %w", err)
+	}
+	httpClient, err := NewHTTPClient(config.endpoint, c.Client, config)
+
+	if err != nil {
+		return nil, fmt.Errorf("unable to create HTTP client: %w", err)
+	}
+	conn := &conn{
+		connectionId:  connectionId,
+		httpClient:    httpClient,
+		config:        config,
+		connectorInfo: c.Info,
+	}
+	err = registerConn(conn)
 	if err != nil {
 		return nil, err
 	}
-
 	response, err := conn.httpClient.post(context.Background(), &message.DatabasePropertyRequest{
 		ConnectionId: conn.connectionId,
 	})
@@ -96,50 +110,27 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	return conn, nil
 }
 
-func newConn(config *Config, client *http.Client, ConnectorInfo map[string]string) (*conn, error) {
-	httpClient, err := NewHTTPClient(config.endpoint, client, config)
-
-	if err != nil {
-		return nil, fmt.Errorf("unable to create HTTP client: %w", err)
-	}
-
-	connectionId, err := uuid.GenerateUUID()
-	if err != nil {
-		return nil, fmt.Errorf("error generating connection id: %w", err)
-	}
-
+func registerConn(conn *conn) error {
 	info := map[string]string{
 		"AutoCommit":  "true",
 		"Consistency": "8",
 	}
-
-	for k, v := range ConnectorInfo {
+	for k, v := range conn.connectorInfo {
 		info[k] = v
-	}
-
-	conn := &conn{
-		connectionId:        connectionId,
-		httpClient:          httpClient,
-		config:              config,
-		connectorBaseClient: client,
-		connectorInfo:       ConnectorInfo,
 	}
 	// Open a connection to the server
 	req := &message.OpenConnectionRequest{
-		ConnectionId: connectionId,
+		ConnectionId: conn.connectionId,
 		Info:         info,
 	}
-
-	if config.schema != "" {
-		req.Info["schema"] = config.schema
+	if conn.config.schema != "" {
+		req.Info["schema"] = conn.config.schema
 	}
-
-	_, err = httpClient.post(context.Background(), req)
-
+	_, err := conn.httpClient.post(context.Background(), req)
 	if err != nil {
-		return nil, conn.avaticaErrorToResponseErrorOrError(err)
+		return conn.avaticaErrorToResponseErrorOrError(err)
 	}
-	return conn, nil
+	return nil
 }
 
 // Driver returns the underlying driver
