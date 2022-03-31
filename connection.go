@@ -21,19 +21,17 @@ import (
 	"context"
 	"database/sql/driver"
 	"errors"
-	"net/http"
 
 	avaticaErrors "github.com/apache/calcite-avatica-go/v5/errors"
 	"github.com/apache/calcite-avatica-go/v5/message"
 )
 
 type conn struct {
-	connectionId        string
-	config              *Config
-	httpClient          *httpClient
-	adapter             Adapter
-	connectorBaseClient *http.Client
-	connectorInfo       map[string]string
+	connectionId  string
+	config        *Config
+	httpClient    *httpClient
+	adapter       Adapter
+	connectorInfo map[string]string
 }
 
 // Prepare returns a prepared statement, bound to this connection.
