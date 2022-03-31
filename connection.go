@@ -21,16 +21,21 @@ import (
 	"context"
 	"database/sql/driver"
 	"errors"
+	"fmt"
+	"net/http"
 
 	avaticaErrors "github.com/apache/calcite-avatica-go/v5/errors"
 	"github.com/apache/calcite-avatica-go/v5/message"
+	"github.com/hashicorp/go-uuid"
 )
 
 type conn struct {
-	connectionId string
-	config       *Config
-	httpClient   *httpClient
-	adapter      Adapter
+	connectionId        string
+	config              *Config
+	httpClient          *httpClient
+	adapter             Adapter
+	reset               bool
+	connectorBaseClient *http.Client
 }
 
 // Prepare returns a prepared statement, bound to this connection.
@@ -228,4 +233,24 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 			ServerAddress: message.ServerAddressFromMetadata(avaticaErr.message),
 		},
 	}
+}
+
+// ResetSession implements driver.SessionResetter.
+// (From Go 1.10)
+func (c *conn) ResetSession(ctx context.Context) error {
+	if c.connectionId == "" {
+		return driver.ErrBadConn
+	}
+	connectionId, err := uuid.GenerateUUID()
+	if err != nil {
+		return fmt.Errorf("ResetSession fail,error generating connection id: %w", err)
+	}
+	httpClient, err := NewHTTPClient(c.config.endpoint, c.connectorBaseClient, c.config)
+	if err != nil {
+		return fmt.Errorf("ResetSession fail,unable to create HTTP client: %w", err)
+	}
+	c.connectionId = connectionId
+	c.httpClient = httpClient
+	c.reset = true
+	return nil
 }

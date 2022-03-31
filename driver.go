@@ -90,9 +90,10 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	}
 
 	conn := &conn{
-		connectionId: connectionId,
-		httpClient:   httpClient,
-		config:       config,
+		connectionId:        connectionId,
+		httpClient:          httpClient,
+		config:              config,
+		connectorBaseClient: c.Client,
 	}
 
 	// Open a connection to the server
