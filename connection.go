@@ -27,10 +27,11 @@ import (
 )
 
 type conn struct {
-	connectionId string
-	config       *Config
-	httpClient   *httpClient
-	adapter      Adapter
+	connectionId  string
+	config        *Config
+	httpClient    *httpClient
+	adapter       Adapter
+	connectorInfo map[string]string
 }
 
 // Prepare returns a prepared statement, bound to this connection.
@@ -228,4 +229,17 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 			ServerAddress: message.ServerAddressFromMetadata(avaticaErr.message),
 		},
 	}
+}
+
+// ResetSession implements driver.SessionResetter.
+// (From Go 1.10)
+func (c *conn) ResetSession(ctx context.Context) error {
+	if c.connectionId == "" {
+		return driver.ErrBadConn
+	}
+	err := registerConn(c)
+	if err != nil {
+		return err
+	}
+	return nil
 }
