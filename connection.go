@@ -21,12 +21,10 @@ import (
 	"context"
 	"database/sql/driver"
 	"errors"
-	"fmt"
 	"net/http"
 
 	avaticaErrors "github.com/apache/calcite-avatica-go/v5/errors"
 	"github.com/apache/calcite-avatica-go/v5/message"
-	"github.com/hashicorp/go-uuid"
 )
 
 type conn struct {
@@ -34,8 +32,8 @@ type conn struct {
 	config              *Config
 	httpClient          *httpClient
 	adapter             Adapter
-	reset               bool
 	connectorBaseClient *http.Client
+	connectorInfo       map[string]string
 }
 
 // Prepare returns a prepared statement, bound to this connection.
@@ -241,16 +239,11 @@ func (c *conn) ResetSession(ctx context.Context) error {
 	if c.connectionId == "" {
 		return driver.ErrBadConn
 	}
-	connectionId, err := uuid.GenerateUUID()
+	conn, err := newConn(c.config, c.connectorBaseClient, c.connectorInfo)
 	if err != nil {
-		return fmt.Errorf("ResetSession fail,error generating connection id: %w", err)
+		return err
 	}
-	httpClient, err := NewHTTPClient(c.config.endpoint, c.connectorBaseClient, c.config)
-	if err != nil {
-		return fmt.Errorf("ResetSession fail,unable to create HTTP client: %w", err)
-	}
-	c.connectionId = connectionId
-	c.httpClient = httpClient
-	c.reset = true
+	c.connectionId = conn.connectionId
+	c.httpClient = conn.httpClient
 	return nil
 }

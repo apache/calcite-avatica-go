@@ -68,52 +68,13 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to open connection: %w", err)
 	}
-
-	httpClient, err := NewHTTPClient(config.endpoint, c.Client, config)
-
+	conn, err := newConn(config, c.Client, c.Info)
 	if err != nil {
-		return nil, fmt.Errorf("unable to create HTTP client: %w", err)
+		return nil, err
 	}
 
-	connectionId, err := uuid.GenerateUUID()
-	if err != nil {
-		return nil, fmt.Errorf("error generating connection id: %w", err)
-	}
-
-	info := map[string]string{
-		"AutoCommit":  "true",
-		"Consistency": "8",
-	}
-
-	for k, v := range c.Info {
-		info[k] = v
-	}
-
-	conn := &conn{
-		connectionId:        connectionId,
-		httpClient:          httpClient,
-		config:              config,
-		connectorBaseClient: c.Client,
-	}
-
-	// Open a connection to the server
-	req := &message.OpenConnectionRequest{
-		ConnectionId: connectionId,
-		Info:         info,
-	}
-
-	if config.schema != "" {
-		req.Info["schema"] = config.schema
-	}
-
-	_, err = httpClient.post(context.Background(), req)
-
-	if err != nil {
-		return nil, conn.avaticaErrorToResponseErrorOrError(err)
-	}
-
-	response, err := httpClient.post(context.Background(), &message.DatabasePropertyRequest{
-		ConnectionId: connectionId,
+	response, err := conn.httpClient.post(context.Background(), &message.DatabasePropertyRequest{
+		ConnectionId: conn.connectionId,
 	})
 
 	if err != nil {
@@ -132,6 +93,52 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 
 	conn.adapter = getAdapter(adapter)
 
+	return conn, nil
+}
+
+func newConn(config *Config, client *http.Client, ConnectorInfo map[string]string) (*conn, error) {
+	httpClient, err := NewHTTPClient(config.endpoint, client, config)
+
+	if err != nil {
+		return nil, fmt.Errorf("unable to create HTTP client: %w", err)
+	}
+
+	connectionId, err := uuid.GenerateUUID()
+	if err != nil {
+		return nil, fmt.Errorf("error generating connection id: %w", err)
+	}
+
+	info := map[string]string{
+		"AutoCommit":  "true",
+		"Consistency": "8",
+	}
+
+	for k, v := range ConnectorInfo {
+		info[k] = v
+	}
+
+	conn := &conn{
+		connectionId:        connectionId,
+		httpClient:          httpClient,
+		config:              config,
+		connectorBaseClient: client,
+		connectorInfo:       ConnectorInfo,
+	}
+	// Open a connection to the server
+	req := &message.OpenConnectionRequest{
+		ConnectionId: connectionId,
+		Info:         info,
+	}
+
+	if config.schema != "" {
+		req.Info["schema"] = config.schema
+	}
+
+	_, err = httpClient.post(context.Background(), req)
+
+	if err != nil {
+		return nil, conn.avaticaErrorToResponseErrorOrError(err)
+	}
 	return conn, nil
 }
 
