@@ -21,16 +21,19 @@ import (
 	"context"
 	"database/sql/driver"
 	"errors"
+	"net/http"
 
 	avaticaErrors "github.com/apache/calcite-avatica-go/v5/errors"
 	"github.com/apache/calcite-avatica-go/v5/message"
 )
 
 type conn struct {
-	connectionId string
-	config       *Config
-	httpClient   *httpClient
-	adapter      Adapter
+	connectionId        string
+	config              *Config
+	httpClient          *httpClient
+	adapter             Adapter
+	connectorBaseClient *http.Client
+	connectorInfo       map[string]string
 }
 
 // Prepare returns a prepared statement, bound to this connection.
@@ -228,4 +231,19 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 			ServerAddress: message.ServerAddressFromMetadata(avaticaErr.message),
 		},
 	}
+}
+
+// ResetSession implements driver.SessionResetter.
+// (From Go 1.10)
+func (c *conn) ResetSession(ctx context.Context) error {
+	if c.connectionId == "" {
+		return driver.ErrBadConn
+	}
+	conn, err := newConn(c.config, c.connectorBaseClient, c.connectorInfo)
+	if err != nil {
+		return err
+	}
+	c.connectionId = conn.connectionId
+	c.httpClient = conn.httpClient
+	return nil
 }
