@@ -21,7 +21,7 @@ on:
     tags:
       - v[0-9]+.[0-9]+.[0-9]+                  # Trigger if a tag matching vX.Y.Z is pushed
     branches:
-      - master                                 # or if there is a push to master
+      - main                                   # or if there is a push to main
     paths:
       - 'site/**'                              # and files in the site/ folder are changed
       - '!site/_docs/go_client_reference.md'   # except for site/_docs/go_client_reference.md
@@ -61,4 +61,4 @@ jobs:
           git checkout -- avatica/javadocAggregate/
           git add .
           git commit -m "Website deployed from calcite-avatica-go@$GITHUB_SHA"
-          git push origin master
+          git push origin main

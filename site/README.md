@@ -25,4 +25,4 @@ It is symlinked and built by the [Avatica web site](https://calcite.apache.org/a
 a sub-directory of the [Apache Calcite web site](https://calcite.apache.org).
 
 The web pages are pulled by the Apache Calcite Avatica project when building the Avatica site and is automatically 
-built and published following the process outlined in the [Calcite repository](https://github.com/apache/calcite/blob/master/site/README.md).
+built and published following the process outlined in the [Calcite repository](https://github.com/apache/calcite/blob/main/site/README.md).
