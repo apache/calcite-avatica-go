@@ -36,20 +36,6 @@ services:
       - phoenix
       - hsqldb
 
-  dev:
-    image: golang:1.18
-    command: sh -c "go install github.com/unchartedsoftware/witch; cd /source; witch --cmd=\"export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./...\" --watch=\"*.mod,**/*.go\""
-    environment:
-      PHOENIX_HOST: http://phoenix:8765
-      HSQLDB_HOST: http://hsqldb:8765
-    working_dir: /source
-    volumes:
-      - .:/source
-      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
-    depends_on:
-      - phoenix
-      - hsqldb
-
   dry-run:
     image: alpine
     working_dir: /source
