@@ -1,49 +1,33 @@
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 name: Tests
 jobs:
   test:
     strategy:
       fail-fast: false
       matrix:
-        go_version: [1.17, 1.18]
-        database_image:
-          - boostport/hbase-phoenix-all-in-one:1.3-4.13
-          - boostport/hbase-phoenix-all-in-one:1.4-4.14
-          - boostport/hbase-phoenix-all-in-one:2.0-5.0
-          - apache/calcite-avatica-hypersql:1.13.0
-          - apache/calcite-avatica-hypersql:1.14.0
-          - apache/calcite-avatica-hypersql:1.15.0
-          - apache/calcite-avatica-hypersql:1.17.0
-          - apache/calcite-avatica-hypersql:1.18.0
-          - apache/calcite-avatica-hypersql:1.19.0
-          - apache/calcite-avatica-hypersql:1.20.0
+        go_version: [1.18, 1.19]
+        database:
+          - [phoenix, 1.3-4.13]
+          - [phoenix, 1.4-4.14]
+          - [phoenix, 2.0-5.0]
+          - [hsqldb, 1.18.0]
+          - [hsqldb, 1.19.0]
+          - [hsqldb, 1.20.0]
+          - [hsqldb, 1.21.0]
+          - [hsqldb, 1.22.0]
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go_version}}
-
       - name: Check out Avatica-Go repository
         uses: actions/checkout@v3
 
       - name: Run tests
         env:
-          PHOENIX_HOST: http://localhost:8765
-          HSQLDB_HOST: http://localhost:8765
-          DATABASE_IMAGE: ${{ matrix.database_image }}
-        run: |
-          case "$DATABASE_IMAGE" in
-            *phoenix*)
-              docker run -d -p 8765:8765 $DATABASE_IMAGE
-              export AVATICA_FLAVOR=PHOENIX
-              ;;
-            *hypersql*)
-              docker run -d -p 8765:8765 $DATABASE_IMAGE -u jdbc:hsqldb:mem:public
-              export AVATICA_FLAVOR=HSQLDB
-              ;;
-          esac
-
-          go test -v ./...
+          PHOENIX_VERSION: ${{ matrix.database[1] }}
+          HSQLDB_VERSION: ${{ matrix.database[1] }}
+        run: docker compose run test-${{ matrix.database[0] }}
