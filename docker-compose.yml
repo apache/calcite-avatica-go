@@ -19,7 +19,7 @@ services:
     image: boostport/hbase-phoenix-all-in-one:${PHOENIX_VERSION:-2.0-5.0}
 
   hsqldb:
-    image: apache/calcite-avatica-hypersql:${HSQLDB_VERSION:-1.20.0}
+    image: apache/calcite-avatica-hypersql:${HSQLDB_VERSION:-1.22.0}
     command: -u jdbc:hsqldb:mem:public
 
   test:
@@ -54,7 +54,7 @@ services:
     command: go test -v ./...
     working_dir: /source
     environment:
-      PHOENIX_HOST: http://phoenix:8765
+      HSQLDB_HOST: http://hsqldb:8765
       AVATICA_FLAVOR: HSQLDB
     volumes:
       - .:/source
