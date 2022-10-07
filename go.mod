@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/hashicorp/go-uuid v1.0.3
+	github.com/icholy/digest v0.1.15
 	github.com/jcmturner/gokrb5/v8 v8.4.3
-	github.com/xinsnake/go-http-digest-auth-client v0.6.0
 	google.golang.org/protobuf v1.28.1
 )
 
