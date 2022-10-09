@@ -163,6 +163,8 @@ select_gpg_key(){
 check_release_guidelines(){
 
     # Exclude files without the Apache license header
+    missingHeaders=0
+
     for i in $(git ls-files); do
        case "$i" in
        # The following are excluded from the license header check
@@ -176,13 +178,20 @@ check_release_guidelines(){
        # Binaries
        (test-fixtures/calcite.png);;
 
-       (*) grep -q "Licensed to the Apache Software Foundation" $i || echo "$i has no header";;
+       (*) if ! grep -q "Licensed to the Apache Software Foundation" $i; then
+             echo "$i has no header" && ((missingHeaders=missingHeaders+1))
+           fi;;
        esac
     done
 
     # Check copyright year in NOTICE
     if ! grep -Fq "Copyright 2012-$(date +%Y)" NOTICE; then
         echo "Ending copyright year in NOTICE is not $(date +%Y)"
+        exit 1
+    fi
+
+    if [[ $missingHeaders -gt 0 ]]; then
+        echo "Some files are missing the Apache license header"
         exit 1
     fi
 }
