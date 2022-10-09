@@ -187,7 +187,7 @@ func TestHSQLDBDataTypes(t *testing.T) {
 			tmstmpValue time.Time = time.Date(2100, 2, 1, 21, 21, 21, 222000000, time.UTC)
 		)
 
-		copy(binValue[:], []byte("test"))
+		copy(binValue[:], "test")
 
 		// dbt.mustExec(`INSERT INTO `+dbt.tableName+` (int, tint, sint, bint, num, dec, re, flt, dbl, bool, ch, var, bin, varbin, dt, tm, tmstmp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 		dbt.mustExec(`INSERT INTO `+dbt.tableName+` (int, tint, sint, bint, num, dec, re, flt, dbl, bool, ch, var, bin, varbin, dt, tmstmp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,

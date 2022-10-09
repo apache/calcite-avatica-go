@@ -1,3 +1,4 @@
+//go:build go1.8
 // +build go1.8
 
 /*
@@ -523,7 +524,7 @@ func TestPhoenixColumnTypes(t *testing.T) {
 					nullable: true,
 					ok:       true,
 				},
-				scanType: reflect.TypeOf(bool(false)),
+				scanType: reflect.TypeOf(false),
 			},
 			{
 				databaseTypeName: "TIME",

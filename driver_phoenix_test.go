@@ -183,7 +183,7 @@ func TestPhoenixDataTypes(t *testing.T) {
 			varbinValue   []byte    = []byte("testtesttest")
 		)
 
-		copy(binValue[:], []byte("test"))
+		copy(binValue[:], "test")
 
 		dbt.mustExec(`UPSERT INTO `+dbt.tableName+` VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
 			integerValue,

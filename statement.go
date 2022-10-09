@@ -222,7 +222,7 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 
 					// Calculate milliseconds since 00:00:00.000
 					base := time.Date(v.Year(), v.Month(), v.Day(), 0, 0, 0, 0, time.FixedZone(zone, offset))
-					typed.NumberValue = int64(v.Sub(base).Nanoseconds() / int64(time.Millisecond))
+					typed.NumberValue = v.Sub(base).Nanoseconds() / int64(time.Millisecond)
 
 				case "DATE", "UNSIGNED_DATE":
 					typed.Type = message.Rep_JAVA_SQL_DATE
@@ -244,7 +244,7 @@ func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue 
 
 					// Calculate number of milliseconds since 1970-01-01 00:00:00.000
 					base := time.Date(1970, 1, 1, 0, 0, 0, 0, time.FixedZone(zone, offset))
-					typed.NumberValue = int64(v.Sub(base).Nanoseconds() / int64(time.Millisecond))
+					typed.NumberValue = v.Sub(base).Nanoseconds() / int64(time.Millisecond)
 				}
 			}
 		}
