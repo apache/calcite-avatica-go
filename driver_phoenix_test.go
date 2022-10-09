@@ -22,7 +22,6 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
@@ -780,7 +779,7 @@ func TestPhoenixStoreAndRetrieveBinaryData(t *testing.T) {
 
 		filePath := filepath.Join("test-fixtures", "calcite.png")
 
-		file, err := ioutil.ReadFile(filePath)
+		file, err := os.ReadFile(filePath)
 
 		if err != nil {
 			t.Fatalf("Unable to read text-fixture: %s", filePath)

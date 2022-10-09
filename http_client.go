@@ -22,7 +22,7 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"regexp"
@@ -132,7 +132,7 @@ func (c *httpClient) post(ctx context.Context, message proto.Message) (proto.Mes
 
 	defer res.Body.Close()
 
-	response, err := ioutil.ReadAll(res.Body)
+	response, err := io.ReadAll(res.Body)
 
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
