@@ -134,8 +134,8 @@ The `maxRowsTotal` parameter sets the maximum number of rows to return for a giv
 
 The `frameMaxSize` parameter sets the maximum number of rows to return in a frame. Depending on the number of rows
 returned and subject to the limits of `maxRowsTotal`, a query result set can contain rows in multiple frames. These
-additional frames are then fetched on a as-needed basis. `frameMaxSize` allows you to control the number of rows
-in each frame to suit your application's performance profile. By default this is set to `-1`, so that there is no limit
+additional frames are then fetched on an as-needed basis. `frameMaxSize` allows you to control the number of rows
+in each frame to suit your application's performance profile. By default, this is set to `-1`, so that there is no limit
 on the number of rows in a frame.
 
 <strong><a name="transactionIsolation" href="#transactionIsolation">transactionIsolation</a></strong>
@@ -149,7 +149,7 @@ we recommend setting it to `4`, which is the maximum isolation level supported.
 The supported values for `transactionIsolation` are:
 
 | Value | JDBC Constant                  | Description                                                                      |
-| :-----| :----------------------------- | :------------------------------------------------------------------------------- |
+|:------|:-------------------------------|:---------------------------------------------------------------------------------|
 | 0     | none                           | Transactions are not supported                                                   |
 | 1     | `TRANSACTION_READ_UNCOMMITTED` | Dirty reads, non-repeatable reads and phantom reads may occur.                   |
 | 2     | `TRANSACTION_READ_COMMITTED`   | Dirty reads are prevented, but non-repeatable reads and phantom reads may occur. |
@@ -221,6 +221,6 @@ fmt.Println(perr.Name) // Prints: table_undefined
 
 ## Version Compatibility
 
-| Driver Version  | Phoenix Version   | Calcite-Avatica Version |
-| :-------------- | :---------------- | :---------------------- |
-| 3.x.x           | >= 4.8.0          | >= 1.11.0               |
+| Driver Version | Phoenix Version | Calcite-Avatica Version |
+|:---------------|:----------------|:------------------------|
+| 3.x.x          | >= 4.8.0        | >= 1.11.0               |
