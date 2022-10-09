@@ -60,7 +60,7 @@ func (c *conn) prepare(ctx context.Context, query string) (driver.Stmt, error) {
 		statementID:  prepareResponse.Statement.Id,
 		conn:         c,
 		parameters:   prepareResponse.Statement.Signature.Parameters,
-		handle:       *prepareResponse.Statement,
+		handle:       prepareResponse.Statement,
 		batchUpdates: make([]*message.UpdateBatch, 0),
 	}, nil
 }

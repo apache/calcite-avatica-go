@@ -32,7 +32,7 @@ type stmt struct {
 	statementID  uint32
 	conn         *conn
 	parameters   []*message.AvaticaParameter
-	handle       message.StatementHandle
+	handle       *message.StatementHandle
 	batchUpdates []*message.UpdateBatch
 	sync.Mutex
 }
@@ -108,7 +108,7 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 	}
 
 	msg := &message.ExecuteRequest{
-		StatementHandle:    &s.handle,
+		StatementHandle:    s.handle,
 		ParameterValues:    values,
 		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
@@ -153,7 +153,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 	}
 
 	msg := &message.ExecuteRequest{
-		StatementHandle:    &s.handle,
+		StatementHandle:    s.handle,
 		ParameterValues:    s.parametersToTypedValues(args),
 		FirstFrameMaxSize:  s.conn.config.frameMaxSize,
 		HasParameterValues: true,
