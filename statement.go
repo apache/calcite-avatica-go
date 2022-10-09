@@ -115,9 +115,9 @@ func (s *stmt) exec(ctx context.Context, args []namedValue) (driver.Result, erro
 	}
 
 	if s.conn.config.frameMaxSize <= -1 {
-		msg.DeprecatedFirstFrameMaxSize = math.MaxInt64
+		msg.FirstFrameMaxSize = math.MaxInt32
 	} else {
-		msg.DeprecatedFirstFrameMaxSize = uint64(s.conn.config.frameMaxSize)
+		msg.FirstFrameMaxSize = s.conn.config.frameMaxSize
 	}
 
 	res, err := s.conn.httpClient.post(ctx, msg)
@@ -160,9 +160,9 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 	}
 
 	if s.conn.config.frameMaxSize <= -1 {
-		msg.DeprecatedFirstFrameMaxSize = math.MaxInt64
+		msg.FirstFrameMaxSize = math.MaxInt32
 	} else {
-		msg.DeprecatedFirstFrameMaxSize = uint64(s.conn.config.frameMaxSize)
+		msg.FirstFrameMaxSize = s.conn.config.frameMaxSize
 	}
 
 	res, err := s.conn.httpClient.post(ctx, msg)
