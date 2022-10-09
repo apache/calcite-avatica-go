@@ -46,10 +46,8 @@ func (dbt *DBTest) mustQueryContext(ctx context.Context, query string, args ...i
 	return rows
 }
 
-func getContext() context.Context {
-	ctx, _ := context.WithTimeout(context.Background(), 4*time.Minute)
-
-	return ctx
+func getContext() (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), 4*time.Minute)
 }
 
 func TestPing(t *testing.T) {

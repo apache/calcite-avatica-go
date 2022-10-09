@@ -34,13 +34,16 @@ func TestHSQLDBContext(t *testing.T) {
 	runTests(t, dsn, func(dbt *DBTest) {
 
 		// Create and seed table
-		dbt.mustExecContext(getContext(), "CREATE TABLE "+dbt.tableName+" (id BIGINT PRIMARY KEY, val VARCHAR(1))")
+		ctx, cancel := getContext()
+		defer cancel()
 
-		dbt.mustExecContext(getContext(), "INSERT INTO "+dbt.tableName+" VALUES (1,'A')")
+		dbt.mustExecContext(ctx, "CREATE TABLE "+dbt.tableName+" (id BIGINT PRIMARY KEY, val VARCHAR(1))")
 
-		dbt.mustExecContext(getContext(), "INSERT INTO "+dbt.tableName+" VALUES (2,'B')")
+		dbt.mustExecContext(ctx, "INSERT INTO "+dbt.tableName+" VALUES (1,'A')")
 
-		rows := dbt.mustQueryContext(getContext(), "SELECT COUNT(*) FROM "+dbt.tableName)
+		dbt.mustExecContext(ctx, "INSERT INTO "+dbt.tableName+" VALUES (2,'B')")
+
+		rows := dbt.mustQueryContext(ctx, "SELECT COUNT(*) FROM "+dbt.tableName)
 		defer rows.Close()
 
 		for rows.Next() {
@@ -59,25 +62,25 @@ func TestHSQLDBContext(t *testing.T) {
 		}
 
 		// Test transactions and prepared statements
-		_, err := dbt.db.BeginTx(getContext(), &sql.TxOptions{Isolation: sql.LevelReadUncommitted, ReadOnly: true})
+		_, err := dbt.db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelReadUncommitted, ReadOnly: true})
 
 		if err == nil {
 			t.Error("Expected an error while creating a read only transaction, but no error was returned")
 		}
 
-		tx, err := dbt.db.BeginTx(getContext(), &sql.TxOptions{Isolation: sql.LevelReadCommitted})
+		tx, err := dbt.db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelReadCommitted})
 
 		if err != nil {
 			t.Errorf("Unexpected error while creating transaction: %s", err)
 		}
 
-		stmt, err := tx.PrepareContext(getContext(), "INSERT INTO "+dbt.tableName+" VALUES(?,?)")
+		stmt, err := tx.PrepareContext(ctx, "INSERT INTO "+dbt.tableName+" VALUES(?,?)")
 
 		if err != nil {
 			t.Errorf("Unexpected error while preparing statement: %s", err)
 		}
 
-		res, err := stmt.ExecContext(getContext(), 3, "C")
+		res, err := stmt.ExecContext(ctx, 3, "C")
 
 		if err != nil {
 			t.Errorf("Unexpected error while executing statement: %s", err)
@@ -99,13 +102,13 @@ func TestHSQLDBContext(t *testing.T) {
 			t.Errorf("Error committing transaction: %s", err)
 		}
 
-		stmt2, err := dbt.db.PrepareContext(getContext(), "SELECT * FROM "+dbt.tableName+" WHERE id = ?")
+		stmt2, err := dbt.db.PrepareContext(ctx, "SELECT * FROM "+dbt.tableName+" WHERE id = ?")
 
 		if err != nil {
 			t.Errorf("Error preparing statement: %s", err)
 		}
 
-		row := stmt2.QueryRowContext(getContext(), 3)
+		row := stmt2.QueryRowContext(ctx, 3)
 
 		if err != nil {
 			t.Errorf("Error querying for row: %s", err)
@@ -138,13 +141,16 @@ func TestHSQLDBMultipleResultSets(t *testing.T) {
 
 	runTests(t, dsn, func(dbt *DBTest) {
 		// Create and seed table
-		dbt.mustExecContext(getContext(), "CREATE TABLE "+dbt.tableName+" (id BIGINT PRIMARY KEY, val VARCHAR(1))")
+		ctx, cancel := getContext()
+		defer cancel()
 
-		dbt.mustExecContext(getContext(), "INSERT INTO "+dbt.tableName+" VALUES (1,'A')")
+		dbt.mustExecContext(ctx, "CREATE TABLE "+dbt.tableName+" (id BIGINT PRIMARY KEY, val VARCHAR(1))")
 
-		dbt.mustExecContext(getContext(), "INSERT INTO "+dbt.tableName+" VALUES (2,'B')")
+		dbt.mustExecContext(ctx, "INSERT INTO "+dbt.tableName+" VALUES (1,'A')")
 
-		rows, err := dbt.db.QueryContext(getContext(), "SELECT * FROM "+dbt.tableName+" WHERE id = 1")
+		dbt.mustExecContext(ctx, "INSERT INTO "+dbt.tableName+" VALUES (2,'B')")
+
+		rows, err := dbt.db.QueryContext(ctx, "SELECT * FROM "+dbt.tableName+" WHERE id = 1")
 
 		if err != nil {
 			t.Errorf("Unexpected error while executing query: %s", err)
@@ -203,7 +209,10 @@ func TestHSQLDBColumnTypes(t *testing.T) {
 			    )`)
 
 		// Select
-		rows, err := dbt.db.QueryContext(getContext(), "SELECT * FROM "+dbt.tableName)
+		ctx, cancel := getContext()
+		defer cancel()
+
+		rows, err := dbt.db.QueryContext(ctx, "SELECT * FROM "+dbt.tableName)
 
 		if err != nil {
 			t.Errorf("Unexpected error while selecting from table: %s", err)

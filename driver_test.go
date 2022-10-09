@@ -55,7 +55,9 @@ func init() {
 	dsn = serverAddr
 
 	// Wait for the avatica server to be ready
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+
 	ticker := time.NewTicker(2 * time.Second)
 
 	for {
