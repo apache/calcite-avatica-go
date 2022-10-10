@@ -37,6 +37,10 @@ init_upload(){
     apk --no-cache add git subversion
 }
 
+make_directory_safe_for_git(){
+   git config --global --add safe.directory /source
+}
+
 KEYS=()
 
 GPG_COMMAND="gpg"
@@ -596,12 +600,14 @@ compile_protobuf(){
 case $1 in
     dry-run)
         init_release
+        make_directory_safe_for_git
         mount_gpg_keys
         make_release_artifacts
         ;;
 
     release)
         init_release
+        make_directory_safe_for_git
         mount_gpg_keys
         make_release_artifacts_and_push_tag
         ;;
@@ -613,11 +619,13 @@ case $1 in
 
     publish-release-for-voting)
         init_upload
+        make_directory_safe_for_git
         publish_release_for_voting
         ;;
 
     promote-release)
         init_upload
+        make_directory_safe_for_git
         promote_release
         ;;
 
