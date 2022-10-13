@@ -465,7 +465,7 @@ Hi all,
 I have created a release for Apache Calcite Avatica Go $TAG_WITHOUT_RC, release candidate $RC_NUMBER.
 
 Thanks to everyone who has contributed to this release. The release notes are available here:
-https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/_docs/go_history.md
+https://github.com/apache/calcite-avatica-go/blob/$LATEST_TAG/site/_docs/go_history.md
 
 The commit to be voted on:
 https://gitbox.apache.org/repos/asf?p=calcite-avatica-go.git;a=commit;h=$COMMIT
@@ -482,7 +482,7 @@ Release artifacts are signed with the following key:
 https://people.apache.org/keys/committer/$ASF_USERNAME.asc
 
 Instructions for running the test suite is located here:
-https://github.com/apache/calcite-avatica-go/blob/$COMMIT/site/develop/avatica-go.md#testing
+https://github.com/apache/calcite-avatica-go/blob/$LATEST_TAG/site/develop/avatica-go.md#testing
 
 Please vote on releasing this package as Apache Calcite Avatica Go $TAG_WITHOUT_RC.
 
