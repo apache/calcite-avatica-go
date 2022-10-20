@@ -225,6 +225,14 @@ This assumes that a rc release was tagged and pushed to the git repository.
 docker compose run promote-release
 {% endhighlight %}
 
+### Close out issues in JIRA and mark the version as released
+In JIRA, search for [all issues resolved in this release](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CALCITE%20AND%20status%20%3D%20Resolved%20AND%20resolution%20%3D%20Fixed%20AND%20fixVersion%20in%20(1.5.0%2C%20avatica-go-5.2.0)),
+and do a bulk update changing their status to "Closed", with a change comment "Resolved in release X.Y.Z (YYYY-MM-DD)"
+(fill in release number and date appropriately). Uncheck "Send mail for this update".
+
+Finally, go to the [releases page in JIRA](https://issues.apache.org/jira/projects/CALCITE?selectedItem=com.atlassian.jira.jira-projects-plugin%3Arelease-page&status=released-unreleased),
+click the 3 dots next to the release, select the release date and release it.
+
 ### Announce the release
 After 24 hours, announce the release by sending an announcement to the [dev list](https://mail-archives.apache.org/mod_mbox/calcite-dev/)
 and [announce@apache.org](https://mail-archives.apache.org/mod_mbox/www-announce/).
