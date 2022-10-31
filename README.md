@@ -56,4 +56,4 @@ page](https://calcite.apache.org/avatica/docs/go_history.html).
 
 ## Issues
 We do not use Github to file issues. Please create an issue on [Calcite's JIRA](https://issues.apache.org/jira/projects/CALCITE/issues)
-and select `avatica-go` as the component.
+and select `avatica-go` as the component. For further information, please see the [JIRA accounts guide](https://calcite.apache.org/develop/#jira-accounts).
