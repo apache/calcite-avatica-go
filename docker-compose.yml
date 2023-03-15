@@ -16,7 +16,7 @@
 version: '3'
 services:
   phoenix:
-    image: boostport/hbase-phoenix-all-in-one:${PHOENIX_VERSION:-2.0-5.0}
+    image: f21global/hbase-phoenix-all-in-one:${PHOENIX_VERSION:-2.0-5.0}
 
   hsqldb:
     image: apache/calcite-avatica-hypersql:${HSQLDB_VERSION:-1.22.0}
