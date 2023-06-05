@@ -145,9 +145,12 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
+	statementID := st.(*message.CreateStatementResponse).StatementId
+	defer c.closeStatement(context.Background(), statementID)
+
 	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
 		ConnectionId:      c.connectionId,
-		StatementId:       st.(*message.CreateStatementResponse).StatementId,
+		StatementId:       statementID,
 		Sql:               query,
 		MaxRowsTotal:      c.config.maxRowsTotal,
 		FirstFrameMaxSize: c.config.frameMaxSize,
@@ -188,21 +191,24 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
+	statementID := st.(*message.CreateStatementResponse).StatementId
+
 	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
 		ConnectionId:      c.connectionId,
-		StatementId:       st.(*message.CreateStatementResponse).StatementId,
+		StatementId:       statementID,
 		Sql:               query,
 		MaxRowsTotal:      c.config.maxRowsTotal,
 		FirstFrameMaxSize: c.config.frameMaxSize,
 	})
 
 	if err != nil {
+		_ = c.closeStatement(context.Background(), statementID)
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	resultSets := res.(*message.ExecuteResponse).Results
 
-	return newRows(c, st.(*message.CreateStatementResponse).StatementId, resultSets), nil
+	return newRows(c, statementID, true, resultSets), nil
 }
 
 func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
@@ -242,4 +248,12 @@ func (c *conn) ResetSession(_ context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (c *conn) closeStatement(ctx context.Context, statementID uint32) error {
+	_, err := c.httpClient.post(context.Background(), &message.CloseStatementRequest{
+		ConnectionId: c.connectionId,
+		StatementId:  statementID,
+	})
+	return c.avaticaErrorToResponseErrorOrError(err)
 }
