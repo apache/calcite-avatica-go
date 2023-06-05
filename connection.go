@@ -243,10 +243,6 @@ func (c *conn) ResetSession(_ context.Context) error {
 	if c.connectionId == "" {
 		return driver.ErrBadConn
 	}
-	err := registerConn(c)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
