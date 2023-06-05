@@ -18,14 +18,14 @@
 /*
 Package avatica provides an Apache Phoenix Query Server/Avatica driver for Go's database/sql package.
 
-Quickstart
+# Quickstart
 
 Import the database/sql package along with the avatica driver.
 
-  import "database/sql"
-  import _ "github.com/apache/calcite-avatica-go/v5"
+	import "database/sql"
+	import _ "github.com/apache/calcite-avatica-go/v5"
 
-  db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
+	db, err := sql.Open("avatica", "http://phoenix-query-server:8765")
 
 See https://calcite.apache.org/avatica/docs/go_client_reference.html for more details
 */
@@ -68,6 +68,15 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to open connection: %w", err)
 	}
+
+	// propagate user and password to connector info so that it's available in JDBC context for example
+	if config.avaticaUser != "" {
+		c.Info["user"] = config.avaticaUser
+	}
+	if config.avaticaPassword != "" {
+		c.Info["password"] = config.avaticaPassword
+	}
+
 	connectionId, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, fmt.Errorf("error generating connection id: %w", err)
