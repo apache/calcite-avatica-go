@@ -38,6 +38,7 @@ type resultSet struct {
 type rows struct {
 	conn             *conn
 	statementID      uint32
+	closeStatement   bool
 	resultSets       []*resultSet
 	currentResultSet int
 	columnNames      []string
@@ -64,9 +65,12 @@ func (r *rows) Columns() []string {
 
 // Close closes the rows iterator.
 func (r *rows) Close() error {
-
+	var err error
+	if r.closeStatement {
+		err = r.conn.closeStatement(context.Background(), r.statementID)
+	}
 	r.conn = nil
-	return nil
+	return err
 }
 
 // Next is called to populate the next row of data into
@@ -139,7 +143,7 @@ func (r *rows) Next(dest []driver.Value) error {
 }
 
 // newRows create a new set of rows from a result set.
-func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResponse) *rows {
+func newRows(conn *conn, statementID uint32, closeStatement bool, resultSets []*message.ResultSetResponse) *rows {
 
 	var rsets []*resultSet
 
@@ -180,6 +184,7 @@ func newRows(conn *conn, statementID uint32, resultSets []*message.ResultSetResp
 	return &rows{
 		conn:             conn,
 		statementID:      statementID,
+		closeStatement:   closeStatement,
 		resultSets:       rsets,
 		currentResultSet: 0,
 	}

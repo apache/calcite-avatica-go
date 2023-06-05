@@ -173,7 +173,7 @@ func (s *stmt) query(ctx context.Context, args []namedValue) (driver.Rows, error
 
 	resultSet := res.(*message.ExecuteResponse).Results
 
-	return newRows(s.conn, s.statementID, resultSet), nil
+	return newRows(s.conn, s.statementID, false, resultSet), nil
 }
 
 func (s *stmt) parametersToTypedValues(vals []namedValue) []*message.TypedValue {
