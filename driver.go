@@ -58,7 +58,10 @@ type Connector struct {
 
 // NewConnector creates a new connector
 func NewConnector(dsn string) driver.Connector {
-	return &Connector{nil, nil, dsn}
+	return &Connector{
+		Info: make(map[string]string),
+		dsn:  dsn,
+	}
 }
 
 func (c *Connector) Connect(context.Context) (driver.Conn, error) {
