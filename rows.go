@@ -99,7 +99,7 @@ func (r *rows) Next(dest []driver.Value) error {
 		res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
 			ConnectionId: r.conn.connectionId,
 			StatementId:  r.statementID,
-			Offset:       resultSet.offset,
+			Offset:       resultSet.offset + uint64(len(resultSet.data)),
 			FrameMaxSize: r.conn.config.frameMaxSize,
 		})
 
@@ -130,6 +130,7 @@ func (r *rows) Next(dest []driver.Value) error {
 		resultSet.done = frame.Done
 		resultSet.data = data
 		resultSet.currentRow = 0
+		resultSet.offset = frame.Offset
 
 	}
 
