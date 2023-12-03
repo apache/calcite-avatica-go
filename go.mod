@@ -6,7 +6,7 @@ require (
 	github.com/hashicorp/go-uuid v1.0.3
 	github.com/icholy/digest v0.1.22
 	github.com/jcmturner/gokrb5/v8 v8.4.4
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
