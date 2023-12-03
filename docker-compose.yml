@@ -105,7 +105,7 @@ services:
     command: sh -c "./docker.sh compile-protobuf"
     environment:
       AVATICA_VERSION: 1.24.0
-      PROTOBUF_VERSION: 21.5
+      PROTOBUF_VERSION: 25.1
     volumes:
       - .:/source
       - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
