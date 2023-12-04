@@ -526,8 +526,10 @@ promote_release(){
     set_git_credentials
 
     git tag v$TAG_WITHOUT_RC $LATEST_TAG
+    git tag rel/v$TAG_WITHOUT_RC $LATEST_TAG
 
     git push $GITBOX_URL v$TAG_WITHOUT_RC
+    git push $GITBOX_URL rel/v$TAG_WITHOUT_RC
 
     svn checkout $RELEASE_REPO /tmp/release
     rm -rf /tmp/release/$PRODUCT-$TAG_WITHOUT_RC
