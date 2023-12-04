@@ -28,6 +28,56 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.3.0">5.3.0</a> / 2023-12-XX
+{: #v5-3-0}
+
+Apache Calcite Avatica Go 5.3.0 includes a few bug fixes and dependency updates.
+
+Contributors to this release:
+Egor Riashin
+Francis Chuang (Release Manager),
+Parag Jain
+
+Features and bug fixes
+* Update docker release script to use rc tag in vote email links
+* Bump golang.org/x/net from 0.0.0-20220725212005-46097bf591d3 to 0.7.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5754">CALCITE-5754</a>]
+  Fix open statements leak
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5753">CALCITE-5753</a>]
+  Propagate user and pwd to connection info
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5752">CALCITE-5752</a>]
+  Don't register connection again on session reset
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5758">CALCITE-5758</a>]
+  Initialize connector info map to prevent panic
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5792">CALCITE-5792</a>]
+  Update dependencies to latest version
+* Bump golang.org/x/net from 0.11.0 to 0.17.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6139">CALCITE-6139</a>]
+  Avatica-Go sends the same offset for the FetchRequest
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6153">CALCITE-6153</a>]
+  Recompile protobuf messages to Avatica 1.24.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6154">CALCITE-6154</a>]
+  Upgrade protobuf library to 1.31.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6155">CALCITE-6155</a>]
+  Add additional rel/ tag to avatica-go release script
+
+Tests
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5586">CALCITE-5586</a>]
+  Replace boostport/hbase-phoenix-all-in-one docker image with f21global/hbase-phoenix-all-in-one
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5853">CALCITE-5853</a>]
+  Use HBase Phoenix images from GitHub container registry
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5854">CALCITE-5854</a>]
+  Test against Go 1.19 and 1.20
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6151">CALCITE-6151</a>]
+  Test against Go 1.20 and 1.21
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6152">CALCITE-6152</a>]
+  Test against Avatica 1.24.0
+
+Web site and documentation
+* Add JIRA instructions to release howto
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-5353">CALCITE-5353</a>]
+  Document new procedure for requesting JIRA accounts and becoming a contributor
+
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.2.0">5.2.0</a> / 2022-10-13
 {: #v5-2-0}
 
@@ -84,7 +134,7 @@ Tests
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-5236">CALCITE-5236</a>]
   Test against Avatica 1.22 by default in docker-compose.yml
 
-Web site and documentation:
+Web site and documentation
 
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-3129">CALCITE-3129</a>]
   Automate website builds
@@ -186,7 +236,7 @@ Tests
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-4076">CALCITE-4076</a>]
   Test against Avatica 1.17.0 and regenerate protobuf
 
-Web site and documentation:
+Web site and documentation
 
 * Clean up documentation and remove references to dep
  
@@ -239,7 +289,7 @@ Tests
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-3044">CALCITE-3044</a>]
   Test against Avatica HSQLDB 1.15.0 and simplify Alpine dependencies
 
-Web site and documentation:
+Web site and documentation
 
 * [<a href="https://issues.apache.org/jira/browse/CALCITE-2774">CALCITE-2774</a>]
   Improve release documentation and explicitly include all steps for making a release
