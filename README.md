@@ -54,6 +54,9 @@ For more details, see the [home page](https://calcite.apache.org/avatica/docs/go
 Release notes for all published versions are available on the [history
 page](https://calcite.apache.org/avatica/docs/go_history.html).
 
+## Testing
+For instructions on how to run tests for the project, please see our [testing guide](https://calcite.apache.org/avatica/develop/avatica-go.html#testing).
+
 ## Issues
 We do not use Github to file issues. Please create an issue on [Calcite's JIRA](https://issues.apache.org/jira/projects/CALCITE/issues)
 and select `avatica-go` as the component. For further information, please see the [JIRA accounts guide](https://calcite.apache.org/develop/#jira-accounts).
