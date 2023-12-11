@@ -28,13 +28,13 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.3.0">5.3.0</a> / 2023-12-XX
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.3.0">5.3.0</a> / 2023-12-11
 {: #v5-3-0}
 
 Apache Calcite Avatica Go 5.3.0 includes a few bug fixes and dependency updates.
 
 Contributors to this release:
-Egor Riashin
+Egor Riashin,
 Francis Chuang (Release Manager),
 Parag Jain
 
