@@ -42,7 +42,7 @@ import (
 	"github.com/apache/calcite-avatica-go/v5/hsqldb"
 	"github.com/apache/calcite-avatica-go/v5/message"
 	"github.com/apache/calcite-avatica-go/v5/phoenix"
-	"github.com/hashicorp/go-uuid"
+	"github.com/google/uuid"
 )
 
 // Driver is exported to allow it to be used directly.
@@ -80,7 +80,7 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 		c.Info["password"] = config.avaticaPassword
 	}
 
-	connectionId, err := uuid.GenerateUUID()
+	connectionId, err := uuid.NewRandom()
 	if err != nil {
 		return nil, fmt.Errorf("error generating connection id: %w", err)
 	}
@@ -90,7 +90,7 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 		return nil, fmt.Errorf("unable to create HTTP client: %w", err)
 	}
 	conn := &conn{
-		connectionId:  connectionId,
+		connectionId:  connectionId.String(),
 		httpClient:    httpClient,
 		config:        config,
 		connectorInfo: c.Info,

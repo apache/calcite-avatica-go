@@ -3,13 +3,14 @@ module github.com/apache/calcite-avatica-go/v5
 go 1.17
 
 require (
-	github.com/hashicorp/go-uuid v1.0.3
+	github.com/google/uuid v1.6.0
 	github.com/icholy/digest v0.1.22
 	github.com/jcmturner/gokrb5/v8 v8.4.4
 	google.golang.org/protobuf v1.33.0
 )
 
 require (
+	github.com/hashicorp/go-uuid v1.0.3 // indirect
 	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
 	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
 	github.com/jcmturner/gofork v1.7.6 // indirect
