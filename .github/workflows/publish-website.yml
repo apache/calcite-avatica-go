@@ -30,7 +30,7 @@ jobs:
   publish-website:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: apache/calcite-avatica
           path: calcite-avatica
@@ -45,7 +45,7 @@ jobs:
         working-directory: calcite-avatica/site
         run: |
           docker compose run -e JEKYLL_UID=$(id -u) -e JEKYLL_GID=$(id -g) build-site
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: apache/calcite-site
           path: calcite-site
