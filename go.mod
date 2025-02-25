@@ -1,12 +1,14 @@
 module github.com/apache/calcite-avatica-go/v5
 
-go 1.17
+go 1.21
+
+toolchain go1.24.0
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/icholy/digest v0.1.22
+	github.com/icholy/digest v1.1.0
 	github.com/jcmturner/gokrb5/v8 v8.4.4
-	google.golang.org/protobuf v1.33.0
+	google.golang.org/protobuf v1.36.5
 )
 
 require (
