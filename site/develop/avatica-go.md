@@ -35,11 +35,6 @@ as the component.
 1. Install [docker](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
 2. From the root of the repository, run `docker compose run compile-protobuf`
 
-## Live reload during development
-It is possible to reload the code in real-time during development. This executes the test suite every time a `.go` or
-`.mod` file is updated. The test suite takes a while to run, so the tests will not complete instantly, but live-reloading
-during development allows us to not have to manually execute the test suite on save.
-
 ### Set up
 1. Install [docker](https://docs.docker.com/install/) and [docker compose](https://docs.docker.com/compose/install/).
 
