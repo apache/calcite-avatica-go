@@ -603,7 +603,7 @@ compile_protobuf(){
 
     # Compile the protobuf
     GITHUB_PACKAGE=github.com/apache/calcite-avatica-go
-    protoc --proto_path=/tmp/avatica/core/src/main/protobuf --go_out=/source --go_opt=module=$GITHUB_PACKAGE --go_opt=Mcommon.proto=$GITHUB_PACKAGE/message --go_opt=Mrequests.proto=$GITHUB_PACKAGE/message --go_opt=Mresponses.proto=$GITHUB_PACKAGE/message /tmp/avatica/core/src/main/protobuf/*.proto
+    protoc --proto_path=/tmp/avatica/core/src/main/protobuf --go_out=/source --go_opt=module=$GITHUB_PACKAGE --go_opt=Mcommon.proto=$GITHUB_PACKAGE/message --go_opt=Mrequests.proto=$GITHUB_PACKAGE/message --go_opt=Mresponses.proto=$GITHUB_PACKAGE/message /tmp/avatica/core/src/main/protobuf/*.proto --go_opt=default_api_level=API_OPAQUE #Remove API_OPAQUE when Avatica protobufs are updated to edition 2024
 
     echo "Protobuf compiled successfully"
 }

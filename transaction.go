@@ -32,9 +32,9 @@ func (t *tx) Commit() error {
 
 	defer t.enableAutoCommit()
 
-	_, err := t.conn.httpClient.post(context.Background(), &message.CommitRequest{
+	_, err := t.conn.httpClient.post(context.Background(), message.CommitRequest_builder{
 		ConnectionId: t.conn.connectionId,
-	})
+	}.Build())
 
 	if err != nil {
 		return t.conn.avaticaErrorToResponseErrorOrError(err)
@@ -48,9 +48,9 @@ func (t *tx) Rollback() error {
 
 	defer t.enableAutoCommit()
 
-	_, err := t.conn.httpClient.post(context.Background(), &message.RollbackRequest{
+	_, err := t.conn.httpClient.post(context.Background(), message.RollbackRequest_builder{
 		ConnectionId: t.conn.connectionId,
-	})
+	}.Build())
 
 	if err != nil {
 		return t.conn.avaticaErrorToResponseErrorOrError(err)
@@ -62,14 +62,14 @@ func (t *tx) Rollback() error {
 // enableAutoCommit enables auto-commit on the server
 func (t *tx) enableAutoCommit() error {
 
-	_, err := t.conn.httpClient.post(context.Background(), &message.ConnectionSyncRequest{
+	_, err := t.conn.httpClient.post(context.Background(), message.ConnectionSyncRequest_builder{
 		ConnectionId: t.conn.connectionId,
-		ConnProps: &message.ConnectionProperties{
+		ConnProps: message.ConnectionProperties_builder{
 			AutoCommit:           true,
 			HasAutoCommit:        true,
 			TransactionIsolation: t.conn.config.transactionIsolation,
-		},
-	})
+		}.Build(),
+	}.Build())
 
 	if err != nil {
 		return t.conn.avaticaErrorToResponseErrorOrError(err)

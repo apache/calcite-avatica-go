@@ -96,41 +96,41 @@ func (r *rows) Next(dest []driver.Value) error {
 		}
 
 		// Fetch more results from the server
-		res, err := r.conn.httpClient.post(context.Background(), &message.FetchRequest{
+		res, err := r.conn.httpClient.post(context.Background(), message.FetchRequest_builder{
 			ConnectionId: r.conn.connectionId,
 			StatementId:  r.statementID,
 			Offset:       resultSet.offset + uint64(len(resultSet.data)),
 			FrameMaxSize: r.conn.config.frameMaxSize,
-		})
+		}.Build())
 
 		if err != nil {
 			return r.conn.avaticaErrorToResponseErrorOrError(err)
 		}
 
-		frame := res.(*message.FetchResponse).Frame
+		frame := res.(*message.FetchResponse).GetFrame()
 
 		var data [][]*message.TypedValue
 
 		// In some cases the server does not return done as true
 		// until it returns a result with no rows
-		if len(frame.Rows) == 0 {
+		if len(frame.GetRows()) == 0 {
 			return io.EOF
 		}
 
-		for _, row := range frame.Rows {
+		for _, row := range frame.GetRows() {
 			var rowData []*message.TypedValue
 
-			for _, col := range row.Value {
-				rowData = append(rowData, col.ScalarValue)
+			for _, col := range row.GetValue() {
+				rowData = append(rowData, col.GetScalarValue())
 			}
 
 			data = append(data, rowData)
 		}
 
-		resultSet.done = frame.Done
+		resultSet.done = frame.GetDone()
 		resultSet.data = data
 		resultSet.currentRow = 0
-		resultSet.offset = frame.Offset
+		resultSet.offset = frame.GetOffset()
 
 	}
 
@@ -149,26 +149,26 @@ func newRows(conn *conn, statementID uint32, closeStatement bool, resultSets []*
 	var rsets []*resultSet
 
 	for _, result := range resultSets {
-		if result.Signature == nil {
+		if result.GetSignature() == nil {
 			break
 		}
 
 		var columns []*internal.Column
 
-		for _, col := range result.Signature.Columns {
+		for _, col := range result.GetSignature().GetColumns() {
 			column := conn.adapter.GetColumnTypeDefinition(col)
 			columns = append(columns, column)
 		}
 
-		frame := result.FirstFrame
+		frame := result.GetFirstFrame()
 
 		var data [][]*message.TypedValue
 
-		for _, row := range frame.Rows {
+		for _, row := range frame.GetRows() {
 			var rowData []*message.TypedValue
 
-			for _, col := range row.Value {
-				rowData = append(rowData, col.ScalarValue)
+			for _, col := range row.GetValue() {
+				rowData = append(rowData, col.GetScalarValue())
 			}
 
 			data = append(data, rowData)
@@ -176,8 +176,8 @@ func newRows(conn *conn, statementID uint32, closeStatement bool, resultSets []*
 
 		rsets = append(rsets, &resultSet{
 			columns: columns,
-			done:    frame.Done,
-			offset:  frame.Offset,
+			done:    frame.GetDone(),
+			offset:  frame.GetOffset(),
 			data:    data,
 		})
 	}
@@ -194,20 +194,20 @@ func newRows(conn *conn, statementID uint32, closeStatement bool, resultSets []*
 // typedValueToNative converts values from avatica's types to Go's native types
 func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) interface{} {
 
-	if v.Type == message.Rep_NULL {
+	if v.GetType() == message.Rep_NULL {
 		return nil
 	}
 
 	switch rep {
 
 	case message.Rep_BOOLEAN, message.Rep_PRIMITIVE_BOOLEAN:
-		return v.BoolValue
+		return v.GetBoolValue()
 
 	case message.Rep_STRING, message.Rep_PRIMITIVE_CHAR, message.Rep_CHARACTER, message.Rep_BIG_DECIMAL:
-		return v.StringValue
+		return v.GetStringValue()
 
 	case message.Rep_FLOAT, message.Rep_PRIMITIVE_FLOAT:
-		return float32(v.DoubleValue)
+		return float32(v.GetDoubleValue())
 
 	case message.Rep_LONG,
 		message.Rep_PRIMITIVE_LONG,
@@ -219,13 +219,13 @@ func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) 
 		message.Rep_PRIMITIVE_BYTE,
 		message.Rep_SHORT,
 		message.Rep_PRIMITIVE_SHORT:
-		return v.NumberValue
+		return v.GetNumberValue()
 
 	case message.Rep_BYTE_STRING:
-		return v.BytesValue
+		return v.GetBytesValue()
 
 	case message.Rep_DOUBLE, message.Rep_PRIMITIVE_DOUBLE:
-		return v.DoubleValue
+		return v.GetDoubleValue()
 
 	case message.Rep_JAVA_SQL_DATE, message.Rep_JAVA_UTIL_DATE:
 
@@ -234,7 +234,7 @@ func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) 
 		// we first do all our calculations in UTC and then force the timezone to
 		// the one the user has chosen.
 		t, _ := time.ParseInLocation("2006-Jan-02", "1970-Jan-01", time.UTC)
-		days := time.Hour * 24 * time.Duration(v.NumberValue)
+		days := time.Hour * 24 * time.Duration(v.GetNumberValue())
 		t = t.Add(days)
 
 		return forceTimezone(t, config.location)
@@ -246,7 +246,7 @@ func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) 
 		// we first do all our calculations in UTC and then force the timezone to
 		// the one the user has chosen.
 		t, _ := time.ParseInLocation("15:04:05", "00:00:00", time.UTC)
-		ms := time.Millisecond * time.Duration(v.NumberValue)
+		ms := time.Millisecond * time.Duration(v.GetNumberValue())
 		t = t.Add(ms)
 		return forceTimezone(t, config.location)
 
@@ -254,7 +254,7 @@ func typedValueToNative(rep message.Rep, v *message.TypedValue, config *Config) 
 
 		// We receive the number of milliseconds since 1970-01-01 00:00:00.000 from the server
 		// Force to UTC for consistency because time.Unix uses the local timezone
-		t := time.Unix(0, v.NumberValue*int64(time.Millisecond)).In(time.UTC)
+		t := time.Unix(0, v.GetNumberValue()*int64(time.Millisecond)).In(time.UTC)
 		return forceTimezone(t, config.location)
 
 	default:

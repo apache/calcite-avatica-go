@@ -99,9 +99,9 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
-	response, err := conn.httpClient.post(context.Background(), &message.DatabasePropertyRequest{
+	response, err := conn.httpClient.post(context.Background(), message.DatabasePropertyRequest_builder{
 		ConnectionId: conn.connectionId,
-	})
+	}.Build())
 
 	if err != nil {
 		return nil, conn.avaticaErrorToResponseErrorOrError(err)
@@ -111,9 +111,9 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 
 	adapter := ""
 
-	for _, property := range databasePropertyResponse.Props {
-		if property.Key.Name == "GET_DRIVER_NAME" {
-			adapter = property.Value.StringValue
+	for _, property := range databasePropertyResponse.GetProps() {
+		if property.GetKey().GetName() == "GET_DRIVER_NAME" {
+			adapter = property.GetValue().GetStringValue()
 		}
 	}
 
@@ -131,12 +131,12 @@ func registerConn(conn *conn) error {
 		info[k] = v
 	}
 	// Open a connection to the server
-	req := &message.OpenConnectionRequest{
+	req := message.OpenConnectionRequest_builder{
 		ConnectionId: conn.connectionId,
 		Info:         info,
-	}
+	}.Build()
 	if conn.config.schema != "" {
-		req.Info["schema"] = conn.config.schema
+		req.GetInfo()["schema"] = conn.config.schema
 	}
 	_, err := conn.httpClient.post(context.Background(), req)
 	if err != nil {

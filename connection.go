@@ -44,11 +44,11 @@ func (c *conn) prepare(ctx context.Context, query string) (driver.Stmt, error) {
 		return nil, driver.ErrBadConn
 	}
 
-	response, err := c.httpClient.post(ctx, &message.PrepareRequest{
+	response, err := c.httpClient.post(ctx, message.PrepareRequest_builder{
 		ConnectionId: c.connectionId,
 		Sql:          query,
 		MaxRowsTotal: c.config.maxRowsTotal,
-	})
+	}.Build())
 
 	if err != nil {
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
@@ -57,10 +57,10 @@ func (c *conn) prepare(ctx context.Context, query string) (driver.Stmt, error) {
 	prepareResponse := response.(*message.PrepareResponse)
 
 	return &stmt{
-		statementID:  prepareResponse.Statement.Id,
+		statementID:  prepareResponse.GetStatement().GetId(),
 		conn:         c,
-		parameters:   prepareResponse.Statement.Signature.Parameters,
-		handle:       prepareResponse.Statement,
+		parameters:   prepareResponse.GetStatement().GetSignature().GetParameters(),
+		handle:       prepareResponse.GetStatement(),
 		batchUpdates: make([]*message.UpdateBatch, 0),
 	}, nil
 }
@@ -79,9 +79,9 @@ func (c *conn) Close() error {
 		return driver.ErrBadConn
 	}
 
-	_, err := c.httpClient.post(context.Background(), &message.CloseConnectionRequest{
+	_, err := c.httpClient.post(context.Background(), message.CloseConnectionRequest_builder{
 		ConnectionId: c.connectionId,
-	})
+	}.Build())
 
 	c.connectionId = ""
 
@@ -106,14 +106,14 @@ func (c *conn) begin(ctx context.Context, isolationLevel isoLevel) (driver.Tx, e
 		isolationLevel = isoLevel(c.config.transactionIsolation)
 	}
 
-	_, err := c.httpClient.post(ctx, &message.ConnectionSyncRequest{
+	_, err := c.httpClient.post(ctx, message.ConnectionSyncRequest_builder{
 		ConnectionId: c.connectionId,
-		ConnProps: &message.ConnectionProperties{
+		ConnProps: message.ConnectionProperties_builder{
 			AutoCommit:           false,
 			HasAutoCommit:        true,
 			TransactionIsolation: uint32(isolationLevel),
-		},
-	})
+		}.Build(),
+	}.Build())
 
 	if err != nil {
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
@@ -137,31 +137,31 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 		return nil, driver.ErrSkip
 	}
 
-	st, err := c.httpClient.post(ctx, &message.CreateStatementRequest{
+	st, err := c.httpClient.post(ctx, message.CreateStatementRequest_builder{
 		ConnectionId: c.connectionId,
-	})
+	}.Build())
 
 	if err != nil {
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
-	statementID := st.(*message.CreateStatementResponse).StatementId
+	statementID := st.(*message.CreateStatementResponse).GetStatementId()
 	defer c.closeStatement(context.Background(), statementID)
 
-	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
+	res, err := c.httpClient.post(ctx, message.PrepareAndExecuteRequest_builder{
 		ConnectionId:      c.connectionId,
 		StatementId:       statementID,
 		Sql:               query,
 		MaxRowsTotal:      c.config.maxRowsTotal,
 		FirstFrameMaxSize: c.config.frameMaxSize,
-	})
+	}.Build())
 
 	if err != nil {
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
 	// Currently there is only 1 ResultSet per response for exec
-	changed := int64(res.(*message.ExecuteResponse).Results[0].UpdateCount)
+	changed := int64(res.(*message.ExecuteResponse).GetResults()[0].GetUpdateCount())
 
 	return &result{
 		affectedRows: changed,
@@ -183,30 +183,30 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 		return nil, driver.ErrSkip
 	}
 
-	st, err := c.httpClient.post(ctx, &message.CreateStatementRequest{
+	st, err := c.httpClient.post(ctx, message.CreateStatementRequest_builder{
 		ConnectionId: c.connectionId,
-	})
+	}.Build())
 
 	if err != nil {
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
-	statementID := st.(*message.CreateStatementResponse).StatementId
+	statementID := st.(*message.CreateStatementResponse).GetStatementId()
 
-	res, err := c.httpClient.post(ctx, &message.PrepareAndExecuteRequest{
+	res, err := c.httpClient.post(ctx, message.PrepareAndExecuteRequest_builder{
 		ConnectionId:      c.connectionId,
 		StatementId:       statementID,
 		Sql:               query,
 		MaxRowsTotal:      c.config.maxRowsTotal,
 		FirstFrameMaxSize: c.config.frameMaxSize,
-	})
+	}.Build())
 
 	if err != nil {
 		_ = c.closeStatement(context.Background(), statementID)
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
-	resultSets := res.(*message.ExecuteResponse).Results
+	resultSets := res.(*message.ExecuteResponse).GetResults()
 
 	return newRows(c, statementID, true, resultSets), nil
 }
@@ -226,11 +226,11 @@ func (c *conn) avaticaErrorToResponseErrorOrError(err error) error {
 	}
 
 	return avaticaErrors.ResponseError{
-		Exceptions:   avaticaErr.message.Exceptions,
-		ErrorMessage: avaticaErr.message.ErrorMessage,
-		Severity:     int8(avaticaErr.message.Severity),
-		ErrorCode:    avaticaErrors.ErrorCode(avaticaErr.message.ErrorCode),
-		SqlState:     avaticaErrors.SQLState(avaticaErr.message.SqlState),
+		Exceptions:   avaticaErr.message.GetExceptions(),
+		ErrorMessage: avaticaErr.message.GetErrorMessage(),
+		Severity:     int8(avaticaErr.message.GetSeverity()),
+		ErrorCode:    avaticaErrors.ErrorCode(avaticaErr.message.GetErrorCode()),
+		SqlState:     avaticaErrors.SQLState(avaticaErr.message.GetSqlState()),
 		Metadata: &avaticaErrors.RPCMetadata{
 			ServerAddress: message.ServerAddressFromMetadata(avaticaErr.message),
 		},
@@ -247,9 +247,9 @@ func (c *conn) ResetSession(_ context.Context) error {
 }
 
 func (c *conn) closeStatement(ctx context.Context, statementID uint32) error {
-	_, err := c.httpClient.post(context.Background(), &message.CloseStatementRequest{
+	_, err := c.httpClient.post(context.Background(), message.CloseStatementRequest_builder{
 		ConnectionId: c.connectionId,
 		StatementId:  statementID,
-	})
+	}.Build())
 	return c.avaticaErrorToResponseErrorOrError(err)
 }

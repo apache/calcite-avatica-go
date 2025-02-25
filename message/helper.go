@@ -25,7 +25,7 @@ func ServerAddressFromMetadata(message MetadataProvider) string {
 	serverAddress := "unknown"
 	md := message.GetMetadata()
 	if md != nil {
-		serverAddress = md.ServerAddress
+		serverAddress = md.GetServerAddress()
 	}
 	return serverAddress
 }

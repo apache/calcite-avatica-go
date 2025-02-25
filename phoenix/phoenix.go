@@ -39,22 +39,22 @@ func (a Adapter) GetPingStatement() string {
 func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.Column {
 
 	column := &internal.Column{
-		Name:     col.ColumnName,
-		TypeName: col.Type.Name,
-		Nullable: col.Nullable != 0,
+		Name:     col.GetColumnName(),
+		TypeName: col.GetType().GetName(),
+		Nullable: col.GetNullable() != 0,
 	}
 
 	// Handle precision and length
-	switch col.Type.Name {
+	switch col.GetType().GetName() {
 	case "DECIMAL":
 
-		precision := int64(col.Precision)
+		precision := int64(col.GetPrecision())
 
 		if precision == 0 {
 			precision = math.MaxInt64
 		}
 
-		scale := int64(col.Scale)
+		scale := int64(col.GetScale())
 
 		if scale == 0 {
 			scale = math.MaxInt64
@@ -65,13 +65,13 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 			Scale:     scale,
 		}
 	case "VARCHAR", "CHAR", "BINARY":
-		column.Length = int64(col.Precision)
+		column.Length = int64(col.GetPrecision())
 	case "VARBINARY":
 		column.Length = math.MaxInt64
 	}
 
 	// Handle scan types
-	switch col.Type.Name {
+	switch col.GetType().GetName() {
 	case "INTEGER", "UNSIGNED_INT", "BIGINT", "UNSIGNED_LONG", "TINYINT", "UNSIGNED_TINYINT", "SMALLINT", "UNSIGNED_SMALLINT":
 		column.ScanType = reflect.TypeOf(int64(0))
 
@@ -95,7 +95,7 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 	}
 
 	// Handle rep type special cases for decimals, floats, date, time and timestamp
-	switch col.Type.Name {
+	switch col.GetType().GetName() {
 	case "DECIMAL":
 		column.Rep = message.Rep_BIG_DECIMAL
 	case "FLOAT":
@@ -109,7 +109,7 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 	case "TIMESTAMP", "UNSIGNED_TIMESTAMP":
 		column.Rep = message.Rep_JAVA_SQL_TIMESTAMP
 	default:
-		column.Rep = col.Type.Rep
+		column.Rep = col.GetType().GetRep()
 	}
 
 	return column
@@ -122,7 +122,7 @@ func (a Adapter) ErrorResponseToResponseError(err *message.ErrorResponse) errors
 	)
 
 	re := regexp.MustCompile(`ERROR (\d+) \(([0-9a-zA-Z]+)\)`)
-	codes := re.FindStringSubmatch(err.ErrorMessage)
+	codes := re.FindStringSubmatch(err.GetErrorMessage())
 
 	if len(codes) > 1 {
 		errorCode, _ = strconv.Atoi(codes[1])
@@ -133,9 +133,9 @@ func (a Adapter) ErrorResponseToResponseError(err *message.ErrorResponse) errors
 	}
 
 	return errors.ResponseError{
-		Exceptions:   err.Exceptions,
-		ErrorMessage: err.ErrorMessage,
-		Severity:     int8(err.Severity),
+		Exceptions:   err.GetExceptions(),
+		ErrorMessage: err.GetErrorMessage(),
+		Severity:     int8(err.GetSeverity()),
 		ErrorCode:    errors.ErrorCode(errorCode),
 		SqlState:     errors.SQLState(sqlState),
 		Metadata: &errors.RPCMetadata{
