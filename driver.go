@@ -64,7 +64,7 @@ func NewConnector(dsn string) driver.Connector {
 	}
 }
 
-func (c *Connector) Connect(context.Context) (driver.Conn, error) {
+func (c *Connector) Connect(ctx context.Context) (driver.Conn, error) {
 
 	config, err := ParseDSN(c.dsn)
 
@@ -99,7 +99,7 @@ func (c *Connector) Connect(context.Context) (driver.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
-	response, err := conn.httpClient.post(context.Background(), message.DatabasePropertyRequest_builder{
+	response, err := conn.httpClient.post(ctx, message.DatabasePropertyRequest_builder{
 		ConnectionId: conn.connectionId,
 	}.Build())
 

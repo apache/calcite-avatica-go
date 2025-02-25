@@ -146,7 +146,7 @@ func (c *conn) exec(ctx context.Context, query string, args []namedValue) (drive
 	}
 
 	statementID := st.(*message.CreateStatementResponse).GetStatementId()
-	defer c.closeStatement(context.Background(), statementID)
+	defer c.closeStatement(ctx, statementID)
 
 	res, err := c.httpClient.post(ctx, message.PrepareAndExecuteRequest_builder{
 		ConnectionId:      c.connectionId,
@@ -202,7 +202,7 @@ func (c *conn) query(ctx context.Context, query string, args []namedValue) (driv
 	}.Build())
 
 	if err != nil {
-		_ = c.closeStatement(context.Background(), statementID)
+		_ = c.closeStatement(ctx, statementID)
 		return nil, c.avaticaErrorToResponseErrorOrError(err)
 	}
 
@@ -247,7 +247,7 @@ func (c *conn) ResetSession(_ context.Context) error {
 }
 
 func (c *conn) closeStatement(ctx context.Context, statementID uint32) error {
-	_, err := c.httpClient.post(context.Background(), message.CloseStatementRequest_builder{
+	_, err := c.httpClient.post(ctx, message.CloseStatementRequest_builder{
 		ConnectionId: c.connectionId,
 		StatementId:  statementID,
 	}.Build())

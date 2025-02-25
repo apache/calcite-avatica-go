@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"database/sql"
+	goerrors "errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -178,7 +179,7 @@ func TestPhoenixDataTypes(t *testing.T) {
 			utmstmpValue  time.Time = time.Date(2100, 2, 1, 21, 21, 21, 222000000, time.UTC)
 			varcharValue  string    = "test string"
 			chValue       string    = "a"
-			binValue      []byte    = make([]byte, 20, 20)
+			binValue      []byte    = make([]byte, 20)
 			varbinValue   []byte    = []byte("testtesttest")
 		)
 
@@ -1194,9 +1195,10 @@ func TestPhoenixOptimisticConcurrency(t *testing.T) {
 			dbt.Fatal("Expected an error, but did not receive any.")
 		}
 
-		errName := err.(errors.ResponseError).Name
+		var responseError errors.ResponseError
+		goerrors.As(err, &responseError)
 
-		if errName != "transaction_conflict_exception" {
+		if responseError.Name != "transaction_conflict_exception" {
 			dbt.Fatal("Expected transaction_conflict")
 		}
 	})
@@ -1364,7 +1366,8 @@ func TestPhoenixErrorCodeParsing(t *testing.T) {
 		t.Error("Expected error due to selecting from non-existent table, but there was no error.")
 	}
 
-	resErr, ok := err.(errors.ResponseError)
+	var resErr errors.ResponseError
+	ok := goerrors.As(err, &resErr)
 
 	if !ok {
 		t.Fatalf("Error type was not ResponseError")

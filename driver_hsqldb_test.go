@@ -179,7 +179,7 @@ func TestHSQLDBDataTypes(t *testing.T) {
 			booleanValue bool      = true
 			chValue      string    = "a"
 			varcharValue string    = "test string"
-			binValue     []byte    = make([]byte, 20, 20)
+			binValue     []byte    = make([]byte, 20)
 			varbinValue  []byte    = []byte("testtesttest")
 			dtValue      time.Time = time.Date(2100, 2, 1, 0, 0, 0, 0, time.UTC)
 			// tmValue      time.Time = time.Date(0, 1, 1, 21, 21, 21, 222000000, time.UTC)
