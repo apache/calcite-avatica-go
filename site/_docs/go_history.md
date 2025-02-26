@@ -28,6 +28,50 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.4.0">5.4.0</a> / 2025-03-XX
+{: #v5-4-0}
+
+Apache Calcite Avatica Go 5.4.0 includes dependency updates and various minor improvements.
+
+The Avatica protobuf messages have been recompiled to use the new [opaque API](https://go.dev/blog/protobuf-opaque). This
+change is internal and does not affect users of the Avatica Go client, but maintains best practices and follows the
+leading-edge of protobuf usage in Go.
+
+Contributors to this release:
+Francis Chuang (Release Manager)
+
+Features and bug fixes
+* Bump golang.org/x/crypto from 0.14.0 to 0.17.0
+* Bump google.golang.org/protobuf from 1.31.0 to 1.33.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6339">CALCITE-6339</a>]
+  Replace hashicorp/go-uuid with google/uuid
+* Bump golang.org/x/net from 0.17.0 to 0.23.0
+* Bump golang.org/x/crypto from 0.21.0 to 0.31.0
+* Bump golang.org/x/net from 0.23.0 to 0.33.0
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6859">CALCITE-6859</a>]
+  Upgrade dependencies
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6861">CALCITE-6861</a>]
+  Switch to opaque protobuf API
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6862">CALCITE-6862</a>]
+  Cleanup minor warnings
+
+Tests
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6359">CALCITE-6359</a>]
+  Update GitHub Actions workflows to use docker compose v2
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6857">CALCITE-6857</a>]
+  Upgrade to Go 1.23 and 1.24
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6858">CALCITE-6858</a>]
+  Upgrade GitHub actions
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6860">CALCITE-6860</a>]
+  Test against new Avatica versions
+
+Web site and documentation
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6158">CALCITE-6158</a>]
+  Add instructions for building/testing the project in README file
+* [<a href="https://issues.apache.org/jira/browse/CALCITE-6360">CALCITE-6360</a>]
+  Add .asf.yaml to calcite-avatica-go repository
+* Site: Remove documentation for live-reloading during development as it has been removed from the project
+
 ## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.3.0">5.3.0</a> / 2023-12-11
 {: #v5-3-0}
 
