@@ -1,11 +1,11 @@
 ---
 layout: news_item
-date: "2023-12-11 08:30:00 +0000"
+date: "2025-03-05 08:30:00 +0000"
 author: francischuang
-version: 5.3.0
+version: 5.4.0
 categories: [release]
-tag: v5-3-0
-sha: 8657d0a
+tag: v5-4-0
+sha: f0d392b
 component: avatica-go
 ---
 <!--
@@ -27,9 +27,11 @@ limitations under the License.
 {% endcomment %}
 -->
 
-Apache Calcite Avatica Go 5.3.0 is a maintenance release of Avatica Go including dependency updates and bug fixes. 
-This release supports Go 1.20 and 1.21, which are currently the versions supported and maintained by the
-Go team.
+Apache Calcite Avatica Go 5.4.0 includes dependency updates and various minor improvements.
 
-The Calcite team recommends users of this package to upgrade to this version, where practical, as bugs causing panics
-have been resolved in this release.
+The Avatica protobuf messages have been recompiled to use the new [opaque API](https://go.dev/blog/protobuf-opaque). This
+change is internal and does not affect users of the Avatica Go client, but maintains best practices and follows the
+leading-edge of protobuf usage in Go.
+
+See the list of [bug fixes and new features]({{ site.baseurl }}/docs/go_history.html#v5-4-0)
+for more information.

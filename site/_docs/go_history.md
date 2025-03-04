@@ -28,7 +28,7 @@ For a full list of releases, see
 Downloads are available on the
 [downloads page]({{ site.baseurl }}/downloads/avatica-go.html).
 
-## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.4.0">5.4.0</a> / 2025-03-XX
+## <a href="https://github.com/apache/calcite-avatica-go/releases/tag/v5.4.0">5.4.0</a> / 2025-03-05
 {: #v5-4-0}
 
 Apache Calcite Avatica Go 5.4.0 includes dependency updates and various minor improvements.
