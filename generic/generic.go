@@ -96,6 +96,8 @@ func (a Adapter) GetColumnTypeDefinition(col *message.ColumnMetaData) *internal.
 		column.Rep = message.Rep_BIG_DECIMAL
 	case "FLOAT", "REAL":
 		column.Rep = message.Rep_FLOAT
+	case "DOUBLE":
+		column.Rep = message.Rep_DOUBLE
 	case "TIME":
 		column.Rep = message.Rep_JAVA_SQL_TIME
 	case "DATE":
