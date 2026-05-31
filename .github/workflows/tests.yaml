@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Check out Avatica-Go repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Run tests
         env:
