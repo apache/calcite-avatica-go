@@ -22,7 +22,7 @@ services:
     command: -u jdbc:hsqldb:mem:public
 
   test:
-    image: golang:${GO_VERSION:-1.24}
+    image: golang:${GO_VERSION:-1.26}
     command: sh -c "export AVATICA_FLAVOR=HSQLDB && go test -v ./...; export AVATICA_FLAVOR=PHOENIX && go test -v ./..."
     working_dir: /source
     environment:
@@ -36,7 +36,7 @@ services:
       - hsqldb
 
   test-phoenix:
-    image: golang:${GO_VERSION:-1.24}
+    image: golang:${GO_VERSION:-1.26}
     command: go test -v ./...
     working_dir: /source
     environment:
@@ -49,7 +49,7 @@ services:
       - phoenix
 
   test-hsqldb:
-    image: golang:${GO_VERSION:-1.24}
+    image: golang:${GO_VERSION:-1.26}
     command: go test -v ./...
     working_dir: /source
     environment:
@@ -99,7 +99,7 @@ services:
       - .:/source
 
   compile-protobuf:
-    image: golang:1.24
+    image: golang:1.26
     working_dir: /source
     command: sh -c "./docker.sh compile-protobuf"
     environment:
