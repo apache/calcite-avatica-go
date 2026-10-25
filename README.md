@@ -30,7 +30,7 @@ Avatica is a sub-project of [Apache Calcite](https://calcite.apache.org).
 Install using Go modules:
 
 ```
-$ go get github.com/apache/calcite-avatica-go
+$ go get github.com/apache/calcite-avatica-go/v5
 ```
 
 The Phoenix/Avatica driver implements Go's `database/sql/driver` interface, so, import the
@@ -46,7 +46,7 @@ db, err := sql.Open("avatica", "http://localhost:8765")
 Then simply use the database connection to query some data, for example:
 
 ```
-rows := db.Query("SELECT COUNT(*) FROM test")
+rows, err := db.Query("SELECT COUNT(*) FROM test")
 ```
 
 For more details, see the [home page](https://calcite.apache.org/avatica/docs/go_client_reference.html).
